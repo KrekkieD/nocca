@@ -20,11 +20,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>requestKey</th>
-                    <th>Cache hits</th>
-                    <th>Cache misses</th>
-                    <th>Cache recs</th>
-                    <th>actions</th>
+                    <th>Cache key</th>
+                    <th>Mocks served</th>
+                    <th>Record</th>
+                    <th>Forward</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -32,9 +32,27 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ mock.mockData.cache.key }}</td>
                     <td>{{ mock.mockData.hit }}</td>
-                    <td><a ng-click="">download</a></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <md-switch ng-model="record[requestKey]" aria-label="Switch 1">
+                        </md-switch>
+                    </td>
+                    <td>
+                        <md-slider flex min="0" max="2" ng-model="forward[requestKey]">
+                        </md-slider>
+                        <div style="text-align: center">
+                            <span ng-if="!forward[requestKey]">off</span>
+                            <span ng-if="forward[requestKey] === 1">on</span>
+                            <span ng-if="forward[requestKey] === 2">missing</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span ng-if="!record[requestKey] && !forward[requestKey]">Requests are served from cache or will fail if no cache present</span>
+                        <span ng-if="record[requestKey] && !forward[requestKey]">Can't record if we can't forward, smartypants</span>
+                        <span ng-if="record[requestKey] && forward[requestKey] === 1">Every request will be forwarded and saved, existing caches overwritten</span>
+                        <span ng-if="record[requestKey] && forward[requestKey] === 2">Missing requests are forwarded and saved</span>
+                        <span ng-if="!record[requestKey] && forward[requestKey] === 1">Every request will be forwarded, nothing is saved</span>
+                        <span ng-if="!record[requestKey] && forward[requestKey] === 2">Missing requests will be forwarded, others served from cache, nothing is saved</span>
+                    </td>
                 </tr>
                 <tr ng-if="!data.mocks">
                     <td colspan="6">
@@ -43,6 +61,7 @@
                 </tr>
             </tbody>
         </table>
+        <md-divider></md-divider>
         <md-button ng-click="exportMocks()">export mocks</md-button>
     </md-content>
 

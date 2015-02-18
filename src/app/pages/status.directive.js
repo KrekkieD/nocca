@@ -28,9 +28,32 @@
             $scope
         ) {
 
-            $scope.data = noccaDataConnection.data;
+            $scope.data = {};
 
             $scope.exportMocks = exportMocks;
+
+            $scope.$watch(function () {
+                return JSON.stringify(noccaDataConnection.data);
+            }, function () {
+
+                // reparse source data to usable format
+                $scope.data = noccaDataConnection.data;
+
+                // target?:
+                /*
+                {
+                    cacheKey: {
+                        mocksServed: sum of hits
+                        mocksCreated: sum of mocks created
+                        mocks: {
+                            requestKey: mock,
+                            requestKey: mock
+                        }
+                    }
+                }
+                 */
+
+            });
 
 
             function exportMocks () {
