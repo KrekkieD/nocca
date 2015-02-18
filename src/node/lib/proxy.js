@@ -32,6 +32,7 @@ var defaultOptions = {
 };
 
 function createNewProxy(requestedOptions) {
+
     if (typeof requestedOptions == 'number') {
         requestedOptions = {port: requestedOptions};
     }

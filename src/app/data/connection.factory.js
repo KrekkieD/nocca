@@ -6,33 +6,41 @@
 
     function noccaDataConnection (
         $websocket,
-        noccaDataOptions
+        noccaDataOptions,
+        $rootScope
     ) {
         // values here
 
+
         var factory = {
-            data: {
-                src: {}
+            api: {
+                data: {}
             }
         };
 
         load();
 
         // factory functions here
-        return factory;
+        return factory.api;
 
         function load () {
 
             var ws = $websocket.$new(noccaDataOptions.host);
 
             ws.$on('$message', function (data) {
-                console.log('The websocket server has sent the following data:');
+
                 console.log(data);
+                Object.keys(factory.api.data).forEach(function (key) {
+                    delete factory.api.data[key];
+                });
 
-                factory.data.src = data;
+                Object.keys(data).forEach(function (key) {
+                    factory.api.data[key] = data[key];
+                });
+
+                $rootScope.$apply();
+
             });
-
-            //ws.$close();
 
         }
 

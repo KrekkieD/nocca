@@ -19,14 +19,16 @@ function addCacheEndpoint(name, target) {
             misses:   0
         }
     };
-    
+
     publishStatistics();
+
 }
 
 function selectCacheEndpoint(cacheName) {
 
     if (caches.hasOwnProperty(cacheName)) {
         caches[cacheName].statistics.requests++;
+
         publishStatistics();
         return caches[cacheName];
     }
@@ -43,8 +45,7 @@ wss.on('connection', function (ws) {
     var lastSentState;
     var interval = setInterval(function () {
 
-        // TODO: dirty! should make lightweight func
-        var state = JSON.stringify($recorder.exportState());
+        var state = getState();
 
         if (state !== lastSentState) {
             lastSentState = state;
@@ -59,7 +60,18 @@ wss.on('connection', function (ws) {
 
 });
 
+function getState () {
+
+    // TODO: dirty! should make lightweight func
+    return JSON.stringify($recorder.exportState());
+
+}
+
 function publishStatistics(state, singleConn) {
+
+    if (!state) {
+        state = getState();
+    }
 
     if (singleConn) {
 
