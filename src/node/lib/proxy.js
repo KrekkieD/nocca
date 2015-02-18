@@ -99,38 +99,35 @@ function createNewProxy (requestedOptions) {
                     // pointing the right way with proper values
                     forwardizeFlatRequest(flatReq)
                         .then(function (fwdFlatRequest) {
+                            return $utils.transformRequestIntoMock(fwdFlatRequest);
+                        })
+                        .then(function (mock) {
 
-                            $utils.transformRequestIntoMock(fwdFlatRequest)
-                                .then(function (mock) {
+                            logger('|    Target response captured');
 
-                                    logger('|    Target response captured');
+                            // manipulate if requested in opts
+                            if (typeof opts.mockFormatter !== 'undefined') {
+                                mock = opts.mockFormatter(mock);
+                            }
 
-                                    // manipulate if requested in opts
-                                    if (typeof opts.mockFormatter !== 'undefined') {
-                                        mock = opts.mockFormatter(mock);
-                                    }
+                            if (opts.record) {
+                                // should record that stuff, then respond
 
-                                    if (opts.record) {
-                                        // should record that stuff, then respond
+                                // save mock!
+                                logger('|    Saving response as mock');
+                                $recorder.saveMock(requestKey, mock);
 
-                                        // save mock!
-                                        logger('|    Saving response as mock');
-                                        $recorder.saveMock(requestKey, mock);
+                                // respond from requestKey
+                                $recorder.respond(requestKey, res);
 
-                                        // respond from requestKey
-                                        $recorder.respond(requestKey, res);
+                            }
+                            else {
 
-                                    }
-                                    else {
+                                // respond to original request
+                                logger('|    Responding with forwarded mock');
+                                $recorder.respondWithMock(mock, res);
 
-                                        // respond to original request
-                                        logger('|    Responding with forwarded mock');
-                                        $recorder.respondWithMock(mock, res);
-
-                                    }
-
-                                });
-
+                            }
 
                         });
 
