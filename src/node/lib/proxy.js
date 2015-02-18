@@ -185,24 +185,22 @@ function getProxiedRequest (req) {
 
         var requestProvider = (isTargetHttps ? https : http);
 
-        if (options.method.toLowerCase() === 'post' || options.method.toLowerCase() === 'put') {
-            // add request body
-            options.body = '';
+        req.on('data', function (data) {
+            // add request body if not exists
+            options.body = options.body || '';
 
-            req.on('data', function (data) {
-                options.body += data;
+            options.body += data;
 
-                // Too much POST data, kill the connection!
-                if (options.body.length > 1e6) {
-                    req.connection.destroy();
-                    deferred.reject({
-                        status: 400,
-                        body: 'Request body data size overflow. Not accepting request bodies larger than ' + (1e6) + ' bytes'
-                    });
-                }
-            });
+            // Too much POST data, kill the connection!
+            if (options.body.length > 1e6) {
+                req.connection.destroy();
+                deferred.reject({
+                    status: 400,
+                    body: 'Request body data size overflow. Not accepting request bodies larger than ' + (1e6) + ' bytes'
+                });
+            }
+        });
 
-        }
 
         req.on('end', function () {
 
@@ -210,7 +208,11 @@ function getProxiedRequest (req) {
             deferred.resolve(proxiedRequest);
 
             if (typeof options.body !== 'undefined') {
-                proxiedRequest.write(options.body);
+                proxiedRequest.write(options.body, function() {
+                    proxiedRequest.end();
+                });
+            }
+            else {
                 proxiedRequest.end();
             }
 
