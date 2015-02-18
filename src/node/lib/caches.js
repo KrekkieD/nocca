@@ -35,7 +35,7 @@ function selectCacheEndpoint(cacheName) {
 
 var server = $ws.createServer(function(conn) {
     
-    
+    publishStatistics(conn);
     
 }).listen(3005);
 
