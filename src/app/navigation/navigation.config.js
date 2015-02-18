@@ -6,15 +6,19 @@
 
     function config (
         $stateProvider,
+        $urlRouterProvider,
         noccaNavigationStates
     ) {
+
+        // this should be safe
+        $urlRouterProvider.otherwise('/');
 
         // shorten var for convenience
         var states = noccaNavigationStates;
 
         $stateProvider
             .state(states.status, {
-                url: '',
+                url: '/',
                 template: '<nocca-pages-status></nocca-pages-status>'
             })
             .state(states.export, {

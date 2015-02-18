@@ -8,17 +8,35 @@ module.exports.saveMock = saveMock;
 module.exports.isRecorded = isRecorded;
 module.exports.respond = respond;
 module.exports.defaultKeyGenerator = defaultKeyGenerator;
+module.exports.exportState = exportState;
 
 var $q = require('q');
 var $fs = require('fs');
+var $extend = require('extend');
 
-var _recordedRequests = {};
+var _mockedRequests = {
+    // requestKey: mock
+    mocks: {},
+    // array of requestKeys of mocks saved this session
+    newMocks: [],
+    // array of requestKeys of mocks that are overwritten this session
+    modifiedMocks: [],
+    // array of requestKeys of mocks imported this session
+    importedMocks: []
+};
+
+function exportState () {
+
+    // return a copy of _mockedRequests (to prevent unwanted manipulation)
+    return $extend({}, _mockedRequests);
+
+}
 
 function clearMocks () {
 
-    Object.keys(_recordedRequests).forEach(function (requestKey) {
+    Object.keys(_mockedRequests.mocks).forEach(function (requestKey) {
 
-        delete _recordedRequests[requestKey];
+        delete _mockedRequests.mocks[requestKey];
 
     });
 
@@ -32,7 +50,8 @@ function loadMocksFromJson (jsonObject) {
 
     Object.keys(jsonObject).forEach(function (requestKey) {
 
-        _recordedRequests[requestKey] = jsonObject[requestKey];
+        _mockedRequests.mocks[requestKey] = jsonObject[requestKey];
+        _mockedRequests.importedMocks.push(requestKey);
 
     });
 
@@ -50,7 +69,7 @@ function loadMocksFromFile (filePath) {
 
 function isRecorded (requestKey) {
 
-    return typeof _recordedRequests[requestKey] !== 'undefined';
+    return typeof _mockedRequests.mocks[requestKey] !== 'undefined';
 
 }
 
@@ -58,7 +77,7 @@ function createMockFromRequest (req) {
 
     var deferred = $q.defer();
 
-    // record the request response into the _recordedRequests obj
+    // record the request response into the _mockedRequests.mocks obj
 
     var mock = {
         url: req.url,
@@ -97,16 +116,25 @@ function createMockFromRequest (req) {
 
 function saveMock (requestKey, mock) {
 
-    // done! process recorded object
-    _recordedRequests[requestKey] = mock;
+    if (isRecorded(requestKey)) {
+        // change on existing mock
+        _mockedRequests.modifiedMocks.push(requestKey);
+    }
+    else {
+        // new mock, keep track
+        _mockedRequests.newMocks.push(requestKey);
+    }
 
-    //$fs.writeFileSync('./stub/caches.json', JSON.stringify(_recordedRequests, null, 4));
+    // done! process recorded object
+    _mockedRequests.mocks[requestKey] = mock;
+
+    //$fs.writeFileSync('./stub/caches.json', JSON.stringify(_mockedRequests.mocks, null, 4));
 
 }
 
 function respond (requestKey, res) {
 
-    var recordedResponse = _recordedRequests[requestKey];
+    var recordedResponse = _mockedRequests.mocks[requestKey];
 
     res.writeHead(200, recordedResponse.headers);
 

@@ -22,7 +22,7 @@ function addCacheEndpoint(name, target) {
 }
 
 function selectCacheEndpoint(cacheName) {
-    console.log('joehoe');
+
     if (caches.hasOwnProperty(cacheName)) {
         caches[cacheName].statistics.requests++;
         publishStatistics();
@@ -34,7 +34,7 @@ function selectCacheEndpoint(cacheName) {
 }
 
 var server = $ws.createServer(function(conn) {
-    
+
     publishStatistics(conn);
     
 }).listen(3005);
@@ -48,10 +48,12 @@ function publishStatistics(singleConn) {
     }
     
     var statisticsPayload = JSON.stringify(statisticsView);
-    
+
     if (singleConn) {
-        singleConn.sendText(statisticsPayload);
-        
+        singleConn.on('text', function () {
+            singleConn.sendText(statisticsPayload);
+        });
+
     }
     else {
         server.connections.forEach(function(conn) {

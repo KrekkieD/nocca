@@ -29,7 +29,7 @@ var defaultOptions = {
     replay: false,
     forward: true,
     logging: true
-}
+};
 
 function createNewProxy(requestedOptions) {
     if (typeof requestedOptions == 'number') {
