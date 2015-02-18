@@ -7,14 +7,15 @@ var $q = require('q');
 var $constants = require('constants');
 var $changeCase = require('change-case');
 
-var url  = require('url');
+var $url  = require('url');
 var http = require('http');
 var https = require('https');
-var extend = require('extend');
+var $extend = require('extend');
 
 
 var $caches = require('./caches');
 var $recorder = require('./recorder');
+var $utils = require('./utils');
 
 // set to false to disable logging in console
 var verbose = true;
@@ -26,84 +27,139 @@ var defaultOptions = {
     record: true,
     // false, true, 'MISSING'
     forward: 'MISSING',
-    logging: true
+    logging: true,
+    keyGenerator: $utils.defaultKeyGenerator,
+    // TODO: hardcoded here as this is implementation specific and should not be here
+    mockFormatter: function (mock) {
+
+        function formatHeaders (headers, skipHeaders, dontFormatHeaders) {
+
+            var formattedHeaders = {};
+
+            Object.keys(headers).forEach(function (headerKey) {
+
+                if (skipHeaders.indexOf(headerKey.toLowerCase()) > -1) {
+                    return true;
+                }
+
+                var parsedHeaderKey = headerKey;
+
+                if (dontFormatHeaders.indexOf(headerKey) === -1) {
+                    // parse headerKey to proper format
+                    parsedHeaderKey = headerKey.split('-').map(function (value) {
+                        return $changeCase.ucFirst(value);
+                    }).join('-');
+                }
+
+                formattedHeaders[parsedHeaderKey] = headers[headerKey];
+
+            });
+
+            return formattedHeaders;
+
+        }
+
+        // manipulate the mock headers
+        mock.headers = formatHeaders(mock.headers, [], ['soapaction']);
+
+        return mock;
+    }
 };
 
 function createNewProxy (requestedOptions) {
 
-    if (typeof requestedOptions == 'number') {
+    if (typeof requestedOptions === 'number') {
         requestedOptions = {port: requestedOptions};
     }
 
-    // todo: would be nice to mix in endpoint specific config, i.e. record the google.com endpoint, but not bing.com
-    var opts = extend({}, defaultOptions, requestedOptions);
+    // TODO: would be nice to mix in endpoint specific config, i.e. record the google.com endpoint, but not bing.com
+    // TODO: key gen should be specified in config (either as default or overridden per endpoint)
+    var opts = $extend({}, defaultOptions, requestedOptions);
 
     var logger = opts.logging ? logUtility : function () {};
 
-    logger('|  Creating new Proxy with options: ' + JSON.stringify(opts));
+    logger('|  Creating new Proxy with options:', opts);
 
+    // TODO: indention is getting a bit deep, should probably use some named functions but at the same time still be able to access the opts
     http.createServer(function(req, res) {
 
         logger('|  Request: ' + req.url);
 
-        // TODO: need to wait for req.end before we can generate a key that also takes req body into account!
-        // TODO: key gen should be specified in config (either as default or overridden per endpoint)
-        var requestKey = $recorder.defaultKeyGenerator(req);
+        $utils.flattenIncomingRequest(req)
+            .then(function (flatReq) {
 
-        // either always forward, or only forward for unknown requestKeys if opts.forward === 'missing'
-        if (opts.forward === true ||
-            (opts.forward.toUpperCase() === 'MISSING' && !$recorder.isRecorded(requestKey))) {
+                var requestKey = opts.keyGenerator(flatReq);
 
-            transformRequestIntoMock(req)
-                .then(function (mock) {
+                // either always forward, or only forward for unknown requestKeys if opts.forward === 'missing'
+                if (opts.forward === true ||
+                    (opts.forward.toUpperCase() === 'MISSING' && !$recorder.isRecorded(requestKey))) {
 
-                    logger('|    Target response captured');
 
-                    // manipulate the mock headers
-                    // TODO: this is actually implementation specific. create hook in (endpoint)config?
-                    mock.headers = formatHeaders(mock.headers, [], ['soapaction']);
+                    // call proxy logic (endpoints et al) here to manipulate flatReq into
+                    // pointing the right way with proper values
+                    forwardizeFlatRequest(flatReq)
+                        .then(function (fwdFlatRequest) {
 
-                    if (opts.record) {
-                        // should record that stuff, then respond
+                            $utils.transformRequestIntoMock(fwdFlatRequest)
+                                .then(function (mock) {
 
-                        // save mock!
-                        logger('|    Saving response as mock');
-                        $recorder.saveMock(requestKey, mock);
+                                    logger('|    Target response captured');
 
-                        // respond from requestKey
+                                    // manipulate if requested in opts
+                                    if (typeof opts.mockFormatter !== 'undefined') {
+                                        mock = opts.mockFormatter(mock);
+                                    }
+
+                                    if (opts.record) {
+                                        // should record that stuff, then respond
+
+                                        // save mock!
+                                        logger('|    Saving response as mock');
+                                        $recorder.saveMock(requestKey, mock);
+
+                                        // respond from requestKey
+                                        $recorder.respond(requestKey, res);
+
+                                    }
+                                    else {
+
+                                        // respond to original request
+                                        logger('|    Responding with forwarded mock');
+                                        $recorder.respondWithMock(mock, res);
+
+                                    }
+
+                                });
+
+
+                        });
+
+
+
+                }
+                // not forwarding or mock was already found! that means we serve from CACHE or DIE
+                else {
+
+                    if ($recorder.isRecorded(requestKey)) {
+
+                        logger('|    Responding with known mock');
+
+                        // phew! mock is present, we live to die another day
                         $recorder.respond(requestKey, res);
 
                     }
                     else {
 
-                        // respond to original request
-                        logger('|    Responding with forwarded mock');
-                        $recorder.respondWithMock(mock, res);
+                        // aaarrrggghh
+                        blockRequest(res);
 
                     }
 
-                });
+                }
 
-        }
-        // not forwarding or mock was already found! that means we serve from CACHE or DIE
-        else {
 
-            if ($recorder.isRecorded(requestKey)) {
+            });
 
-                logger('|    Responding with known mock');
-
-                // phew! mock is present, we live to die another day
-                $recorder.respond(requestKey, res);
-
-            }
-            else {
-
-                // aaarrrggghh
-                blockRequest(res);
-
-            }
-
-        }
 
     }).listen(opts.port);
 
@@ -111,88 +167,57 @@ function createNewProxy (requestedOptions) {
 
 }
 
-function transformRequestIntoMock (req) {
-
-    // promise magic here. Give request, receive mock. Such wow.
-    return getProxiedRequest(req)
-        .then($recorder.recordRequest);
-
-}
 
 function blockRequest (res) {
     res.writeHead(501, {'Nocca-Error': '"Unable to either forward the request or replay a response"'});
     res.end();
 }
 
-function getProxiedRequest (req) {
 
-    var deferred = $q.defer();
+function forwardizeFlatRequest (flatReq) {
 
     /* Default options for HTTPS requests */
+    // TODO: these should probably be configurable too..
     var httpsRequestOptions = {
         secureOptions: $constants.SSL_OP_NO_TLSv1_2,
         ciphers: 'ECDHE-RSA-AES256-SHA:AES256-SHA:RC4-SHA:RC4:HIGH:!MD5:!aNULL:!EDH:!AESGCM',
         honorCipherOrder: true
     };
 
-    var cache = selectCacheForUrl(req.url);
+
+    // deferring mainly for consistency in success/fail handling
+    var deferred = $q.defer();
+
+    // make copy to keep flatReq intact
+    var fwdFlatReq = $extend({}, flatReq);
+
+    var cache = selectCacheForUrl(fwdFlatReq.url);
 
     if (!cache.def) {
         deferred.reject({
             statusCode: '404',
-            body: 'No cache URL found for ' + req.url
+            body: 'No cache URL found for ' + flatReq.url
         });
     }
     else {
 
-        var resolvedUrl = url.resolve(cache.def.targetBaseUrl, remainingUrlAfterCacheKey(req.url, cache.key));
+        var resolvedUrl = $url.resolve(cache.def.targetBaseUrl, remainingUrlAfterCacheKey(fwdFlatReq.url, cache.key));
 
-        var targetUrl = url.parse(resolvedUrl);
-        var isTargetHttps = targetUrl.protocol === 'https:';
+        var targetUrl = $url.parse(resolvedUrl);
 
-        var options = extend(httpsRequestOptions, {
-            host: targetUrl.hostname,
-            path: targetUrl.path,
-            method: req.method,
-            headers: extend(buildForwardedHeaders(req.headers), {
-                'Host': targetUrl.hostname
-            })
-        });
+        fwdFlatReq.protocol = targetUrl.protocol;
+        fwdFlatReq.host = targetUrl.hostname;
+        fwdFlatReq.path = targetUrl.path;
 
-        var requestProvider = (isTargetHttps ? https : http);
+        // sync up host with new target
+        fwdFlatReq.headers.host = fwdFlatReq.host;
 
-        req.on('data', function (data) {
-            // add request body if not exists
-            options.body = options.body || '';
+        fwdFlatReq.headers = $extend({}, httpsRequestOptions, fwdFlatReq.headers);
 
-            options.body += data;
+        // format headers
+        fwdFlatReq.headers = $utils.camelCaseAndDashHeaders(fwdFlatReq.headers, [], []);
 
-            // Too much POST data, kill the connection!
-            if (options.body.length > 1e6) {
-                req.connection.destroy();
-                deferred.reject({
-                    status: 400,
-                    body: 'Request body data size overflow. Not accepting request bodies larger than ' + (1e6) + ' bytes'
-                });
-            }
-        });
-
-
-        req.on('end', function () {
-
-            var proxiedRequest = requestProvider.request(options);
-            deferred.resolve(proxiedRequest);
-
-            if (typeof options.body !== 'undefined') {
-                proxiedRequest.write(options.body, function() {
-                    proxiedRequest.end();
-                });
-            }
-            else {
-                proxiedRequest.end();
-            }
-
-        });
+        deferred.resolve(fwdFlatReq);
 
     }
 
@@ -200,7 +225,8 @@ function getProxiedRequest (req) {
 
 }
 
-function selectCacheForUrl(url) {
+
+function selectCacheForUrl (url) {
 
     var urlParts = url.split('/');
 
@@ -211,50 +237,9 @@ function selectCacheForUrl(url) {
 
 }
 
+
 function remainingUrlAfterCacheKey(url, cacheKey) {
 
     return url.substring(cacheKey.length + 2);
-
-}
-
-function buildForwardedHeaders (rawHeaders) {
-
-    // The HTTP module transforms all header names to lower case during 'header normalization'.
-    // This makes matching easier and less error prone.
-    var skipHeaders = [
-        'host'
-    ];
-    var dontFormatHeaders = [
-        'soapaction'
-    ];
-
-    return formatHeaders(rawHeaders, skipHeaders, dontFormatHeaders);
-
-}
-
-function formatHeaders (headers, skipHeaders, dontFormatHeaders) {
-
-    var formattedHeaders = {};
-
-    Object.keys(headers).forEach(function (headerKey) {
-
-        if (skipHeaders.indexOf(headerKey.toLowerCase()) > -1) {
-            return true;
-        }
-
-        var parsedHeaderKey = headerKey;
-
-        if (dontFormatHeaders.indexOf(headerKey) === -1) {
-            // parse headerKey to proper format
-            parsedHeaderKey = headerKey.split('-').map(function (value) {
-                return $changeCase.ucFirst(value);
-            }).join('-');
-        }
-
-        formattedHeaders[parsedHeaderKey] = headers[headerKey];
-
-    });
-
-    return formattedHeaders;
 
 }

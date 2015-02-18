@@ -27,7 +27,9 @@ var _mockedRequests = {
     importedMocks: [],
     // array of requestKeys used for responses
     hitMocks: []
+    // TODO: do we register forwarded + unrecorded mocks too?
 };
+
 
 function exportState () {
 
@@ -115,7 +117,7 @@ function respond (requestKey, res) {
         respondWithMock(_mockedRequests.mocks[requestKey], res);
     }
     else {
-        console.log('Called respond with mock but no mock present');
+        console.log('Called respond with requestKey but no mock found');
         res.statusCode(500);
         res.body('Booboo!');
         res.end();

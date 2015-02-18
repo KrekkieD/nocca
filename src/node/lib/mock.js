@@ -13,7 +13,12 @@ function recordRequest (req) {
     // record the request response into the _mockedRequests.mocks obj
 
     var mock = {
-        requestKey: '',
+        mockData: {
+            requestKey: '',
+            hit: 0,
+            rawRequest: {},
+            rawResponse: {}
+        },
         url: req.url,
         headers: {},
         data: ''
@@ -32,6 +37,8 @@ function recordRequest (req) {
         response.on('end', function () {
 
             mock.headers = response.headers;
+
+            mock.mockData.rawResponse.data = mock.data;
 
             deferred.resolve(mock);
 
@@ -59,6 +66,9 @@ function readMockFromJson (mock) {
 function respond (mock, res) {
 
     res.writeHead(200, mock.headers);
+
+    // increase hit count
+    mock.mockData.hit++;
 
     res.write(mock.data, function () {
 

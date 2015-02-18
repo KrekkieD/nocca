@@ -15,8 +15,6 @@
     </div>
 
     <md-content class="md-padding">
-        Table here based on data:
-        <pre>{{ data | json }}</pre>
 
         <table>
             <thead>
@@ -30,15 +28,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="endpoint in endpoints">
+                <tr ng-repeat="(requestKey, mock) in data.mocks">
                     <td>{{ $index }}</td>
+                    <td>{{ mock.mockData.rawRequest.url }}</td>
+                    <td>{{ mock.mockData.hit }}</td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td><td>
                 </tr>
-                <tr ng-if="!endpoints.length">
+                <tr ng-if="!data.mocks">
                     <td colspan="6">
                         No requests to show
                     </td>
@@ -46,5 +44,8 @@
             </tbody>
         </table>
     </md-content>
+
+    Table here based on data:
+    <pre>{{ data | json }}</pre>
 
 </md-content>
