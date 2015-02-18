@@ -3,14 +3,16 @@
 module.exports.clearMocks = clearMocks;
 module.exports.loadMocksFromJson = loadMocksFromJson;
 module.exports.loadMocksFromFile = loadMocksFromFile;
-module.exports.createMockFromRequest = createMockFromRequest;
+module.exports.recordRequest = recordRequest;
 module.exports.saveMock = saveMock;
 module.exports.isRecorded = isRecorded;
 module.exports.respond = respond;
+module.exports.respondWithMock = respondWithMock;
 module.exports.defaultKeyGenerator = defaultKeyGenerator;
 module.exports.exportState = exportState;
 
-var $q = require('q');
+var $mock = require('./mock');
+
 var $fs = require('fs');
 var $extend = require('extend');
 
@@ -22,7 +24,9 @@ var _mockedRequests = {
     // array of requestKeys of mocks that are overwritten this session
     modifiedMocks: [],
     // array of requestKeys of mocks imported this session
-    importedMocks: []
+    importedMocks: [],
+    // array of requestKeys used for responses
+    hitMocks: []
 };
 
 function exportState () {
@@ -50,7 +54,7 @@ function loadMocksFromJson (jsonObject) {
 
     Object.keys(jsonObject).forEach(function (requestKey) {
 
-        _mockedRequests.mocks[requestKey] = jsonObject[requestKey];
+        _mockedRequests.mocks[requestKey] = $mock.fromJson(jsonObject[requestKey]);
         _mockedRequests.importedMocks.push(requestKey);
 
     });
@@ -73,44 +77,10 @@ function isRecorded (requestKey) {
 
 }
 
-function createMockFromRequest (req) {
+function recordRequest (req) {
 
-    var deferred = $q.defer();
-
-    // record the request response into the _mockedRequests.mocks obj
-
-    var mock = {
-        url: req.url,
-        headers: {},
-        data: ''
-    };
-
-    req.on('response', function (response) {
-
-        //another chunk of data has been recieved, so append it to `str`
-        response.on('data', function (chunk) {
-
-            mock.data += chunk;
-
-        });
-
-        //the whole response has been recieved, so we just print it out here
-        response.on('end', function () {
-
-            mock.headers = response.headers;
-            deferred.resolve(mock);
-
-        });
-
-        response.on('error', function (err) {
-
-            deferred.reject(err);
-
-        });
-
-    });
-
-    return deferred.promise;
+    // returns promise, will resolve with mock
+    return $mock.recordRequest(req);
 
 }
 
@@ -125,24 +95,31 @@ function saveMock (requestKey, mock) {
         _mockedRequests.newMocks.push(requestKey);
     }
 
-    // done! process recorded object
+    // store mock in object
     _mockedRequests.mocks[requestKey] = mock;
 
     //$fs.writeFileSync('./stub/caches.json', JSON.stringify(_mockedRequests.mocks, null, 4));
 
 }
 
+function respondWithMock (mock, res) {
+
+    $mock.respond(mock, res);
+
+}
+
 function respond (requestKey, res) {
 
-    var recordedResponse = _mockedRequests.mocks[requestKey];
-
-    res.writeHead(200, recordedResponse.headers);
-
-    res.write(recordedResponse.data, function () {
-
+    if (isRecorded(requestKey)) {
+        _mockedRequests.hitMocks.push(requestKey);
+        respondWithMock(_mockedRequests.mocks[requestKey], res);
+    }
+    else {
+        console.log('Called respond with mock but no mock present');
+        res.statusCode(500);
+        res.body('Booboo!');
         res.end();
-
-    });
+    }
 
 }
 
@@ -150,10 +127,11 @@ function defaultKeyGenerator (req) {
 
     var headersArray = [];
 
+    // stuff it in an array so that we can sort the order of the headers.
+    // This will prevent any weird non-matching issues due to header order
     Object.keys(req.headers).forEach(function (headerKey) {
         headersArray.push(headerKey + ':' + req.headers[headerKey]);
     });
-
 
     // create unique key
     var reqKeyObj = {

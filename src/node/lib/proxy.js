@@ -1,8 +1,7 @@
 'use strict';
 
 module.exports = {};
-module.exports.proxy = createNewProxy
-
+module.exports.proxy = createNewProxy;
 
 var $q = require('q');
 var $constants = require('constants');
@@ -16,100 +15,99 @@ var extend = require('extend');
 
 var $caches = require('./caches');
 var $recorder = require('./recorder');
-//var $endpoints = require('./endpoints');
 
 // set to false to disable logging in console
 var verbose = true;
 
-var logger = verbose ? console.log : function () {};
+var logUtility = verbose ? console.log : function () {};
 
 var defaultOptions = {
     port: 3003,
     record: true,
-    replay: false,
-    forward: true,
+    // false, true, 'MISSING'
+    forward: 'MISSING',
     logging: true
 };
 
-function createNewProxy(requestedOptions) {
+function createNewProxy (requestedOptions) {
 
     if (typeof requestedOptions == 'number') {
         requestedOptions = {port: requestedOptions};
     }
+
+    // todo: would be nice to mix in endpoint specific config, i.e. record the google.com endpoint, but not bing.com
     var opts = extend({}, defaultOptions, requestedOptions);
-    
-    if (opts.logging) { logger('|  Creating new Proxy with options: ' + JSON.stringify(opts)); }
+
+    var logger = opts.logging ? logUtility : function () {};
+
+    logger('|  Creating new Proxy with options: ' + JSON.stringify(opts));
 
     http.createServer(function(req, res) {
 
-        if (opts.logging)  { logger('|  Request: ' + req.url); }
+        logger('|  Request: ' + req.url);
 
+        // TODO: need to wait for req.end before we can generate a key that also takes req body into account!
+        // TODO: key gen should be specified in config (either as default or overridden per endpoint)
         var requestKey = $recorder.defaultKeyGenerator(req);
 
-        if ($recorder.isRecorded(requestKey)) {
+        // either always forward, or only forward for unknown requestKeys if opts.forward === 'missing'
+        if (opts.forward === true ||
+            (opts.forward.toUpperCase() === 'MISSING' && !$recorder.isRecorded(requestKey))) {
 
-            if (opts.replay) {
-                if (opts.logging) { logger('|  Request hit! Pre-recorded response found, replaying ...'); }
-                $recorder.respond(requestKey, res);
-            }
-            else if (opts.forward) {
-                if (opts.logging) { logger('|  Request hit! Pre-recorded response found, replaying is off, forwarding ...')}
-                getProxiedRequest(req)
-                    .then(forwardAndRespond(req, res));
-            }
-            else {
-                blockRequest(res);
-                
-            }
+            getProxiedRequest(req)
+                .then(function (proxiedReq) {
+
+                    $recorder.recordRequest(proxiedReq)
+                        .then(function (mock) {
+
+                            logger('|    Target response captured');
+
+                            // manipulate the mock headers
+                            // TODO: this is actually implementation specific. create hook in (endpoint)config?
+                            mock.headers = formatHeaders(mock.headers, [], ['soapaction']);
+
+                            if (opts.record) {
+                                // should record that stuff, then respond
+
+                                // save mock!
+                                logger('|    Saving response as mock');
+                                $recorder.saveMock(requestKey, mock);
+
+                                // respond from requestKey
+                                $recorder.respond(requestKey, res);
+
+                            }
+                            else {
+
+                                // respond to original request
+                                logger('|    Responding with forwarded mock');
+                                $recorder.respondWithMock(mock, res);
+
+                            }
+
+                        });
+
+                });
 
         }
+        // not forwarding or mock was already found! that means we serve from CACHE or DIE
         else {
 
-            if (opts.forward) {
-                // forward request and optionally record it
-                if (opts.record) {
-                    if (opts.logging) { logger('|  Forwarding request and recording response'); }
+            if ($recorder.isRecorded(requestKey)) {
 
-                    getProxiedRequest(req)
-                        .then(function (proxiedReq) {
+                logger('|    Responding with known mock');
 
-                            $recorder.createMockFromRequest(proxiedReq)
-                                .then(function (mock) {
+                // phew! mock is present, we live to die another day
+                $recorder.respond(requestKey, res);
 
-                                    // manipulate the mock headers
-                                    mock.headers = formatHeaders(mock.headers, [], ['soapaction']);
-
-                                    //logger(mock);
-
-                                    logger('|    Target response captured');
-
-                                    // save mock!
-                                    logger('|    Saving response as mock');
-                                    $recorder.saveMock(requestKey, mock);
-
-                                    // respond to original request
-                                    logger('|    Responding with fresh mock');
-                                    $recorder.respond(requestKey, res);
-
-                                });
-
-                        }, function (err) {
-                            res.writeHead(err.statusCode);
-                            logger(err.body);
-                            res.end();
-                        });
-                }
-                else {
-                    if (opts.logging) { logger('|  Forwarding request'); }
-                    
-                    getProxiedRequest(req)
-                        .then(forwardAndRespond(req, res));
-                }
             }
             else {
-                // No matching request found, no forwarding allowed, returning error
+
+                // aaarrrggghh
                 blockRequest(res);
+
             }
+
         }
 
     }).listen(opts.port);
@@ -118,39 +116,9 @@ function createNewProxy(requestedOptions) {
 
 }
 
-function forwardAndRespond(req, res) {
-
-    return function (proxiedReq) {
-
-        proxiedReq.on('response', function(proxiedRes) {
-
-            res.writeHead(proxiedRes.statusCode, proxiedRes.headers);
-            proxiedRes.on('data', function(chunk){
-                res.write(chunk);
-            });
-
-            proxiedRes.on('end', function() {
-                res.end();
-                console.log('done');
-            });
-
-            proxiedRes.on('error', function(err) {
-                req.abort(err);
-                res.end();
-            });
-
-        });
-
-    };
-
-}
-
-function blockRequest(res) {
-    if (opts.logging) { logger('|  '); }
+function blockRequest (res) {
     res.writeHead(501, {'Nocca-Error': '"Unable to either forward the request or replay a response"'});
     res.end();
-
-
 }
 
 function getProxiedRequest (req) {
