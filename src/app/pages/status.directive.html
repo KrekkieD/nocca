@@ -32,7 +32,7 @@
                     <td>{{ $index }}</td>
                     <td>{{ mock.mockData.rawRequest.url }}</td>
                     <td>{{ mock.mockData.hit }}</td>
-                    <td></td>
+                    <td><a ng-click="">download</a></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -43,6 +43,7 @@
                 </tr>
             </tbody>
         </table>
+        <md-button ng-click="exportMocks()">export mocks</md-button>
     </md-content>
 
     Table here based on data:

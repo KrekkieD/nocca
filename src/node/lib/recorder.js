@@ -8,7 +8,6 @@ module.exports.saveMock = saveMock;
 module.exports.isRecorded = isRecorded;
 module.exports.respond = respond;
 module.exports.respondWithMock = respondWithMock;
-module.exports.defaultKeyGenerator = defaultKeyGenerator;
 module.exports.exportState = exportState;
 
 var $mock = require('./mock');
@@ -20,7 +19,7 @@ var _mockedRequests = {
     // requestKey: mock
     mocks: {},
     // array of requestKeys of mocks saved this session
-    newMocks: [],
+    recordedMocks: [],
     // array of requestKeys of mocks that are overwritten this session
     modifiedMocks: [],
     // array of requestKeys of mocks imported this session
@@ -54,6 +53,7 @@ function loadMocksFromJson (jsonObject) {
         jsonObject = JSON.parse(jsonObject);
     }
 
+    // should be formatted like requestKey: mock
     Object.keys(jsonObject).forEach(function (requestKey) {
 
         _mockedRequests.mocks[requestKey] = $mock.fromJson(jsonObject[requestKey]);
@@ -94,7 +94,7 @@ function saveMock (requestKey, mock) {
     }
     else {
         // new mock, keep track
-        _mockedRequests.newMocks.push(requestKey);
+        _mockedRequests.recordedMocks.push(requestKey);
     }
 
     // store mock in object
@@ -122,27 +122,5 @@ function respond (requestKey, res) {
         res.body('Booboo!');
         res.end();
     }
-
-}
-
-function defaultKeyGenerator (req) {
-
-    var headersArray = [];
-
-    // stuff it in an array so that we can sort the order of the headers.
-    // This will prevent any weird non-matching issues due to header order
-    Object.keys(req.headers).forEach(function (headerKey) {
-        headersArray.push(headerKey + ':' + req.headers[headerKey]);
-    });
-
-    // create unique key
-    var reqKeyObj = {
-        url: req.url,
-        method: req.method,
-        headers: headersArray.sort(),
-        body: ''
-    };
-
-    return JSON.stringify(reqKeyObj);
 
 }

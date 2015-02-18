@@ -29,7 +29,6 @@ function flattenIncomingRequest (req, options) {
     var flatReq = {
         url: req.url,
         method: req.method,
-        path: req.path,
         headers: req.headers
     };
 

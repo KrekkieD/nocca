@@ -30,6 +30,24 @@
 
             $scope.data = noccaDataConnection.data;
 
+            $scope.exportMocks = exportMocks;
+
+
+            function exportMocks () {
+                download(JSON.stringify($scope.data.mocks, null, 4), 'nocca.json', 'application/json');
+            }
+
+            function download (content, filename, contentType) {
+
+                contentType = contentType || 'application/octet-stream';
+
+                var a = document.createElement('a');
+                var blob = new Blob([content], {'type':contentType});
+                a.href = window.URL.createObjectURL(blob);
+                a.download = filename;
+                a.click();
+                
+            }
         }
     }
 }());

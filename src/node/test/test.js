@@ -2,19 +2,42 @@
 
 var $nocca = require('../index');
 
-var $recorder = $nocca.recorder;
-
-
-var $q = require('q');
-var $constants = require('constants');
-var $changeCase = require('change-case');
-
-var url  = require('url');
-var http = require('http');
-var https = require('https');
-var extend = require('extend');
-
 $nocca.caches.newEndpoint('google', 'https://www.google.com/');
+
+
+var targetConfig = {
+    endPoints: {
+        google: {
+            targetBaseUrl: 'https://www.google.com/',
+            requestKeyGenerator: function (flatRequest) {
+                return JSON.stringify(flatRequest);
+            }
+        }
+    },
+    keyGenerator: function (flatRequest) {
+
+        var keyObj = {};
+        keyObj.url = flatRequest.url;
+        keyObj.method = flatRequest.method;
+        keyObj.body = flatRequest.body || null;
+        keyObj.headers = {
+            Accept: flatRequest.headers.Accept,
+            'Content-Type': flatRequest.headers['Content-Type']
+        };
+
+        return JSON.stringify(keyObj);
+
+    },
+    endPointSelector: function (flatRequest) {
+
+    }
+};
+
+$nocca.proxy.proxy({
+    keyGenerator: targetConfig.keyGenerator
+});
+
+
 
 var $endpoints = {
     'google': {
@@ -121,4 +144,3 @@ var $endpoints = {
     }
 };
 
-$nocca.proxy.proxy();

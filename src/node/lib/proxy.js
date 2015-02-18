@@ -134,7 +134,7 @@ function createNewProxy (requestedOptions) {
 
 
                 }
-                // not forwarding or mock was already found! that means we serve from CACHE or DIE
+                // not forwarding -- or mock exists. that means we serve from CACHE or DIE
                 else {
 
                     if ($recorder.isRecorded(requestKey)) {
