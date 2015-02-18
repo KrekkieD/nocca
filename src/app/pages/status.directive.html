@@ -1,0 +1,49 @@
+<md-content class="md-padding">
+
+    <h2>Status</h2>
+
+    <div layout="row">
+        <div>
+            <a href="" ng-click="showFilter = !showFilter">
+                <span class="fa fa-fw fa-filter"></span>
+            </a>
+        </div>
+        <md-input-container flex="33" ng-show="showFilter">
+            <label>Filter</label>
+            <input type="text" ng-model="filter">
+        </md-input-container>
+    </div>
+
+    <md-content class="md-padding">
+        Table here
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>requestKey</th>
+                    <th>Cache hits</th>
+                    <th>Cache misses</th>
+                    <th>Cache recs</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="endpoint in endpoints">
+                    <td>{{ $index }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><td>
+                </tr>
+                <tr ng-if="!endpoints.length">
+                    <td colspan="6">
+                        No requests to show
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-content>
+
+</md-content>
