@@ -54,38 +54,33 @@ function createNewProxy (requestedOptions) {
         if (opts.forward === true ||
             (opts.forward.toUpperCase() === 'MISSING' && !$recorder.isRecorded(requestKey))) {
 
-            getProxiedRequest(req)
-                .then(function (proxiedReq) {
+            transformRequestIntoMock(req)
+                .then(function (mock) {
 
-                    $recorder.recordRequest(proxiedReq)
-                        .then(function (mock) {
+                    logger('|    Target response captured');
 
-                            logger('|    Target response captured');
+                    // manipulate the mock headers
+                    // TODO: this is actually implementation specific. create hook in (endpoint)config?
+                    mock.headers = formatHeaders(mock.headers, [], ['soapaction']);
 
-                            // manipulate the mock headers
-                            // TODO: this is actually implementation specific. create hook in (endpoint)config?
-                            mock.headers = formatHeaders(mock.headers, [], ['soapaction']);
+                    if (opts.record) {
+                        // should record that stuff, then respond
 
-                            if (opts.record) {
-                                // should record that stuff, then respond
+                        // save mock!
+                        logger('|    Saving response as mock');
+                        $recorder.saveMock(requestKey, mock);
 
-                                // save mock!
-                                logger('|    Saving response as mock');
-                                $recorder.saveMock(requestKey, mock);
+                        // respond from requestKey
+                        $recorder.respond(requestKey, res);
 
-                                // respond from requestKey
-                                $recorder.respond(requestKey, res);
+                    }
+                    else {
 
-                            }
-                            else {
+                        // respond to original request
+                        logger('|    Responding with forwarded mock');
+                        $recorder.respondWithMock(mock, res);
 
-                                // respond to original request
-                                logger('|    Responding with forwarded mock');
-                                $recorder.respondWithMock(mock, res);
-
-                            }
-
-                        });
+                    }
 
                 });
 
@@ -113,6 +108,14 @@ function createNewProxy (requestedOptions) {
     }).listen(opts.port);
 
     logger('Proxy listening on port ' + opts.port);
+
+}
+
+function transformRequestIntoMock (req) {
+
+    // promise magic here. Give request, receive mock. Such wow.
+    return getProxiedRequest(req)
+        .then($recorder.recordRequest);
 
 }
 
