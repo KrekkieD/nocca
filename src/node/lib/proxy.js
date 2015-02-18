@@ -25,7 +25,7 @@ var logger = verbose ? console.log : function () {};
 
 var defaultOptions = {
     port: 3003,
-    record: false,
+    record: true,
     replay: false,
     forward: true,
     logging: true
@@ -118,18 +118,21 @@ function createNewProxy(requestedOptions) {
 }
 
 function forwardAndRespond(req, res) {
-    return function(proxiedReq) {
+
+    return function (proxiedReq) {
 
         proxiedReq.on('response', function(proxiedRes) {
+
             res.writeHead(proxiedRes.statusCode, proxiedRes.headers);
             proxiedRes.on('data', function(chunk){
                 res.write(chunk);
-            })
+            });
 
             proxiedRes.on('end', function() {
                 res.end();
                 console.log('done');
             });
+
             proxiedRes.on('error', function(err) {
                 req.abort(err);
                 res.end();
@@ -137,7 +140,8 @@ function forwardAndRespond(req, res) {
 
         });
 
-    }
+    };
+
 }
 
 function blockRequest(res) {

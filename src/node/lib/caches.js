@@ -4,7 +4,9 @@ module.exports = {};
 module.exports.newEndpoint = addCacheEndpoint;
 module.exports.select = selectCacheEndpoint;
 
-var $ws = require('nodejs-websocket');
+var $ws = require('ws').Server;
+
+var $recorder = require('./recorder');
 
 var caches = {};
 
@@ -33,34 +35,43 @@ function selectCacheEndpoint(cacheName) {
     }
 }
 
-var server = $ws.createServer(function(conn) {
 
-    publishStatistics(conn);
-    
-}).listen(3005);
+var wss = new $ws({port: 3005});
+wss.on('connection', function (ws) {
 
-function publishStatistics(singleConn) {
-    
-    var statisticsView = {};
-    
-    for (var cacheName in Object.keys(caches)) {
-        statisticsView[cacheName] = cacheName[cacheName].statistics;
-    }
-    
-    var statisticsPayload = JSON.stringify(statisticsView);
+    // poll for changes
+    var lastSentState;
+    var interval = setInterval(function () {
+
+        // TODO: dirty! should make lightweight func
+        var state = JSON.stringify($recorder.exportState());
+
+        if (state !== lastSentState) {
+            lastSentState = state;
+            publishStatistics(state, ws);
+        }
+
+    }, 200);
+
+    ws.on("close", function () {
+        clearInterval(interval);
+    });
+
+});
+
+function publishStatistics(state, singleConn) {
 
     if (singleConn) {
-        singleConn.on('text', function () {
-            singleConn.sendText(statisticsPayload);
-        });
+
+        singleConn.send(state);
 
     }
     else {
-        server.connections.forEach(function(conn) {
 
-            conn.sendText(statisticsPayload);
-
+        wss.clients.forEach(function each(client) {
+            client.send(state);
         });
+
     }
 
 }

@@ -77,8 +77,8 @@
   "main": "./src/node/index.js",
   "dependencies": {
     "extend": "^2.0.0",
-    "nodejs-websocket": "^1.2.0",
-    "q": "^1.1.2"
+    "q": "^1.1.2",
+    "ws": "^0.7.1"
   },
   "contributors": [
     {
