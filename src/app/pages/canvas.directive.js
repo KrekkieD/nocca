@@ -12,22 +12,23 @@
         .directive(
             'noccaPagesCanvas', CanvasDirective);
 
-    function CanvasDirective() {
+    function CanvasDirective (
+        noccaNavigationStates
+    ) {
+
         var directive = {
             restrict: 'EA',
             templateUrl: 'canvas.directive.html',
-            controller: CanvasDirectiveController,
-            controllerAs: 'vm'
+            controller: CanvasDirectiveController
         };
 
         return directive;
 
         /* @ngInject */
-        function CanvasDirectiveController() {
-            // Injecting $scope just for comparison
+        function CanvasDirectiveController ($scope) {
 
-            /* jshint validthis: true */
-            // var vm = this;
+            $scope.uiStates = noccaNavigationStates;
+
         }
     }
 }());

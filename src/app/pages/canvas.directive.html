@@ -11,10 +11,14 @@
             <nav class="nocca-nav">
                 <ul>
                     <li>
-                        <md-button>Status</md-button>
+                        <md-button ui-sref="{{ uiStates.status }}" ui-sref-active="md-primary">
+                            Status
+                        </md-button>
                     </li>
                     <li>
-                        <md-button>Export</md-button>
+                        <md-button ui-sref="{{ uiStates.export }}" ui-sref-active="md-primary">
+                            Export
+                        </md-button>
                     </li>
                 </ul>
             </nav>
