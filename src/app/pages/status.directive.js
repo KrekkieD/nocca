@@ -23,11 +23,13 @@
         return directive;
 
         /* @ngInject */
-        function StatusDirectiveController() {
-            // Injecting $scope just for comparison
+        function StatusDirectiveController (
+            noccaDataConnection,
+            $scope
+        ) {
 
-            /* jshint validthis: true */
-            // var vm = this;
+            $scope.data = noccaDataConnection.data;
+
         }
     }
 }());

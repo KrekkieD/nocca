@@ -16,18 +16,19 @@
         var directive = {
             restrict: 'EA',
             templateUrl: 'export.directive.html',
-            controller: ExportDirectiveController,
-            controllerAs: 'vm'
+            controller: ExportDirectiveController
         };
 
         return directive;
 
         /* @ngInject */
-        function ExportDirectiveController() {
-            // Injecting $scope just for comparison
+        function ExportDirectiveController (
+            noccaDataConnection,
+            $scope
+        ) {
 
-            /* jshint validthis: true */
-            // var vm = this;
+            $scope.data = noccaDataConnection.data;
+
         }
     }
 }());

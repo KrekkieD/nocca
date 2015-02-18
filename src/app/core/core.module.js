@@ -7,7 +7,8 @@
         'ngMaterial',
 
         'nocca.navigation',
-        'nocca.pages'
+        'nocca.pages',
+        'nocca.data'
     ]);
 
 }());

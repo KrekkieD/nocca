@@ -4,29 +4,24 @@
         <h1 class="md-toolbar-tools">You are looking at the Nocca interface</h1>
     </md-toolbar>
 
-
     <md-content class="md-padding">
 
-        <div class="md-whiteframe-z1">
-            <nav class="nocca-nav">
-                <ul>
-                    <li>
-                        <md-button ui-sref="{{ uiStates.status }}" ui-sref-active="md-primary">
-                            Status
-                        </md-button>
-                    </li>
-                    <li>
-                        <md-button ui-sref="{{ uiStates.export }}" ui-sref-active="md-primary">
-                            Export
-                        </md-button>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <nav class="md-whiteframe-z1 nocca-nav">
+            <ul>
+                <li>
+                    <md-button ui-sref="{{ uiStates.status }}" ui-sref-active="md-primary">
+                        Status
+                    </md-button>
+                </li>
+                <li>
+                    <md-button ui-sref="{{ uiStates.export }}" ui-sref-active="md-primary">
+                        Export
+                    </md-button>
+                </li>
+            </ul>
+        </nav>
 
     </md-content>
-
-
 
     <ui-view></ui-view>
 
