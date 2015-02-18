@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <title><%= generator.name.full %></title>
+
+  <!-- Bower css includes -->
+  <%= inject.bower.css %>
+
+  <!-- Project css includes -->
+  <%= inject.app.css %>
+
+</head>
+<body>
+  <div id="<%= generator.bootstrap.element %>">
+    <h1>It works!</h1>
+  </div>
+
+  <!-- Bower js includes -->
+  <%= inject.bower.js %>
+
+  <!-- Project js includes -->
+  <%= inject.app.js %>
+
+  <!-- Config and run configuration -->
+  <%= inject.app.jsConfigAndRun %>
+
+  <!-- Bootstrap script -->
+  <%= inject.app.jsBootstrap %>
+</body>
+</html>
