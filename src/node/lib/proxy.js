@@ -98,6 +98,8 @@ function createNewProxy (requestedOptions) {
                     // call proxy logic (endpoints et al) here to manipulate flatReq into
                     // pointing the right way with proper values
                     forwardizeFlatRequest(flatReq)
+                        // TODO: fwdFlatReq should be obj in the format of node http req options (http://nodejs.org/api/http.html#http_http_request_options_callback)
+                        // TODO: consider the same format for flatReq? opts functions (keyGen, req decorator, etc) would then always receive obj in same format
                         .then(function (fwdFlatRequest) {
                             return $utils.transformRequestIntoMock(fwdFlatRequest);
                         })
@@ -213,6 +215,10 @@ function forwardizeFlatRequest (flatReq) {
 
         // format headers
         fwdFlatReq.headers = $utils.camelCaseAndDashHeaders(fwdFlatReq.headers, [], []);
+
+        fwdFlatReq._nocca = {
+            cache: cache
+        };
 
         deferred.resolve(fwdFlatReq);
 

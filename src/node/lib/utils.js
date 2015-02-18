@@ -94,6 +94,7 @@ function transformRequestIntoMock (flatReq) {
 
                     // we need to stuff some data in the mock though, before returning
                     mock.mockData.rawRequest = flatReq;
+                    mock.mockData.cache = flatReq._nocca.cache;
 
                     return mock;
 

@@ -29,8 +29,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="(requestKey, mock) in data.mocks">
-                    <td>{{ $index }}</td>
-                    <td>{{ mock.mockData.rawRequest.url }}</td>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ mock.mockData.cache.key }}</td>
                     <td>{{ mock.mockData.hit }}</td>
                     <td><a ng-click="">download</a></td>
                     <td></td>
