@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = {};
-module.exports.forward = forwardRequest;
+module.exports.simpleForwarder  = forwardRequest;
+module.exports.defaultForwarder = forwardRequest;
 
 var $q = require('q');
 var $url = require('url');
@@ -32,6 +33,13 @@ function forwardRequest(reqContext) {
         reqContext.statusCode = 404;
         reqContext.error = 'No cache URL found for ' + reqContext.request.url;
         deferred.reject(reqContext);
+    }
+    else if (reqContext.playbackResponse) {
+        // A pre-recorded mock response was found, we do not have to forward
+        console.log('|    Not forwarding, recorded response was present');
+        
+        deferred.resolve(reqContext);
+        
     }
     else {
 

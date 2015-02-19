@@ -1,24 +1,14 @@
 'use strict';
 
 module.exports = {};
-module.exports.recordRequest  = defaultRequestRecorder;
-module.exports.recordResponse = defaultResponseRecorder;
+module.exports.simpleRecorder  = simpleResponseRecorder;
+module.exports.defaultRecorder = simpleResponseRecorder;
 
 var $q = require('q');
 var $utils = require('./utils');
 var $playback = require('./playback');
 
-function defaultRequestRecorder(reqContext) {
-    var d = $q.defer();
-    
-    console.log('|    Recording incoming request');
-    d.resolve(reqContext);
-    
-    return d.promise;
-    
-}
-
-function defaultResponseRecorder(reqContext) {
+function simpleResponseRecorder(reqContext) {
     var d = $q.defer();
 
     if (reqContext.proxiedResponse) {

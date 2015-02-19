@@ -29,7 +29,10 @@ function createServer(port, newConnectionHandler) {
                 
             });
         
-        newConnectionHandler(d.promise);
+        newConnectionHandler({
+            promise : d.promise,
+            response: res
+        });
     }
 
 }

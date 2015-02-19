@@ -1,11 +1,12 @@
 'use strict';
 
 module.exports = {};
-module.exports.respond = defaultResponder;
+module.exports.defaultResponder = playbackPreferringResponder;
+module.exports.simpleResponder  = playbackPreferringResponder;
 
 var $q = require('q');
 
-function defaultResponder(reqContext) {
+function playbackPreferringResponder(reqContext) {
     
 
     if (reqContext.playbackResponse) {
