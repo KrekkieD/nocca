@@ -4,42 +4,7 @@ var $nocca = require('../index');
 
 $nocca.caches.newEndpoint('google', 'https://www.google.com/');
 
-
-var targetConfig = {
-    endPoints: {
-        google: {
-            targetBaseUrl: 'https://www.google.com/',
-            requestKeyGenerator: function (flatRequest) {
-                return JSON.stringify(flatRequest);
-            }
-        }
-    },
-    keyGenerator: function (flatRequest) {
-
-        var keyObj = {};
-        keyObj.url = flatRequest.url;
-        keyObj.method = flatRequest.method;
-        keyObj.body = flatRequest.body || null;
-        keyObj.headers = {
-            Accept: flatRequest.headers.Accept,
-            'Content-Type': flatRequest.headers['Content-Type']
-        };
-
-        return JSON.stringify(keyObj);
-
-    },
-    endPointSelector: function (flatRequest) {
-
-    }
-};
-
-$nocca.proxy.proxy({
-    keyGenerator: targetConfig.keyGenerator
-});
-
-
-
-var $endpoints = {
+var endPoints = {
     'google': {
         targetBaseUrl: 'https://www.google.com/'
     },
@@ -144,3 +109,63 @@ var $endpoints = {
     }
 };
 
+
+var targetConfig = {
+    // specify endpoints config
+    endPoints: endPoints,
+
+    // NOTE: except for endpoints itself, all properties below can also be configured per endpoint
+
+    // overrides default if desired
+    keyGenerator: keyGenerator,
+    // overrides default if desired
+    endPointSelector: endPointSelector,
+    // manipulate request before forwarding
+    forwardRequestDecorator: forwardRequestDecorator,
+    // manipulate mock before continuing with processing
+    forwardResponseDecorator: forwardResponseDecorator,
+    // set timeouts
+    timeouts: {
+        minSimulatedDelayMs: 160,
+        maxSimulatedDelayMs: 240,
+        fwdDelayTimeoutMs: 30000
+    }
+};
+
+$nocca.proxy.proxy(targetConfig);
+
+
+
+
+function keyGenerator (flatRequest) {
+
+    var keyObj = {};
+    keyObj.url = flatRequest.url;
+    keyObj.method = flatRequest.method;
+    keyObj.body = flatRequest.body || null;
+    keyObj.headers = {
+        Accept: flatRequest.headers.Accept,
+        'Content-Type': flatRequest.headers['Content-Type']
+    };
+
+    return JSON.stringify(keyObj);
+
+}
+
+function endPointSelector (flatRequest, endPoints) {
+
+    // currently hardcoding to google
+    return endPoints.google;
+
+}
+
+function forwardRequestDecorator (fwdFlatReq) {
+
+    return fwdFlatReq;
+}
+
+function forwardResponseDecorator (mock) {
+
+    return mock;
+
+}

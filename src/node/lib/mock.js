@@ -16,6 +16,7 @@ function recordRequest (req) {
         mockData: {
             requestKey: '',
             hit: 0,
+            creationTimestamp: new Date().getTime(),
             rawRequest: {},
             rawResponse: {}
         },
