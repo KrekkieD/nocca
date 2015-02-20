@@ -1,5 +1,7 @@
 'use strict';
 
+var $crypto = require('crypto');
+
 module.exports = {};
 module.exports.statisticsExporter = statisticsExporter;
 module.exports.statisticsProcessor = statisticsProcessor;
@@ -14,9 +16,14 @@ var stats = {
 
 function statisticsProcessor (reqContext) {
 
+    // log hash for easier visualisation of uniqueness
+    var sha1 = $crypto.createHash('sha1');
+    var requestKeyHash = sha1.update(reqContext.requestKey).digest('base64');
+
+
     var flagString = '';
     flagString += reqContext.flagRecorded ? '1' : '0';
-    flagString += reqContext.flagFowarded ? '1' : '0';
+    flagString += reqContext.flagForwarded ? '1' : '0';
     flagString += reqContext.flagReplayed ? '1' : '0';
 
     // string is:
@@ -24,19 +31,19 @@ function statisticsProcessor (reqContext) {
     switch (flagString) {
         case '110':
             // recorded and forwarded
-            stats.recorded.push(reqContext.requestKey);
-            stats.responses[reqContext.requestKey] = reqContext.proxiedResponse;
+            stats.recorded.push(requestKeyHash);
+            stats.responses[requestKeyHash] = reqContext.proxiedResponse;
 
             break;
         case '010':
             // forwarded, not recorded
-            stats.forwarded.push(reqContext.requestKey);
-            stats.responses[reqContext.requestKey] = reqContext.proxiedResponse;
+            stats.forwarded.push(requestKeyHash);
+            stats.responses[requestKeyHash] = reqContext.proxiedResponse;
         break;
         case '001':
             // replayed
-            stats.replayed.push(reqContext.requestKey);
-            stats.responses[reqContext.requestKey] = reqContext.playbackResponse;
+            stats.replayed.push(requestKeyHash);
+            stats.responses[requestKeyHash] = reqContext.playbackResponse;
 
             break;
     }
