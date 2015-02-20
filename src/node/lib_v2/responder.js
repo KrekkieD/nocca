@@ -12,12 +12,14 @@ function playbackPreferringResponder(reqContext) {
     if (reqContext.playbackResponse) {
         console.log('|    Playing back recorded response');
 
+        reqContext.flagReplayed = true;
         writeResponseToOutput(reqContext.playbackResponse, reqContext.httpResponse);
         
     }
     else if (reqContext.proxiedResponse) {
         console.log('|    Returning response from forwarded request');
-        
+
+        reqContext.flagForwarded = true;
         writeResponseToOutput(reqContext.proxiedResponse, reqContext.httpResponse);
         
     }

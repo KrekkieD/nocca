@@ -23,18 +23,20 @@ function createServer(options, newConnectionHandler) {
         flattenIncomingRequest(req)
             .then(function(flatReq) {
 
-                deferred.resolve({
+                var context = {
                     httpResponse: res,
-                    request: flatReq
-                });
+                    request: flatReq,
+                    // duplicate the options object to prevent manipulation of the main config
+                    opts: $extend({}, options)
+                };
+
+                deferred.resolve(context);
                 
             });
-        
+
         newConnectionHandler({
             promise : deferred.promise,
-            response: res,
-            // duplicate the options object to prevent manipulation of the main config
-            opts: $extend({}, options)
+            response: res
         });
     }
 

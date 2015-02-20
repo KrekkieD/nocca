@@ -31,8 +31,9 @@ function addCacheEndpoint(name, config) {
 }
 
 function firstUrlPartCacheSelector(reqContext) {
+
     var d = $q.defer();
-    
+
     var cacheName = firstUrlPart(reqContext.request.url);
 
     if (endpoints.hasOwnProperty(cacheName)) {

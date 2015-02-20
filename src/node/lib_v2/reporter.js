@@ -8,6 +8,6 @@ function reporter (context) {
 
     var data = context.opts.statistics.exporter();
 
-    $httpInterface.broadCast(data);
+    $httpInterface.broadcast(data);
 
 }

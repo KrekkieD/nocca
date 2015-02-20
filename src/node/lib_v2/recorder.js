@@ -25,6 +25,9 @@ function simpleResponseRecorder(reqContext) {
         };
 
         $playback.addRecording(reqContext.endpoint.key, reqContext.requestKey, mockEntry);
+
+        reqContext.flagRecorded = true;
+
     }
     
     d.resolve(reqContext);

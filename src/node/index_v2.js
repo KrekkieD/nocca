@@ -83,7 +83,7 @@ function defaultChainBuilderFactory(opts) {
         opts.keyGenerator;
     
     return function(context) {
-        
+
         var requestChain = context.promise
             .then(opts.cacheSelector)
             .then(keyGenerator);
@@ -116,7 +116,7 @@ function defaultChainBuilderFactory(opts) {
             // TODO: make sure thrown errors are handled properly
             .catch(opts.throwHandlerFactory(context.response))
             // broadcast current stats
-            .finally(opts.statistics.reporter);
+            .then(opts.statistics.reporter);
         
     };
     
