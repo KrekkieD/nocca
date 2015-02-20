@@ -8,6 +8,8 @@ var $q = require('q');
 var $utils = require('./utils');
 var $playback = require('./playback');
 
+
+
 function simpleResponseRecorder(reqContext) {
     var d = $q.defer();
 
@@ -19,7 +21,7 @@ function simpleResponseRecorder(reqContext) {
             hits: 0,
             statusCode: reqContext.proxiedResponse.statusCode,
             headers: $utils.camelCaseAndDashHeaders(reqContext.proxiedResponse.headers, [], []),
-            body: reqContext.proxiedResponse.data
+            body: reqContext.proxiedResponse.body
         }
         
         $playback.addRecording(reqContext.endpoint.key, reqContext.requestKey, mockEntry);
@@ -30,3 +32,4 @@ function simpleResponseRecorder(reqContext) {
     return d.promise;
     
 }
+
