@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {};
+
 var $server    = module.exports.server    = require('./lib_v2/server');
 var $caches    = module.exports.caches    = require('./lib_v2/caches');
 var $keys      = module.exports.keys      = require('./lib_v2/keys');
@@ -8,12 +9,12 @@ var $playback  = module.exports.playback  = require('./lib_v2/playback');
 var $recorder  = module.exports.recorder  = require('./lib_v2/recorder');
 var $forwarder = module.exports.forwarder = require('./lib_v2/forwarder');
 var $responder = module.exports.responder = require('./lib_v2/responder');
-var $interface = module.exports.interface = require('./lib_v2/interface');
+var $httpInterface = module.exports.httpInterface = require('./lib_v2/httpInterface');
 var $stats     = module.exports.stats     = require('./lib_v2/stats');
 var $errors    = module.exports.errors    = require('./lib_v2/errors');
+
 module.exports.setup               = setup;
 module.exports.chainBuilderFactory = defaultChainBuilderFactory;
-
 module.exports.FORWARDING          = FORWARDING;
 
 var FORWARDING = {
@@ -59,8 +60,7 @@ function setup(customOptions) {
         $caches.newEndpoint(cacheNames[i], opts.endpoints[cacheNames[i]]);
     }
     
-    $stats.init(opts.webSocketPort);
-    $interface.init(opts.controlPort);
+    $httpInterface(opts.controlPort);
     $server(opts.proxyPort, opts.chainBuilderFactory(opts));
 
 }
@@ -89,15 +89,17 @@ function defaultChainBuilderFactory(opts) {
         // +---------------------------------------------------------------+
         
         if (opts.record) {
-            requestChain = requestChain.then(opts.recorder)
+            requestChain = requestChain.then(opts.recorder);
         }
         
         requestChain.then(opts.responder)
+            // log mock stats
             .then(opts.statisticsProcessor)
             .fail(opts.failureHandler)
             .catch(opts.throwHandlerFactory(context.response))
+            // broadcast current stats
             .finally(opts.statisticsReporter);
         
-    }
+    };
     
 }

@@ -8,6 +8,6 @@ var config = {
             targetBaseUrl: 'http://www.google.com/'
         }
     }
-}
+};
 
 $nocca2.setup(config);

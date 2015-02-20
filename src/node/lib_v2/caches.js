@@ -7,7 +7,6 @@ module.exports.newEndpoint = addCacheEndpoint;
 
 
 var $q = require('q');
-var $ws = require('ws').Server;
 var $extend = require('extend');
 
 var endpoints = {};
@@ -35,7 +34,7 @@ function firstUrlPartCacheSelector(reqContext) {
             key: cacheName,
             remainingUrl: remainingUrlAfterCacheKey(reqContext.request.url, cacheName),
             definition: endpoints[cacheName]
-        }
+        };
 
         d.resolve(reqContext);
         console.log('|    Selected cache endpoint: ' + cacheName);
