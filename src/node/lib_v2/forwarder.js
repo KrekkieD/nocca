@@ -75,7 +75,7 @@ function performRequestForward(reqContext, endpointDef, fwdFlatReq, deferred) {
     reqContext.proxiedResponse = {
         statusCode: 0,
         headers: {},
-        data: ''
+        body: ''
     };
 
     reqContext.proxiedRequest.on('response', function(response) {
@@ -83,7 +83,7 @@ function performRequestForward(reqContext, endpointDef, fwdFlatReq, deferred) {
         // read chunks of data and store them
         response.on('data', function(chunk) {
 
-            reqContext.proxiedResponse.data += chunk;
+            reqContext.proxiedResponse.body += chunk;
 
         });
 
