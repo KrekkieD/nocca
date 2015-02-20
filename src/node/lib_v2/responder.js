@@ -4,19 +4,16 @@ module.exports = {};
 module.exports.defaultResponder = playbackPreferringResponder;
 module.exports.simpleResponder  = playbackPreferringResponder;
 
-var $q = require('q');
-
 function playbackPreferringResponder(reqContext) {
-    
 
-    if (reqContext.playbackResponse) {
+    if (typeof reqContext.playbackResponse !== 'undefined') {
         console.log('|    Playing back recorded response');
 
         reqContext.flagReplayed = true;
         writeResponseToOutput(reqContext.playbackResponse, reqContext.httpResponse);
         
     }
-    else if (reqContext.proxiedResponse) {
+    else if (typeof reqContext.proxiedResponse !== 'undefined') {
         console.log('|    Returning response from forwarded request');
 
         reqContext.flagForwarded = true;
