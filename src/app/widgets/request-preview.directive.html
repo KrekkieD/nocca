@@ -1,0 +1,40 @@
+<div>
+
+    <md-item-content class="md-padding">
+
+        <div class="md-tile-left">
+            raw <span class="fa" ng-class="{'fa-eye': requestDialog.raw, 'fa-eye-slash': !requestDialog.raw}"></span>
+            <md-switch ng-model="requestDialog.rawWrap" aria-label="Switch 1">
+                wrap
+            </md-switch>
+        </div>
+        <div class="md-tile-content">
+            <md-content class="md-padding">
+                <pre ng-show="requestDialog.raw" ng-class="{'nocca-request-preview-wrap': requestDialog.rawWrap}">{{ preview | json:4 }}</pre>
+            </md-content>
+        </div>
+
+    </md-item-content>
+
+    <md-divider></md-divider>
+
+    <md-item-content class="md-padding">
+
+        <div class="md-tile-left">
+            body <span class="fa" ng-class="{'fa-eye': requestDialog.body, 'fa-eye-slash': !requestDialog.body}"></span><br>
+            <md-switch ng-model="requestDialog.bodyWrap" aria-label="Switch 1">
+                wrap
+            </md-switch>
+        </div>
+        <div class="md-tile-content">
+            <md-content class="md-padding">
+                <em ng-show="!preview.body">No body to show</em>
+                <pre ng-show="preview.body && requestDialog.body"
+                    ng-class="{'nocca-request-preview-wrap': requestDialog.bodyWrap}">{{ preview.body }}</pre>
+
+            </md-content>
+        </div>
+
+    </md-item-content>
+
+</div>

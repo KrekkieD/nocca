@@ -1,0 +1,30 @@
+<md-item-content>
+
+    <div class="md-tile-left response-tile-left">
+        {{ response.response.statusCode}} <br>
+        {{ response.request.method }} <br>
+    </div>
+    <div class="md-tile-content">
+        <h3>
+            {{ response.hash }}
+        </h3>
+
+        <p>
+            <span class="fa fa-sign-in"></span>
+            {{ response.request.method }} {{ response.request.url }}
+        </p>
+        <p ng-show="response.proxiedRequest">
+            <span class="fa fa-sign-out"></span>
+            {{ response.proxiedRequest.method }} {{ response.proxiedRequest.protocol + '//' + response.proxiedRequest.host + response.proxiedRequest.path }}
+        </p>
+        <h4>
+            recorded: 0 | forwarded: 0 | replayed: 0
+        </h4>
+        <p>
+            <md-button ng-click="showDialog($event)">
+                View bodies
+            </md-button>
+        </p>
+    </div>
+
+</md-item-content>

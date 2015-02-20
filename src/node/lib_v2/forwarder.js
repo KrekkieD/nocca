@@ -71,6 +71,7 @@ function performRequestForward(reqContext, endpointDef, fwdFlatReq, deferred) {
     // format headers
     fwdFlatReq.headers = $utils.camelCaseAndDashHeaders(fwdFlatReq.headers, [], []);
 
+    reqContext.proxiedFlatRequest = fwdFlatReq;
     reqContext.proxiedRequest = proxyRequest(fwdFlatReq);
     reqContext.proxiedResponse = {
         statusCode: 0,

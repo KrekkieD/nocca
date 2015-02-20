@@ -5,10 +5,12 @@
         'ui.router',
         'ngWebsocket',
         'ngMaterial',
+        'LocalStorageModule',
 
         'nocca.navigation',
         'nocca.pages',
-        'nocca.data'
+        'nocca.data',
+        'nocca.widgets'
     ]);
 
 }());

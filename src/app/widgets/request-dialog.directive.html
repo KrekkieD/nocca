@@ -1,0 +1,51 @@
+<md-content layout="column">
+
+    <md-tabs md-selected="selectedIndex" flex layout-fill>
+        <md-tab label="Request">
+
+            <nocca-widgets-request-preview
+                preview="content.request"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab label="Proxied Request">
+
+            <nocca-widgets-request-preview
+                preview="content.proxiedRequest"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab label="Response">
+
+            <nocca-widgets-request-preview
+                preview="content.response"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+    </md-tabs>
+
+    <md-content class="md-padding">
+
+        <md-divider></md-divider>
+
+        <div layout="row">
+            <md-switch ng-model="requestDialog.raw" aria-label="Switch 1">
+                <span class="fa fa-search-plus"></span> raw
+            </md-switch>
+            <md-switch ng-model="requestDialog.body" aria-label="Switch 1">
+                <span class="fa fa-user"></span> body
+            </md-switch>
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary">
+                close
+            </md-button>
+        </div>
+    </md-content>
+
+</md-content>

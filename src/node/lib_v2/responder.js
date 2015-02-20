@@ -10,17 +10,23 @@ function playbackPreferringResponder(reqContext) {
         console.log('|    Playing back recorded response');
 
         reqContext.flagReplayed = true;
-        writeResponseToOutput(reqContext.playbackResponse, reqContext.httpResponse);
-        
+        reqContext.response = reqContext.playbackResponse;
+
     }
     else if (typeof reqContext.proxiedResponse !== 'undefined') {
         console.log('|    Returning response from forwarded request');
 
         reqContext.flagForwarded = true;
-        writeResponseToOutput(reqContext.proxiedResponse, reqContext.httpResponse);
-        
+        reqContext.response = reqContext.proxiedResponse;
+
     }
-    
+    else {
+        throw new Error('No data to write to response');
+    }
+
+    writeResponseToOutput(reqContext.response, reqContext.httpResponse);
+
+
     return reqContext;
     
 }
