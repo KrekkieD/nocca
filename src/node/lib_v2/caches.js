@@ -12,7 +12,15 @@ var $extend = require('extend');
 
 var endpoints = {};
 
+// config = {
+//   targetBaseUrl: '', // Full URL to forward to. Note that the part after the cache name will be appended to this URL
+//   keyGenerator: undefined, // Allows for overriding the default key generator for each endpoint
+// }
 function addCacheEndpoint(name, config) {
+    if (!config.targetBaseUrl) { 
+        console.log('|  Warning! Endpoint with key "' + name + '" has not targetBaseUrl property and cannot be used for forwarding/recording. ');
+    }
+    
     endpoints[name] = $extend({
         statistics: {
             requests: 0,

@@ -1,22 +1,20 @@
 'use strict';
 
 module.exports = {};
-var $server    = module.exports.server    = require('./lib_v2/server');
-var $caches    = module.exports.caches    = require('./lib_v2/caches');
-var $keys      = module.exports.keys      = require('./lib_v2/keys');
-var $playback  = module.exports.playback  = require('./lib_v2/playback');
-var $recorder  = module.exports.recorder  = require('./lib_v2/recorder');
-var $forwarder = module.exports.forwarder = require('./lib_v2/forwarder');
-var $responder = module.exports.responder = require('./lib_v2/responder');
-var $interface = module.exports.interface = require('./lib_v2/interface');
-var $stats     = module.exports.stats     = require('./lib_v2/stats');
-var $errors    = module.exports.errors    = require('./lib_v2/errors');
-module.exports.setup               = setup;
-module.exports.chainBuilderFactory = defaultChainBuilderFactory;
+var $server    = module.exports.server              = require('./lib_v2/server');
+var $caches    = module.exports.caches              = require('./lib_v2/caches');
+var $keys      = module.exports.keys                = require('./lib_v2/keys');
+var $playback  = module.exports.playback            = require('./lib_v2/playback');
+var $recorder  = module.exports.recorder            = require('./lib_v2/recorder');
+var $forwarder = module.exports.forwarder           = require('./lib_v2/forwarder');
+var $responder = module.exports.responder           = require('./lib_v2/responder');
+var $interface = module.exports.interface           = require('./lib_v2/interface');
+var $stats     = module.exports.stats               = require('./lib_v2/stats');
+var $errors    = module.exports.errors              = require('./lib_v2/errors');
+                 module.exports.setup               = setup;
+                 module.exports.chainBuilderFactory = defaultChainBuilderFactory;
 
-module.exports.FORWARDING          = FORWARDING;
-
-var FORWARDING = {
+var FORWARDING = module.exports.FORWARDING          = {
     FORWARD_ALL    : true,
     FORWARD_NONE   : false,
     FORWARD_MISSING: 'MISSING'
@@ -42,13 +40,15 @@ var defaultSettings = {
     requestForwarder: $forwarder.defaultForwarder,
     recorder: $recorder.defaultRecorder,
     responder: $responder.defaultResponder,
-    failureHandler: $errors.defaultFailureHandler,
+    failureHandlerFactory: $errors.defaultFailureHandlerFactory,
     throwHandlerFactory: $errors.defaultThrowHandlerFactory,
     statisticsProcessor: $stats.defaultStatisticsProcessor,
     statisticsReporter: $stats.defaultStatisticsReporter,
-    chainBuilderFactory: defaultChainBuilderFactory
+    chainBuilderFactory: defaultChainBuilderFactory,
     
-    
+    allowEndpointOverrides: {
+        keyGenerator: true
+    }
 };
 
 function setup(customOptions) {
@@ -67,10 +67,15 @@ function setup(customOptions) {
 
 function defaultChainBuilderFactory(opts) {
     
+    // Create a keyGenerator that uses the default 
+    var keyGenerator = (opts.allowEndpointOverrides.keyGenerator) ?
+        $keys.overridableKeyGeneratorBuilder(opts.keyGenerator) :
+        opts.keyGenerator;
+    
     return function(context) {
         
         var requestChain = context.promise.then(opts.cacheSelector)
-            .then(opts.keyGenerator);
+            .then(keyGenerator);
         
         if (opts.forward === FORWARDING.FORWARD_NONE || opts.forward === FORWARDING.FORWARD_MISSING) {
             // Either forwarding is off altogether, or set to forward MISSING requests only.
@@ -89,15 +94,15 @@ function defaultChainBuilderFactory(opts) {
         // +---------------------------------------------------------------+
         
         if (opts.record) {
-            requestChain = requestChain.then(opts.recorder)
+            requestChain = requestChain.then(opts.recorder);
         }
         
         requestChain.then(opts.responder)
             .then(opts.statisticsProcessor)
-            .fail(opts.failureHandler)
+            .fail(opts.failureHandlerFactory(context.response))
             .catch(opts.throwHandlerFactory(context.response))
             .finally(opts.statisticsReporter);
         
-    }
+    };
     
 }
