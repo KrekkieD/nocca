@@ -29,10 +29,15 @@ function playbackPreferringResponder(reqContext) {
 function writeResponseToOutput(response, output) {
 
     output.writeHead(response.statusCode, response.headers);
-    if (response.data) {
-        output.write(response.data);
+    if (response.body) {
+        output.write(response.body, function() {
+            output.end();
+            
+        });
     }
-    output.end();
+    else {
+        output.end();
+    }
 
 }
 
