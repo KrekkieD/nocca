@@ -13,9 +13,13 @@ var logger = verbose ? console.log : function() {};
 
 function createServer(options, newConnectionHandler) {
 
-    $http.createServer(connectionHandler).listen(options.proxyPort);
-    
+
+    $http.createServer(connectionHandler).listen(options.proxyPort, function () {
+		console.log('Proxy server listening on port ' + options.proxyPort);
+	});
+
     function connectionHandler(req, res) {
+
         var deferred = $q.defer();
 
         logger('|  Request: ' + req.url);

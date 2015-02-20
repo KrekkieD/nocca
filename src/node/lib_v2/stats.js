@@ -21,8 +21,6 @@ function statisticsProcessor (reqContext) {
     var sha1 = $crypto.createHash('sha1');
     var requestKeyHash = sha1.update(reqContext.requestKey).digest('base64');
 
-    console.log(Object.keys(reqContext));
-
     // only log the response once to prevent overwrites
     if (typeof stats.responses[requestKeyHash] === 'undefined') {
 

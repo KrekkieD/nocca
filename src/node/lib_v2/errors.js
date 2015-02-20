@@ -6,7 +6,7 @@ module.exports.defaultThrowHandlerFactory   = defaultThrowHandlerFactory;
 
 function defaultFailureHandlerFactory (context) {
 
-    var httpResponse = context.response;
+    var httpResponse = context.httpResponse;
 
     console.log('|    Unable to complete request: ' + (context.error || context.message));
     if (context.stack) {
