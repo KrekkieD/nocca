@@ -8,30 +8,30 @@ var $q = require('q');
 
 var recordings = {};
 
-function addRecording(endpoint, requestKey, recordedResponse) {
-    
-    if (!recordings.hasOwnProperty(endpoint)) {
-        recordings[endpoint] = {};
-    }
+function addRecording (endpoint, requestKey, recordedResponse) {
+
+    // ensure presence of endpoint
+    recordings[endpoint] = recordings[endpoint] || {};
     
     recordings[endpoint][requestKey] = recordedResponse;
     
 }
 
-function defaultRequestMatcher(reqContext) {
+function defaultRequestMatcher (reqContext) {
     var d = $q.defer();
-    
-    try {
-        var recording = recordings[reqContext.endpoint.key][reqContext.requestKey];
-        
-        reqContext.playbackResponse = recording;
+
+    if (typeof recordings[reqContext.endpoint.key] !== 'undefined' &&
+        typeof recordings[reqContext.endpoint.key][reqContext.requestKey] !== 'undefined') {
+
+        reqContext.playbackResponse = recordings[reqContext.endpoint.key][reqContext.requestKey];
         console.log('|    Found a matching record!');
+
     }
-    catch(err) {
+    else {
         // Probably no recording found, just return the context as is
         console.log('|    No matching record found');
     }
-    
+
     d.resolve(reqContext);
 
     return d.promise;
