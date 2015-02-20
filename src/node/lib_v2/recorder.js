@@ -19,9 +19,9 @@ function simpleResponseRecorder(reqContext) {
             hits: 0,
             statusCode: reqContext.proxiedResponse.statusCode,
             headers: $utils.camelCaseAndDashHeaders(reqContext.proxiedResponse.headers, [], []),
-            body: reqContext.proxiedResponse.data
-        }
-        
+            body: reqContext.proxiedResponse.body
+        };
+
         $playback.addRecording(reqContext.endpoint.key, reqContext.requestKey, mockEntry);
     }
     
