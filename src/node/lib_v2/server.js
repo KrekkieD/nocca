@@ -5,24 +5,25 @@ module.exports = createServer;
 
 var $q = require('q');
 var $http = require('http');
+var $extend = require('extend');
 
 var verbose = true;
 var logger = verbose ? console.log : function() {};
 
 
-function createServer(port, newConnectionHandler) {
-    
-    $http.createServer(connectionHandler).listen(port || 3003);
+function createServer(options, newConnectionHandler) {
+
+    $http.createServer(connectionHandler).listen(options.proxyPort);
     
     function connectionHandler(req, res) {
-        var d = $q.defer();
+        var deferred = $q.defer();
 
         logger('|  Request: ' + req.url);
 
         flattenIncomingRequest(req)
             .then(function(flatReq) {
-                
-                d.resolve({
+
+                deferred.resolve({
                     httpResponse: res,
                     request: flatReq
                 });
@@ -30,8 +31,10 @@ function createServer(port, newConnectionHandler) {
             });
         
         newConnectionHandler({
-            promise : d.promise,
-            response: res
+            promise : deferred.promise,
+            response: res,
+            // duplicate the options object to prevent manipulation of the main config
+            opts: $extend({}, options)
         });
     }
 

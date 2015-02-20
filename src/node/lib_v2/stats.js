@@ -1,26 +1,22 @@
 'use strict';
 
 module.exports = {};
-module.exports.defaultStatisticsReporter  = webSocketReporter;
-module.exports.defaultStatisticsProcessor = processRequestContextStatistics;
-module.exports.webSocketReporter          = webSocketReporter;
-module.exports.processContext             = processRequestContextStatistics;
+module.exports.statisticsExporter = statisticsExporter;
+module.exports.statisticsProcessor = statisticsProcessor;
 
-var $httpInterface = require('./httpInterface');
-
-// todo: make properly :)
+// todo: log stats properly :)
 var stats = [];
 
-function processRequestContextStatistics (reqContext) {
+function statisticsProcessor (reqContext) {
     
     // TODO: Process stats!
     stats.push(reqContext.proxiedResponse);
     
 }
 
-function webSocketReporter () {
+function statisticsExporter () {
     
-    // Report stats!
-    $httpInterface.broadcast(JSON.stringify(stats));
+    // export stats!
+    return stats;
 
 }

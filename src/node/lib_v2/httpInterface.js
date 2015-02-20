@@ -9,31 +9,43 @@ module.exports = httpInterface;
 module.exports.broadcast = broadcast;
 
 var DEFAULT_CONFIG = {
-    port: 3005,
-    websocketServer: true,
-    httpApi: true
+    server: {
+        port: 3005,
+        websocketServer: true,
+        httpApi: true
+    }
 };
 
 
 function httpInterface (config) {
 
-    config = $extend({}, DEFAULT_CONFIG, config);
+    // we need the .server subset
+    var serverConfig = $extend({}, DEFAULT_CONFIG.server, config.server);
 
     // if (config.httpApi === true) {
 
-        var server = $webserver.createServer({
-            port: config.port
-        });
+        var server = $webserver.createServer(serverConfig);
 
     // }
 
-    if (config.websocketServer === true) {
+    if (serverConfig.websocketServer === true) {
 
         // start websocket server
-        $websocket.createServer({
+        // TODO: this config may need to be configurable by user
+        var websocketServer = $websocket.createServer({
             httpServer: server,
             // true, because unsafe and fuck it
             autoAcceptConnections: true
+        });
+
+        //on connect, share current state
+        websocketServer.on('connect', function (webSocketConnection) {
+
+            $websocket.sendToConnection(
+                webSocketConnection,
+                config.statistics.exporter()
+            );
+
         });
 
     }

@@ -4,22 +4,22 @@ module.exports = {};
 module.exports.defaultFailureHandlerFactory = defaultFailureHandlerFactory;
 module.exports.defaultThrowHandlerFactory   = defaultThrowHandlerFactory;
 
-function defaultFailureHandlerFactory(httpResponse) {
+function defaultFailureHandlerFactory (context) {
 
-    return function(reqContextOrError) {
+    var httpResponse = context.response;
 
-        console.log('|    Unable to complete request: ' + (reqContextOrError.error || reqContextOrError.message));
-        if (reqContextOrError.stack) {
-            console.error(reqContextOrError.stack);
-            
-        }
+    console.log('|    Unable to complete request: ' + (context.error || context.message));
+    if (context.stack) {
+        console.error(context.stack);
 
-        httpResponse.writeHead(reqContextOrError.statusCode || 500, {'Nocca-Error': '"' + (reqContextOrError.error || reqContextOrError.message) + '"'});
-        httpResponse.end();
-    };
+    }
+
+    httpResponse.writeHead(context.statusCode || 500, {'Nocca-Error': '"' + (context.error || context.message) + '"'});
+    httpResponse.end();
+
 }
 
-function defaultThrowHandlerFactory(httpResponse) {
+function defaultThrowHandlerFactory (httpResponse) {
     
     return function(err) {
 
