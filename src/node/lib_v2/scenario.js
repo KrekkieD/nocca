@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {};
-module.exports.builder = Scenario.Builder;
+module.exports.Builder = Builder;
 var TYPE = module.exports.TYPE = {
     SEQUENTIAL: 0
 };
@@ -22,64 +22,74 @@ var scenarioData = {
 
 function Scenario(title) {
     this.title = title;
-    
+    this.states = {};
+    this.type = TYPE.SEQUENTIAL;
+    this.repeatable = REPEATABLE.INFINITE;
 }
 
 Scenario.State = function() {
     this.name = undefined;
     this.title = undefined;
     this.endpoint = undefined;
-    this.type = TYPE.SEQUENTIAL;
-    this.repeatable = REPEATABLE.INFINITE;
 };
 
-Scenario.Builder = function() {
+function Builder() {
     this.scenario = new Scenario();
     this.currentState = undefined;
+    this.built = false;
     
     return this;
-};
+}
+
+function builderSetter(builderProperty, propertyName, propertyValue) {
+    return function(param) {
+        requireState(this);
+
+        this[builderProperty][propertyName] = (typeof propertyValue !== 'undefined') ? propertyValue : param;
+        return this;
+    };
+}
 
 // -- Scenario Type
-Scenario.Builder.prototype.sequentialScenario = function() {
-    this.scenario.type = TYPE.SEQUENTIAL;
-};
+Builder.prototype.sequentialScenario = builderSetter('scenario', 'type', TYPE.SEQUENTIAL);
 
 // -- Scenario Repeatability
-Scenario.Builder.prototype.oneShot = function() {
-    this.scenario.repeatable = REPEATABLE.ONE_SHOT;
-};
-
-Scenario.Builder.prototype.infiniteLoop = function() {
-    this.scenario.repeatable = REPEATABLE.INFINITE;
-};
+Builder.prototype.oneShot = builderSetter('scenario', 'repeatable', REPEATABLE.ONE_SHOT);
+Builder.prototype.infiniteLoop = builderSetter('scenario', 'repeatable', REPEATABLE.INFINITE);
 
 // -- Request Description
-Scenario.Builder.prototype.then = function() {
+Builder.prototype.then = function() {
     finalizeStateAndCreateNew(this);
 
     return this;
 };
 
-function stateBuilderSetter(propertyName) {
-    return function(param) {
-        requireState(this);
-        
-        this.currentState[propertyName] = param;
-        return this;
-    };
-}
-
-Scenario.Builder.prototype.on = stateBuilderSetter('endpointKey');
-Scenario.Builder.prototype.title = stateBuilderSetter('title');
+Builder.prototype.on = builderSetter('currentState', 'endpointKey');
+Builder.prototype.title = builderSetter('currentState', 'title');
+Builder.prototype.name = builderSetter('currentState', 'name');
 
 // -- Request matching
-Scenario.Builder.prototype.matchUsing = stateBuilderSetter('matcher');
-//Scenario.Builder.prototype.
+Builder.prototype.matchUsing = builderSetter('currentState', 'matcher');
 
+
+// -- Response selection & transformation
+Builder.prototype.respondWith = builderSetter('currentState', 'response');
+Builder.prototype.transformResponse = builderSetter('currentState', 'responseTransformer');
+Builder.prototype.delayBy = builderSetter('currentState', 'delay');
+
+
+// -- Finalization
+Builder.prototype.build = function() {
+    
+    finalizeStateAndCreateNew(this);
+    
+    return this.scenario;
+    
+}
 
 // Private functions used by the Builder
 function requireState(builder) {
+    if (builder.built) { throw Error('Builder has already been built'); }
     if (!builder.currentState) {
         builder.currentState = new Scenario.State();
     }
@@ -87,7 +97,12 @@ function requireState(builder) {
 
 function finalizeStateAndCreateNew (builder) {
     if (builder.currentState) {
-        builder.scenario.states[builder.currentState.name || Object.keys(builder.scenario.states).length] = builder.currentState;
+        if (typeof builder.currentState.name === 'undefined') {
+            builder.currentState.name = Object.keys(builder.scenario.states).length.toString();
+            
+        }
+        builder.scenario.states[builder.currentState.name] = builder.currentState;
+        builder.currentState = undefined;
     }
-    builder.currentState = new Scenario.State();
+    requireState(builder);
 }

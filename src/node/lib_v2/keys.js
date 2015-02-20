@@ -80,6 +80,12 @@ function methodOnlyKeyGeneratorBuilder(opts) {
 }
 
 function headersOnlyKeyGeneratorBuilder(opts) {
+    var filteredHeaders = {};
+    if (opts && typeof opts.filteredHeaders !== 'undefined') {
+        opts.filteredHeaders.forEach(function(header) {
+            filteredHeaders[header.toLowerCase()] = true;
+        });
+    }
     
     return function(reqContext) {
         var headersArray = [];
@@ -87,7 +93,9 @@ function headersOnlyKeyGeneratorBuilder(opts) {
         // stuff it in an array so that we can sort the order of the headers.
         // This will prevent any weird non-matching issues due to header order
         Object.keys(reqContext.request.headers).forEach(function (headerKey) {
-            headersArray.push(headerKey + ':' + reqContext.request.headers[headerKey]);
+            if (filteredHeaders[headerKey] !== true) {
+                headersArray.push(headerKey + ':' + reqContext.request.headers[headerKey]);
+            }
         });
 
         return {
@@ -98,7 +106,7 @@ function headersOnlyKeyGeneratorBuilder(opts) {
 }
 
 function urlAndHeadersKeyGeneratorBuilder(opts) {
-    return combineGenerators(urlOnlyKeyGeneratorBuilder(), headersOnlyKeyGeneratorBuilder());
+    return combineGenerators(urlOnlyKeyGeneratorBuilder(opts), headersOnlyKeyGeneratorBuilder(opts));
 }
 
 function bodyRegexKeyGeneratorBuilder(opts) {

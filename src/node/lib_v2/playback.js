@@ -1,8 +1,10 @@
 'use strict';
 
 module.exports = {};
-module.exports.defaultRequestMatcher = defaultRequestMatcher;
-module.exports.addRecording = addRecording;
+module.exports.defaultRequestMatcher          = simpleRequestKeyRequestMatcher;
+module.exports.simpleRequestKeyRequestMatcher = simpleRequestKeyRequestMatcher;
+module.exports.scenarioBasedRequestMatcher    = scenarioBasedRequestMatcher;
+module.exports.addRecording                   = addRecording;
 
 var $q = require('q');
 
@@ -17,7 +19,7 @@ function addRecording (endpoint, requestKey, recordedResponse) {
     
 }
 
-function defaultRequestMatcher (reqContext) {
+function simpleRequestKeyRequestMatcher (reqContext) {
     var d = $q.defer();
 
     if (typeof recordings[reqContext.endpoint.key] !== 'undefined' &&
@@ -36,4 +38,10 @@ function defaultRequestMatcher (reqContext) {
 
     return d.promise;
 
+}
+
+function scenarioBasedRequestMatcher(reqContext) {
+    
+    
+    
 }
