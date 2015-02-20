@@ -2,22 +2,21 @@
 
 module.exports = {};
 
-var $server    = module.exports.server    = require('./lib_v2/server');
-var $caches    = module.exports.caches    = require('./lib_v2/caches');
-var $keys      = module.exports.keys      = require('./lib_v2/keys');
-var $playback  = module.exports.playback  = require('./lib_v2/playback');
-var $recorder  = module.exports.recorder  = require('./lib_v2/recorder');
-var $forwarder = module.exports.forwarder = require('./lib_v2/forwarder');
-var $responder = module.exports.responder = require('./lib_v2/responder');
+var $server    = module.exports.server              = require('./lib_v2/server');
+var $caches    = module.exports.caches              = require('./lib_v2/caches');
+var $keys      = module.exports.keys                = require('./lib_v2/keys');
+var $playback  = module.exports.playback            = require('./lib_v2/playback');
+var $recorder  = module.exports.recorder            = require('./lib_v2/recorder');
+var $forwarder = module.exports.forwarder           = require('./lib_v2/forwarder');
+var $responder = module.exports.responder           = require('./lib_v2/responder');
+var $reporter  = module.exports.reporter           = require('./lib_v2/reporter');
 var $httpInterface = module.exports.httpInterface = require('./lib_v2/httpInterface');
-var $stats     = module.exports.stats     = require('./lib_v2/stats');
-var $errors    = module.exports.errors    = require('./lib_v2/errors');
+var $stats     = module.exports.stats               = require('./lib_v2/stats');
+var $errors    = module.exports.errors              = require('./lib_v2/errors');
+                 module.exports.setup               = setup;
+                 module.exports.chainBuilderFactory = defaultChainBuilderFactory;
 
-module.exports.setup               = setup;
-module.exports.chainBuilderFactory = defaultChainBuilderFactory;
-module.exports.FORWARDING          = FORWARDING;
-
-var FORWARDING = {
+var FORWARDING = module.exports.FORWARDING          = {
     FORWARD_ALL    : true,
     FORWARD_NONE   : false,
     FORWARD_MISSING: 'MISSING'
@@ -30,8 +29,11 @@ var defaultSettings = {
     endpoints: {},
     
     proxyPort: 3003,
-    controlPort: 3004,
-    webSocketPort: 3005,
+    server: {
+        port: 3005,
+        websocketServer: true,
+        httpApi: true
+    },
     
     record: true,
     // Values: true, false, MISSING
@@ -43,16 +45,24 @@ var defaultSettings = {
     requestForwarder: $forwarder.defaultForwarder,
     recorder: $recorder.defaultRecorder,
     responder: $responder.defaultResponder,
-    failureHandler: $errors.defaultFailureHandler,
+    failureHandlerFactory: $errors.defaultFailureHandlerFactory,
     throwHandlerFactory: $errors.defaultThrowHandlerFactory,
-    statisticsProcessor: $stats.defaultStatisticsProcessor,
-    statisticsReporter: $stats.defaultStatisticsReporter,
-    chainBuilderFactory: defaultChainBuilderFactory
+
+    statistics: {
+        processor: $stats.statisticsProcessor,
+        exporter: $stats.statisticsExporter,
+        reporter: $reporter
+    },
+
+    chainBuilderFactory: defaultChainBuilderFactory,
     
-    
+    allowEndpointOverrides: {
+        keyGenerator: true
+    }
 };
 
 function setup(customOptions) {
+
     var opts = $extend({}, defaultSettings, customOptions);
     
     var cacheNames = Object.keys(opts.endpoints);
@@ -60,17 +70,23 @@ function setup(customOptions) {
         $caches.newEndpoint(cacheNames[i], opts.endpoints[cacheNames[i]]);
     }
     
-    $httpInterface(opts.controlPort);
-    $server(opts.proxyPort, opts.chainBuilderFactory(opts));
+    $httpInterface(opts);
+    $server(opts, opts.chainBuilderFactory(opts));
 
 }
 
 function defaultChainBuilderFactory(opts) {
     
+    // Create a keyGenerator that uses the default 
+    var keyGenerator = (opts.allowEndpointOverrides.keyGenerator) ?
+        $keys.overridableKeyGeneratorBuilder(opts.keyGenerator) :
+        opts.keyGenerator;
+    
     return function(context) {
         
-        var requestChain = context.promise.then(opts.cacheSelector)
-            .then(opts.keyGenerator);
+        var requestChain = context.promise
+            .then(opts.cacheSelector)
+            .then(keyGenerator);
         
         if (opts.forward === FORWARDING.FORWARD_NONE || opts.forward === FORWARDING.FORWARD_MISSING) {
             // Either forwarding is off altogether, or set to forward MISSING requests only.
@@ -91,14 +107,16 @@ function defaultChainBuilderFactory(opts) {
         if (opts.record) {
             requestChain = requestChain.then(opts.recorder);
         }
-        
+
         requestChain.then(opts.responder)
             // log mock stats
-            .then(opts.statisticsProcessor)
-            .fail(opts.failureHandler)
+            .then(opts.statistics.processor)
+            // TODO: make sure the failures are handled properly
+            .fail(opts.failureHandlerFactory)
+            // TODO: make sure thrown errors are handled properly
             .catch(opts.throwHandlerFactory(context.response))
             // broadcast current stats
-            .finally(opts.statisticsReporter);
+            .finally(opts.statistics.reporter);
         
     };
     

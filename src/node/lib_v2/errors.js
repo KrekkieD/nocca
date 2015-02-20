@@ -1,16 +1,22 @@
 'use strict';
 
 module.exports = {};
-module.exports.defaultFailureHandler      = defaultFailureHandler;
-module.exports.defaultThrowHandlerFactory = defaultThrowHandlerFactory;
+module.exports.defaultFailureHandlerFactory = defaultFailureHandlerFactory;
+module.exports.defaultThrowHandlerFactory   = defaultThrowHandlerFactory;
 
-function defaultFailureHandler(reqContext) {
-    
-    console.log('|    Unable to complete request: ' + reqContext.error);
-    
-    reqContext.httpResponse.writeHead(reqContext.statusCode, {'Nocca-Error': '"' + reqContext.error + '"'});
-    reqContext.httpResponse.end();
-    
+function defaultFailureHandlerFactory(httpResponse) {
+
+    return function(reqContextOrError) {
+
+        console.log('|    Unable to complete request: ' + (reqContextOrError.error || reqContextOrError.message));
+        if (reqContextOrError.stack) {
+            console.error(reqContextOrError.stack);
+            
+        }
+
+        httpResponse.writeHead(reqContextOrError.statusCode || 500, {'Nocca-Error': '"' + (reqContextOrError.error || reqContextOrError.message) + '"'});
+        httpResponse.end();
+    };
 }
 
 function defaultThrowHandlerFactory(httpResponse) {
@@ -19,7 +25,7 @@ function defaultThrowHandlerFactory(httpResponse) {
 
         console.log('Caught an error during request processing, terminating request');
         console.log(err.message);
-        console.log(err.stack);
+        console.error(err.stack);
 
         httpResponse.writeHead(500, {'Nocca-Error': '"Internal error while processing request: ' + err.message + '"'});
         httpResponse.end();

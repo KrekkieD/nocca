@@ -27,12 +27,12 @@ function playbackPreferringResponder(reqContext) {
 }
 
 function writeResponseToOutput(response, output) {
-    
+
     output.writeHead(response.statusCode, response.headers);
     if (response.data) {
         output.write(response.data);
     }
     output.end();
-    
+
 }
 
