@@ -17,7 +17,7 @@ var $extend = require('extend');
 function combineGenerators() {
     
     var generators = unwrapGenerators(Array.prototype.slice.call(arguments));
-    if (generators.length == 0) { throw Error('Need at least one generator!'); }
+    if (generators.length === 0) { throw Error('Need at least one generator!'); }
 
     var generatorFunction = function(reqContext) {
         var d = $q.defer();
@@ -26,10 +26,11 @@ function combineGenerators() {
         for (var i = 0; i < generators.length; i++) {
             $extend(key, generators[i](reqContext));
         }
-        
+
         reqContext.requestKey = JSON.stringify( key );
+
         console.log('|    Generated request key: ' + reqContext.requestKey);
-        
+
         d.resolve(reqContext);
         return d.promise;
     };
