@@ -4,13 +4,15 @@ module.exports = {};
 module.exports.defaultRequestMatcher          = simpleRequestKeyRequestMatcher;
 module.exports.simpleRequestKeyRequestMatcher = simpleRequestKeyRequestMatcher;
 module.exports.scenarioBasedRequestMatcher    = scenarioBasedRequestMatcher;
-module.exports.addRecording                   = addRecording;
+module.exports.addRecording                   = addSingleRecording;
+module.exports.addScenario                    = addSingleScenario;
 
 var $q = require('q');
 
 var recordings = {};
+var scenarios = {};
 
-function addRecording (endpoint, requestKey, recordedResponse) {
+function addSingleRecording (endpoint, requestKey, recordedResponse) {
 
     // ensure presence of endpoint
     recordings[endpoint] = recordings[endpoint] || {};
@@ -44,4 +46,10 @@ function scenarioBasedRequestMatcher(reqContext) {
     
     
     
+}
+
+function addSingleScenario(scenario) {
+
+
+
 }

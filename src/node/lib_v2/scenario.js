@@ -10,15 +10,6 @@ var REPEATABLE = module.exports.REPEATABLE = {
     INFINITE: 1
 };
 
-var scenarioData = {
-    states: {
-
-
-    },
-    currentState: '0'
-
-};
-
 
 function Scenario(title) {
     this.title = title;
@@ -26,6 +17,10 @@ function Scenario(title) {
     this.type = TYPE.SEQUENTIAL;
     this.repeatable = REPEATABLE.INFINITE;
 }
+
+Scenario.prototype.buildStateDag = function() {
+
+};
 
 Scenario.State = function() {
     this.name = undefined;
@@ -85,7 +80,7 @@ Builder.prototype.build = function() {
     
     return this.scenario;
     
-}
+};
 
 // Private functions used by the Builder
 function requireState(builder) {
