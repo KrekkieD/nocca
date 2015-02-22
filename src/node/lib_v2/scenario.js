@@ -14,18 +14,26 @@ var REPEATABLE = module.exports.REPEATABLE = {
 function Scenario(title) {
     this.title = title;
     this.states = {};
+    this.initialStateKey = undefined;
     this.type = TYPE.SEQUENTIAL;
     this.repeatable = REPEATABLE.INFINITE;
 }
 
+// Only capable of SEQUENTIAL for now
 Scenario.prototype.buildStateDag = function() {
+    var dagStates = {};
+    var that = this;
+    Object.keys(this.states).forEach(function(key) { dagStates[key] = {state: that.states[key], next: null}; });
+    Object.keys(dagStates).forEach(function(key) { dagStates[key].next = dagStates[dagStates[key].state[0]]; });
 
+    return new ScenarioPlayer(dagStates, this.initialStateKey, this.type);
 };
 
 Scenario.State = function() {
     this.name = undefined;
     this.title = undefined;
     this.endpoint = undefined;
+    this.next = [];
 };
 
 function Builder() {
@@ -54,7 +62,10 @@ Builder.prototype.infiniteLoop = builderSetter('scenario', 'repeatable', REPEATA
 
 // -- Request Description
 Builder.prototype.then = function() {
-    finalizeStateAndCreateNew(this);
+    var previousState = this.currentState;
+    finalizeState(this);
+    requireState(this);
+    previousState.next.push(this.currentState);
 
     return this;
 };
@@ -75,11 +86,9 @@ Builder.prototype.delayBy = builderSetter('currentState', 'delay');
 
 // -- Finalization
 Builder.prototype.build = function() {
-    
-    finalizeStateAndCreateNew(this);
+    finalizeState(this);
     
     return this.scenario;
-    
 };
 
 // Private functions used by the Builder
@@ -90,14 +99,47 @@ function requireState(builder) {
     }
 }
 
-function finalizeStateAndCreateNew (builder) {
+function finalizeState(builder) {
     if (builder.currentState) {
         if (typeof builder.currentState.name === 'undefined') {
             builder.currentState.name = Object.keys(builder.scenario.states).length.toString();
-            
         }
         builder.scenario.states[builder.currentState.name] = builder.currentState;
+        if (typeof builder.scenario.initialStateKey === 'undefined') {
+            builder.scenario.initialStateKey = builder.currentState.name;
+        }
         builder.currentState = undefined;
     }
-    requireState(builder);
 }
+
+function ScenarioPlayer(stateRecords, initialKey, type) {
+    this.stateRecords = stateRecords;
+    this.initialKey = initialKey;
+    this.finished = false;
+    this.type = type;
+
+    this.reset();
+}
+
+ScenarioPlayer.prototype.reset = function() {
+    this.currentPosition = this.stateRecords[this.initialKey];
+    this.finished = false;
+};
+
+ScenarioPlayer.prototype.next = function() {
+    if (this.finished) { return this.finished; }
+
+    this.currentPosition = this.currentPosition.next;
+    if (typeof this.currentPosition === 'undefined') {
+        // TODO: Could be replaced by 'finishHandler' strategy abstraction
+        if (this.repeatable === REPEATABLE.ONE_SHOT) {
+            this.finished = true;
+        }
+        else if (this.repeatable === REPEATABLE.INFINITE) {
+            this.reset();
+        }
+    }
+    return this.finished;
+};
+
+

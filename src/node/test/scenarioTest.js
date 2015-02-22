@@ -45,8 +45,14 @@ var s = t.sequentialScenario()
 
 
            console.log(JSON.stringify(s, null, 2));
+var stateMachine = s.buildStateDag();
+console.log(JSON.stringify(stateMachine));
+console.log(JSON.stringify(stateMachine.next()));
+console.log(JSON.stringify(stateMachine.next()));
+console.log(JSON.stringify(stateMachine.next()));
+console.log(JSON.stringify(stateMachine.next()));
 
-    //scenario.new('Mandatory Profile Update – Missing Email')
+    //scenario.new('Mandatory Profile Update ï¿½ Missing Email')
     //.sequentialScenario()
     //.oneShot()
     //.on(Endpoints.getCustomer)
