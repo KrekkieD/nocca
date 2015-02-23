@@ -18,6 +18,7 @@
 
         var directive = {
             restrict: 'EA',
+			replace: true,
             templateUrl: 'canvas.directive.html',
             controller: CanvasDirectiveController
         };
@@ -25,7 +26,14 @@
         return directive;
 
         /* @ngInject */
-        function CanvasDirectiveController ($scope) {
+        function CanvasDirectiveController (
+			$scope,
+			$mdSidenav
+		) {
+
+			$scope.toggleNav = function () {
+				$mdSidenav('nav').toggle();
+			};
 
             $scope.uiStates = noccaNavigationStates;
 

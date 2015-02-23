@@ -101,6 +101,12 @@ function createRequestRouter (config) {
                 });
 
                 break;
+			default:
+				res.writeHead(404, 'Not found', {
+					'Access-Control-Allow-Origin': '*'
+				});
+				res.write('Could not open ' + req.url);
+				res.end();
 
         }
 

@@ -10,16 +10,22 @@
         </h3>
 
         <p>
-            <span class="fa fa-sign-in"><md-tooltip>incoming request</md-tooltip></span>
-            {{ response.request.method }} {{ response.request.url }}
+            <span>
+                <md-tooltip>incoming request</md-tooltip>
+                <span class="fa fa-sign-in"></span>
+                {{ response.request.method }} {{ response.request.url }}
+            </span>
         </p>
         <p ng-show="response.proxiedRequest">
-            <span class="fa fa-sign-out"><md-tooltip>outgoing request</md-tooltip></span>
-            {{ response.proxiedRequest.method }} {{ response.proxiedRequest.protocol + '//' + response.proxiedRequest.host + response.proxiedRequest.path }}
+            <span>
+                <md-tooltip>forwarded request</md-tooltip>
+                <span class="fa fa-sign-out"></span>
+                {{ response.proxiedRequest.method }} {{ response.proxiedRequest.protocol + '//' + response.proxiedRequest.host + response.proxiedRequest.path }}
+            </span>
         </p>
-        <h4>
-            recorded: 0 | forwarded: 0 | replayed: 0
-        </h4>
+        <!--<h4>-->
+            <!--recorded: 0 | forwarded: 0 | replayed: 0-->
+        <!--</h4>-->
         <p>
             <md-button ng-click="showDialog($event)">
                 View bodies

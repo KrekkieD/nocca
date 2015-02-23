@@ -1,10 +1,9 @@
-<md-content class="md-padding">
+<div>
 
-    <h2>Status</h2>
-
-    <md-tabs md-selected="selectedIndex" flex>
-        <md-tab label="All responses">
-            <div>
+    <md-content class="md-padding">
+        <h2 flex>Status</h2>
+        <md-tabs md-selected="selectedTabIndex" flex>
+            <md-tab label="All responses ({{ data.responses | noccaDataObjectLength }})">
                 <md-content class="md-spacing">
 
                     <md-list>
@@ -17,112 +16,113 @@
                     </md-list>
 
                 </md-content>
-            </div>
-        </md-tab>
-        <md-tab label="By Endpoints">
+            </md-tab>
+            <md-tab label="By Endpoints ({{ data.endpoints | noccaDataObjectLength }})" ng-disabled="!data.endpoints">
 
-            <md-content>
+                <md-content>
 
-                <section ng-repeat="(endpoint, hashKeys) in data.endpoints track by endpoint">
+                    <section ng-repeat="(endpoint, hashKeys) in data.endpoints track by endpoint">
 
-                    <md-subheader class="md-primary">Endpoint: {{ endpoint }}</md-subheader>
+                        <md-subheader class="md-primary">{{ endpoint }}</md-subheader>
 
-                    <md-list>
-                        <md-item ng-repeat="hashKey in hashKeys | noccaDataUnique">
+                        <md-list>
+                            <md-item ng-repeat="hashKey in hashKeys | noccaDataUnique">
 
-                            <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
+                                <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
-                            <md-divider></md-divider>
+                                <md-divider></md-divider>
 
-                        </md-item>
-                    </md-list>
+                            </md-item>
+                        </md-list>
 
-                </section>
+                    </section>
 
-            </md-content>
+                </md-content>
 
-        </md-tab>
-        <md-tab label="Recorded">
+            </md-tab>
+            <md-tab label="Recorded ({{ data.recorded.length }})" ng-disabled="!data.recorded.length">
 
-            <md-content>
-                <section>
+                <md-content>
+                    <section>
 
-                    <md-list>
-                        <md-item ng-repeat="hashKey in data.recorded track by $index">
+                        <md-list>
+                            <md-item ng-repeat="hashKey in data.recorded track by $index">
 
-                            <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
+                                <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
-                            <md-divider></md-divider>
+                                <md-divider></md-divider>
 
-                        </md-item>
-                    </md-list>
+                            </md-item>
+                        </md-list>
 
-                </section>
+                    </section>
 
-            </md-content>
+                </md-content>
 
-        </md-tab>
+            </md-tab>
 
-        <md-tab label="Forwarded">
+            <md-tab label="Forwarded ({{ data.forwarded.length }})" ng-disabled="!data.forwarded.length">
 
-            <md-content ng-show="data.forwarded.length">
-                <section>
+                <md-content ng-show="data.forwarded.length">
+                    <section>
 
-                    <md-list>
-                        <md-item ng-repeat="hashKey in data.forwarded track by $index">
+                        <md-list>
+                            <md-item ng-repeat="hashKey in data.forwarded track by $index">
 
-                            <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
+                                <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
-                            <md-divider></md-divider>
+                                <md-divider></md-divider>
 
-                        </md-item>
-                    </md-list>
+                            </md-item>
+                        </md-list>
 
-                </section>
+                    </section>
 
-            </md-content>
+                </md-content>
 
-        </md-tab>
+            </md-tab>
 
-        <md-tab label="Replayed">
+            <md-tab label="Replayed ({{ data.replayed.length }})" ng-disabled="!data.replayed.length">
 
-            <md-content ng-show="data.replayed.length">
+                <md-content>
 
-                <section>
+                    <section>
 
-                    <md-list>
-                        <md-item ng-repeat="hashKey in data.replayed track by $index">
+                        <md-list>
+                            <md-item ng-repeat="hashKey in data.replayed track by $index">
 
-                            <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
+                                <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
-                            <md-divider></md-divider>
+                                <md-divider></md-divider>
 
-                        </md-item>
-                    </md-list>
+                            </md-item>
+                        </md-list>
 
-                </section>
+                    </section>
 
-            </md-content>
+                </md-content>
 
-        </md-tab>
+            </md-tab>
 
-    </md-tabs>
+        </md-tabs>
 
-    <md-content layout="row" class="md-padding">
+        <md-content layout="row" class="md-padding">
 
-        <md-button ng-click="downloadAll()" ng-disabled="!data.recorded.length">
+            <md-button ng-click="downloadAll()" ng-disabled="!data.recorded.length">
 
-            Download recorded ({{ data.recorded.length }})
+                <span class="fa fa-cloud-download"></span>
+                Download recorded ({{ data.recorded.length }})
 
-        </md-button>
+            </md-button>
 
-        <span flex></span>
-        <md-button ng-click="showRaw = !showRaw">
-            <span class="fa" ng-class="{'fa-eye': showRaw, 'fa-eye-slash': !showRaw}"></span>
-            raw data
-        </md-button>
+            <span flex></span>
+            <md-button ng-click="showRaw = !showRaw">
+                <span class="fa" ng-class="{'fa-eye': showRaw, 'fa-eye-slash': !showRaw}"></span>
+                raw data
+            </md-button>
+        </md-content>
+
+        <pre ng-show="showRaw">{{ data | json:4 }}</pre>
+
     </md-content>
-
-    <pre ng-show="showRaw">{{ data | json:4 }}</pre>
-
-</md-content>
+</div>

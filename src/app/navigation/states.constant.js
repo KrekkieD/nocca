@@ -5,7 +5,8 @@
         .constant(
             'noccaNavigationStates', {
                 status: 'nocca-status',
-                export: 'nocca-export'
+                export: 'nocca-export',
+                manage: 'nocca-manage'
             }
         );
 }());

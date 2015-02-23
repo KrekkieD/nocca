@@ -66,8 +66,8 @@
             var blob = new Blob([
                 JSON.stringify(saveConfig.data, null, 4)
             ], {
-                type: saveConfig.type
-            });
+				type: saveConfig.type + ';charset=utf-8;'
+			});
 
             noccaUtilsSaveAs(
                 blob,
