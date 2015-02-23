@@ -7,6 +7,7 @@ var $caches    = module.exports.caches              = require('./lib_v2/caches')
 var $keys      = module.exports.keys                = require('./lib_v2/keys');
 var $playback  = module.exports.playback            = require('./lib_v2/playback');
 var $recorder  = module.exports.recorder            = require('./lib_v2/recorder');
+var $scenario  = module.exports.scenario            = require('./lib_v2/scenario');
 var $forwarder = module.exports.forwarder           = require('./lib_v2/forwarder');
 var $responder = module.exports.responder           = require('./lib_v2/responder');
 var $reporter  = module.exports.reporter           = require('./lib_v2/reporter');
@@ -62,7 +63,9 @@ var defaultSettings = {
     
     allowEndpointOverrides: {
         keyGenerator: true
-    }
+    },
+    
+    scenarios: []
 };
 
 function setup(customOptions) {
@@ -72,6 +75,10 @@ function setup(customOptions) {
     var cacheNames = Object.keys(opts.endpoints);
     for (var i = 0; i < cacheNames.length; i++) {
         $caches.newEndpoint(cacheNames[i], opts.endpoints[cacheNames[i]]);
+    }
+    
+    for (var j = 0; j < opts.scenarios.length; j++) {
+        $playback.addScenario(opts.scenarios[j].player());
     }
     
     $httpInterface(opts);

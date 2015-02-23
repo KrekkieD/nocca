@@ -19,15 +19,30 @@ function Scenario(title) {
     this.repeatable = REPEATABLE.INFINITE;
 }
 
+// TODO: Refactor to defining edges instead of states
+
+function noopCondition() {
+    return true;
+}
+
 // Only capable of SEQUENTIAL for now
-Scenario.prototype.buildStateDag = function() {
+Scenario.prototype.player = function() {
     var dagStates = {};
     var that = this;
-    Object.keys(this.states).forEach(function(key) { dagStates[key] = {state: that.states[key], next: null}; });
-    Object.keys(dagStates).forEach(function(key) { dagStates[key].next = dagStates[dagStates[key].state.next]; });
+    Object.keys(this.states).forEach(function(key) { dagStates[key] = {state: that.states[key], edges: []}; });
+    Object.keys(dagStates).forEach(function(key) {
+        dagStates[key].state.next.forEach(function(nextState) { dagStates[key].edges.push({condition: noopCondition, targetState: dagStates[nextState.name]}); });
+    });
 
-    return new ScenarioPlayer(dagStates, this.initialStateKey, this.type);
+    return new ScenarioPlayer(this, dagStates, this.initialStateKey, this.type);
 };
+
+Scenario.Trigger = function() {
+    this.title = undefined;
+    this.condition = undefined;
+    this.response = undefined;
+    
+}
 
 Scenario.State = function() {
     this.name = undefined;
@@ -44,9 +59,9 @@ function Builder() {
     return this;
 }
 
-function builderSetter(builderProperty, propertyName, propertyValue) {
+function builderSetter(builderProperty, propertyName, requiresState, propertyValue) {
     return function(param) {
-        requireState(this);
+        if (requiresState === true) { requireState(this); }
 
         this[builderProperty][propertyName] = (typeof propertyValue !== 'undefined') ? propertyValue : param;
         return this;
@@ -54,14 +69,16 @@ function builderSetter(builderProperty, propertyName, propertyValue) {
 }
 
 // -- Scenario Type
-Builder.prototype.sequentialScenario = builderSetter('scenario', 'type', TYPE.SEQUENTIAL);
+Builder.prototype.sequentialScenario = builderSetter('scenario', 'type', false, TYPE.SEQUENTIAL);
 
 // -- Scenario Repeatability
-Builder.prototype.oneShot = builderSetter('scenario', 'repeatable', REPEATABLE.ONE_SHOT);
-Builder.prototype.infiniteLoop = builderSetter('scenario', 'repeatable', REPEATABLE.INFINITE);
+Builder.prototype.oneShot = builderSetter('scenario', 'repeatable', false, REPEATABLE.ONE_SHOT);
+Builder.prototype.infiniteLoop = builderSetter('scenario', 'repeatable', false, REPEATABLE.INFINITE);
 
 // -- Request Description
 Builder.prototype.then = function() {
+    if (typeof this.currentState === 'undefined') { throw Error('Cannot call then before any state has been created'); }
+    
     var previousState = this.currentState;
     finalizeState(this);
     requireState(this);
@@ -70,23 +87,25 @@ Builder.prototype.then = function() {
     return this;
 };
 
-Builder.prototype.on = builderSetter('currentState', 'endpointKey');
-Builder.prototype.title = builderSetter('currentState', 'title');
-Builder.prototype.name = builderSetter('currentState', 'name');
+Builder.prototype.on = builderSetter('currentState', 'endpointKey', true);
+Builder.prototype.title = builderSetter('currentState', 'title', true);
+Builder.prototype.name = builderSetter('currentState', 'name', true);
 
 // -- Request matching
-Builder.prototype.matchUsing = builderSetter('currentState', 'matcher');
+Builder.prototype.matchUsing = builderSetter('currentState', 'matcher', true);
 
 
 // -- Response selection & transformation
-Builder.prototype.respondWith = builderSetter('currentState', 'response');
-Builder.prototype.transformResponse = builderSetter('currentState', 'responseTransformer');
-Builder.prototype.delayBy = builderSetter('currentState', 'delay');
+Builder.prototype.respondWith = builderSetter('currentState', 'response', true);
+Builder.prototype.transformResponse = builderSetter('currentState', 'responseTransformer', true);
+Builder.prototype.delayBy = builderSetter('currentState', 'delay', true);
 
 
 // -- Finalization
 Builder.prototype.build = function() {
     finalizeState(this);
+    
+    this.built = true;
     
     return this.scenario;
 };
@@ -112,7 +131,8 @@ function finalizeState(builder) {
     }
 }
 
-function ScenarioPlayer(stateRecords, initialKey, type) {
+function ScenarioPlayer(scenario, stateRecords, initialKey, type) {
+    this.scenario = scenario;
     this.stateRecords = stateRecords;
     this.initialKey = initialKey;
     this.finished = false;
@@ -122,6 +142,7 @@ function ScenarioPlayer(stateRecords, initialKey, type) {
 }
 
 ScenarioPlayer.prototype.reset = function() {
+    console.log('|      Resetting scenario: ' + this.scenario.title);
     this.currentPosition = this.stateRecords[this.initialKey];
     this.finished = false;
 };
@@ -129,15 +150,22 @@ ScenarioPlayer.prototype.reset = function() {
 ScenarioPlayer.prototype.next = function() {
     if (this.finished) { return this.finished; }
 
-    this.currentPosition = this.currentPosition.next[0];
-    if (typeof this.currentPosition === 'undefined') {
+    var eligibleEdges = [];
+    this.currentPosition.edges.forEach(function(edge) { if (edge.condition()) { eligibleEdges.push(edge.targetState); } });
+    
+    // get first eligible state
+    console.log('|      Number of eligible edges: ' + eligibleEdges.length);
+    if (eligibleEdges.length === 0) {
         // TODO: Could be replaced by 'finishHandler' strategy abstraction
-        if (this.repeatable === REPEATABLE.ONE_SHOT) {
+        if (this.scenario.repeatable === REPEATABLE.ONE_SHOT) {
             this.finished = true;
         }
         else if (this.repeatable === REPEATABLE.INFINITE) {
             this.reset();
         }
+    }
+    else {
+        this.currentPosition = eligibleEdges[0];
     }
     return this.finished;
 };
