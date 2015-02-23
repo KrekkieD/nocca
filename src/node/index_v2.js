@@ -41,9 +41,13 @@ var defaultSettings = {
     
     cacheSelector: $caches.defaultCacheSelector,
     keyGenerator: $keys.defaultGenerator,
-    requestMatcher: $playback.defaultRequestMatcher,
+    playback: {
+        matcher: $playback.defaultRequestMatcher,
+        recorder: $playback.addRecording,
+        mocker: $recorder.defaultRecorder,
+        exporter: $playback.exportRecordings
+    },
     requestForwarder: $forwarder.defaultForwarder,
-    recorder: $recorder.defaultRecorder,
     responder: $responder.defaultResponder,
     failureHandlerFactory: $errors.defaultFailureHandlerFactory,
     throwHandlerFactory: $errors.defaultThrowHandlerFactory,
@@ -91,7 +95,7 @@ function defaultChainBuilderFactory(opts) {
         if (opts.forward === FORWARDING.FORWARD_NONE || opts.forward === FORWARDING.FORWARD_MISSING) {
             // Either forwarding is off altogether, or set to forward MISSING requests only.
             // We will try to find a matching request to respond with
-            requestChain = requestChain.then(opts.requestMatcher);
+            requestChain = requestChain.then(opts.playback.matcher);
         }
         
         if (opts.forward === FORWARDING.FORWARD_ALL || opts.forward === FORWARDING.FORWARD_MISSING) {
@@ -105,7 +109,8 @@ function defaultChainBuilderFactory(opts) {
         // +---------------------------------------------------------------+
         
         if (opts.record) {
-            requestChain = requestChain.then(opts.recorder);
+            // mocker will call opts.playback.recorder to store the mock
+            requestChain = requestChain.then(opts.playback.mocker);
         }
 
         requestChain.then(opts.responder)

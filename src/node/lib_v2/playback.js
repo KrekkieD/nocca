@@ -6,6 +6,7 @@ module.exports.simpleRequestKeyRequestMatcher = simpleRequestKeyRequestMatcher;
 module.exports.scenarioBasedRequestMatcher    = scenarioBasedRequestMatcher;
 module.exports.addRecording                   = addSingleRecording;
 module.exports.addScenario                    = addSingleScenario;
+module.exports.exportRecordings               = exportRecordings;
 
 var $q = require('q');
 
@@ -51,5 +52,11 @@ function scenarioBasedRequestMatcher(reqContext) {
 function addSingleScenario(scenario) {
 
 
+
+}
+
+function exportRecordings () {
+
+    return recordings;
 
 }

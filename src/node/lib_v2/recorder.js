@@ -6,12 +6,11 @@ module.exports.defaultRecorder = simpleResponseRecorder;
 
 var $q = require('q');
 var $utils = require('./utils');
-var $playback = require('./playback');
 
-
-
-function simpleResponseRecorder(reqContext) {
+function simpleResponseRecorder (reqContext) {
     var d = $q.defer();
+
+    console.log(Object.keys(reqContext));
 
     if (reqContext.proxiedResponse) {
         console.log('|    Recording proxied response');
@@ -24,7 +23,7 @@ function simpleResponseRecorder(reqContext) {
             body: reqContext.proxiedResponse.body
         };
 
-        $playback.addRecording(reqContext.endpoint.key, reqContext.requestKey, mockEntry);
+        reqContext.opts.playback.recorder(reqContext.endpoint.key, reqContext.requestKey, mockEntry);
 
         reqContext.flagRecorded = true;
 
