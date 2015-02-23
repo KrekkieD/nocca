@@ -7,7 +7,7 @@ var TYPE = module.exports.TYPE = {
 };
 var REPEATABLE = module.exports.REPEATABLE = {
     ONE_SHOT: 1,
-    INFINITE: 1
+    INFINITE: 2
 };
 
 
@@ -24,7 +24,7 @@ Scenario.prototype.buildStateDag = function() {
     var dagStates = {};
     var that = this;
     Object.keys(this.states).forEach(function(key) { dagStates[key] = {state: that.states[key], next: null}; });
-    Object.keys(dagStates).forEach(function(key) { dagStates[key].next = dagStates[dagStates[key].state[0]]; });
+    Object.keys(dagStates).forEach(function(key) { dagStates[key].next = dagStates[dagStates[key].state.next]; });
 
     return new ScenarioPlayer(dagStates, this.initialStateKey, this.type);
 };
@@ -102,7 +102,7 @@ function requireState(builder) {
 function finalizeState(builder) {
     if (builder.currentState) {
         if (typeof builder.currentState.name === 'undefined') {
-            builder.currentState.name = Object.keys(builder.scenario.states).length.toString();
+            builder.currentState.name = 'state-' + Object.keys(builder.scenario.states).length.toString();
         }
         builder.scenario.states[builder.currentState.name] = builder.currentState;
         if (typeof builder.scenario.initialStateKey === 'undefined') {
@@ -129,7 +129,7 @@ ScenarioPlayer.prototype.reset = function() {
 ScenarioPlayer.prototype.next = function() {
     if (this.finished) { return this.finished; }
 
-    this.currentPosition = this.currentPosition.next;
+    this.currentPosition = this.currentPosition.next[0];
     if (typeof this.currentPosition === 'undefined') {
         // TODO: Could be replaced by 'finishHandler' strategy abstraction
         if (this.repeatable === REPEATABLE.ONE_SHOT) {
