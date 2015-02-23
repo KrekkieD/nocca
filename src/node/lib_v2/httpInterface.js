@@ -1,34 +1,20 @@
 'use strict';
 
-var $extend = require('extend');
-
 var $websocket = require('./httpInterface/websocket');
 var $webserver = require('./httpInterface/webserver');
 
 module.exports = httpInterface;
 module.exports.broadcast = broadcast;
 
-var DEFAULT_CONFIG = {
-    server: {
-        port: 3005,
-        websocketServer: true,
-        httpApi: true
-    }
-};
-
-
 function httpInterface (config) {
-
-    // we need the .server subset
-    var serverConfig = $extend({}, DEFAULT_CONFIG.server, config.server);
 
     // if (config.httpApi === true) {
 
-        var server = $webserver.createServer(serverConfig);
+        var server = $webserver.createServer(config);
 
     // }
 
-    if (serverConfig.websocketServer === true) {
+    if (config.server.websocketServer === true) {
 
         // start websocket server
         // TODO: this config may need to be configurable by user
@@ -38,7 +24,7 @@ function httpInterface (config) {
             autoAcceptConnections: true
         });
 
-        //on connect, share current state
+        // on connect, share current state
         websocketServer.on('connect', function (webSocketConnection) {
 
             $websocket.sendToConnection(

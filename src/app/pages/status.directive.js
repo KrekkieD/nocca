@@ -25,52 +25,47 @@
         /* @ngInject */
         function StatusDirectiveController (
             noccaDataConnection,
-            $scope
+            $scope,
+            $http,
+            noccaUtilsSaveAs,
+            localStorageService
         ) {
 
             $scope.data = {};
 
-            $scope.exportMocks = exportMocks;
+            localStorageService.bind(
+                $scope,
+                'download',
+                {
+                    filename: 'caches.json'
+                }
+            );
+
+            $scope.downloadAll = downloadAll;
 
             $scope.$watch(function () {
                 return JSON.stringify(noccaDataConnection.data);
             }, function () {
 
-                // reparse source data to usable format
                 $scope.data = noccaDataConnection.data;
-
-                // target?:
-                /*
-                {
-                    cacheKey: {
-                        mocksServed: sum of hits
-                        mocksCreated: sum of mocks created
-                        mocks: {
-                            requestKey: mock,
-                            requestKey: mock
-                        }
-                    }
-                }
-                 */
 
             });
 
 
-            function exportMocks () {
-                _download(JSON.stringify($scope.data.mocks, null, 4), 'nocca.json', 'application/json');
+            function downloadAll () {
+                $http({
+                    // TODO: host should be dynamic, probably
+                    url: 'http://localhost:3005/caches/package',
+                    method: 'post'
+                }).then(function (response) {
+
+                    var blob = new Blob([JSON.stringify(response.data, null, 4)], {type: response.headers('Content-Type')});
+
+                    noccaUtilsSaveAs(blob, localStorageService.get('download').filename);
+
+                });
             }
 
-            function _download (content, filename, contentType) {
-
-                contentType = contentType || 'application/octet-stream';
-
-                var a = document.createElement('a');
-                var blob = new Blob([content], {'type': contentType});
-                a.href = window.URL.createObjectURL(blob);
-                a.download = filename;
-                a.click();
-
-            }
         }
     }
 }());

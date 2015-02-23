@@ -10,7 +10,8 @@
         'nocca.navigation',
         'nocca.pages',
         'nocca.data',
-        'nocca.widgets'
+        'nocca.widgets',
+        'nocca.utils'
     ]);
 
 }());
