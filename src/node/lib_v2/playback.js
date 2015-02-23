@@ -22,7 +22,7 @@ function addSingleRecording (endpoint, requestKey, recordedResponse) {
 }
 
 function simpleRequestKeyRequestMatcher (reqContext) {
-    var d = $q.defer();
+    var deferred = $q.defer();
 
     if (typeof recordings[reqContext.endpoint.key] !== 'undefined' &&
         typeof recordings[reqContext.endpoint.key][reqContext.requestKey] !== 'undefined') {
@@ -36,9 +36,9 @@ function simpleRequestKeyRequestMatcher (reqContext) {
         console.log('|    No matching record found');
     }
 
-    d.resolve(reqContext);
+    deferred.resolve(reqContext);
 
-    return d.promise;
+    return deferred.promise;
 
 }
 
