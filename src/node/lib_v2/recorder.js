@@ -10,8 +10,6 @@ var $utils = require('./utils');
 function simpleResponseRecorder (reqContext) {
     var d = $q.defer();
 
-    console.log(Object.keys(reqContext));
-
     if (reqContext.proxiedResponse) {
         console.log('|    Recording proxied response');
     
