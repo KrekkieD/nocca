@@ -108,12 +108,21 @@
 
     </md-tabs>
 
-    <md-content class="md-padding">
+    <md-content layout="row" class="md-padding">
 
-        <md-button ng-click="downloadAll()">Download recorded</md-button>
+        <md-button ng-click="downloadAll()" ng-disabled="!data.recorded.length">
 
+            Download recorded ({{ data.recorded.length }})
+
+        </md-button>
+
+        <span flex></span>
+        <md-button ng-click="showRaw = !showRaw">
+            <span class="fa" ng-class="{'fa-eye': showRaw, 'fa-eye-slash': !showRaw}"></span>
+            raw data
+        </md-button>
     </md-content>
 
-    <pre>{{ data | json:4 }}</pre>
+    <pre ng-show="showRaw">{{ data | json:4 }}</pre>
 
 </md-content>
