@@ -29,7 +29,6 @@
 
             ws.$on('$message', function (data) {
 
-                console.log(data);
                 Object.keys(factory.api.data).forEach(function (key) {
                     delete factory.api.data[key];
                 });

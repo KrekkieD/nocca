@@ -28,20 +28,12 @@
             $scope,
             $http,
             noccaUtilsSaveAs,
-            localStorageService
+            noccaUtilsDownload
         ) {
 
             $scope.data = {};
 
-            localStorageService.bind(
-                $scope,
-                'download',
-                {
-                    filename: 'caches.json'
-                }
-            );
-
-            $scope.downloadAll = downloadAll;
+            $scope.downloadAll = noccaUtilsDownload.createPackageAndSave;
 
             $scope.$watch(function () {
                 return JSON.stringify(noccaDataConnection.data);
@@ -50,21 +42,6 @@
                 $scope.data = noccaDataConnection.data;
 
             });
-
-
-            function downloadAll () {
-                $http({
-                    // TODO: host should be dynamic, probably
-                    url: 'http://localhost:3005/caches/package',
-                    method: 'post'
-                }).then(function (response) {
-
-                    var blob = new Blob([JSON.stringify(response.data, null, 4)], {type: response.headers('Content-Type')});
-
-                    noccaUtilsSaveAs(blob, localStorageService.get('download').filename);
-
-                });
-            }
 
         }
     }

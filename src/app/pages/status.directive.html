@@ -110,17 +110,8 @@
 
     <md-content class="md-padding">
 
-        <md-button ng-click="downloadSettings = !downloadSettings">
-            <span class="fa fa-cogs"></span>
-        </md-button>
         <md-button ng-click="downloadAll()">Download recorded</md-button>
 
-        <div ng-show="downloadSettings == true" layout="row">
-            <md-input-container flex="33">
-                <label>Filename</label>
-                <input ng-model="download.filename">
-            </md-input-container>
-        </div>
     </md-content>
 
     <pre>{{ data | json:4 }}</pre>
