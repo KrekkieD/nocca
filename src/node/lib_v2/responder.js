@@ -33,6 +33,16 @@ function playbackPreferringResponder(reqContext) {
 
 function writeResponseToOutput(response, output) {
 
+    if (response.headers.hasOwnProperty('content-length')) {
+        var bodyLength = response.body.length;
+        var contentLength = parseInt(response.headers['content-length']);
+
+        if (bodyLength !== contentLength) {
+            console.log('|      Content-Length header mismatches actual body size, adjusting header');
+            response.headers['content-length'] = bodyLength;
+        }
+    }
+
     output.writeHead(response.statusCode, response.headers);
     if (response.body) {
         output.write(response.body, function() {

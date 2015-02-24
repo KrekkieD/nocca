@@ -51,8 +51,8 @@ Scenario.State = function() {
     this.next = [];
 };
 
-function Builder() {
-    this.scenario = new Scenario();
+function Builder(title) {
+    this.scenario = new Scenario(title);
     this.currentState = undefined;
     this.built = false;
     
@@ -160,7 +160,7 @@ ScenarioPlayer.prototype.next = function() {
         if (this.scenario.repeatable === REPEATABLE.ONE_SHOT) {
             this.finished = true;
         }
-        else if (this.repeatable === REPEATABLE.INFINITE) {
+        else { // if (this.repeatable === REPEATABLE.INFINITE) {
             this.reset();
         }
     }
