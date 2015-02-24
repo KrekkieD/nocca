@@ -2,6 +2,9 @@
 
 module.exports = {};
 module.exports.Builder = Builder;
+module.exports.Matchers = {
+    requestKeyMatcher: requestKeyMatcherBuilder
+};
 var TYPE = module.exports.TYPE = {
     SEQUENTIAL: 0
 };
@@ -9,6 +12,8 @@ var REPEATABLE = module.exports.REPEATABLE = {
     ONE_SHOT: 1,
     INFINITE: 2
 };
+
+var _ = require('lodash');
 
 
 function Scenario(title) {
@@ -59,6 +64,11 @@ function Builder(title) {
     return this;
 }
 
+function Serializer(scenario) {
+    
+    
+}
+
 function builderSetter(builderProperty, propertyName, requiresState, propertyValue) {
     return function(param) {
         if (requiresState === true) { requireState(this); }
@@ -67,6 +77,10 @@ function builderSetter(builderProperty, propertyName, requiresState, propertyVal
         return this;
     };
 }
+
+Builder.prototype.isBuildingState = function() {
+    return typeof this.currentState !== 'undefined';
+};
 
 // -- Scenario Type
 Builder.prototype.sequentialScenario = builderSetter('scenario', 'type', false, TYPE.SEQUENTIAL);
@@ -171,3 +185,10 @@ ScenarioPlayer.prototype.next = function() {
 };
 
 
+// --- Default matchers
+
+function requestKeyMatcherBuilder(requiredKey) {
+    return function (reqContext) {
+        return _.isEqual(requiredKey, reqContext.requestKey);
+    };
+}

@@ -66,7 +66,7 @@ function performRequestForward(reqContext, endpointDef, fwdFlatReq, deferred) {
     // sync up host with new target
     fwdFlatReq.headers.host = fwdFlatReq.host;
 
-    fwdFlatReq.headers = $extend({}, httpsRequestOptions, fwdFlatReq.headers);
+    fwdFlatReq.headers = $extend({}, fwdFlatReq.headers);
 
     // format headers
     fwdFlatReq.headers = $utils.camelCaseAndDashHeaders(fwdFlatReq.headers, [], []);
@@ -115,8 +115,10 @@ function proxyRequest(fwdFlatReq) {
     var isTargetHttps = fwdFlatReq.protocol === 'https:';
 
     var requestProvider = (isTargetHttps ? $https : $http);
+    
+    var requestOptions = $extend({}, httpsRequestOptions, fwdFlatReq);
 
-    var proxiedRequest = requestProvider.request(fwdFlatReq);
+    var proxiedRequest = requestProvider.request(requestOptions);
 
     if (typeof fwdFlatReq.body !== 'undefined') {
         proxiedRequest.write(fwdFlatReq.body, function() {

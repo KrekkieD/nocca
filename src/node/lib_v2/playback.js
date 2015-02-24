@@ -7,6 +7,7 @@ module.exports.scenarioBasedRequestMatcher    = combineMatchers(scenarioBasedReq
 module.exports.addRecording                   = addSingleRecording;
 module.exports.addScenario                    = addSingleScenario;
 module.exports.exportRecordings               = exportRecordings;
+module.exports.exportScenarios                = exportScenarios;
 
 var $q = require('q');
 
@@ -118,7 +119,7 @@ function scenarioBasedRequestMatcher(reqContext) {
 }
 
 function addSingleScenario(scenarioPlayer) {
-
+    console.log('|      Saving new scenario to player: ' + scenarioPlayer.scenario.title);
     if (scenarioPlayer.hasOwnProperty('$$scenarioKey')) { throw Error('The specified scenario is already coupled to a player!'); }
     
     scenarioPlayer.$$scenarioKey = 'scn-' + Object.keys(scenarios).length;

@@ -2,28 +2,29 @@
 
 module.exports = {};
 
-var $server    = module.exports.server              = require('./lib_v2/server');
-var $caches    = module.exports.caches              = require('./lib_v2/caches');
-var $keys      = module.exports.keys                = require('./lib_v2/keys');
-var $playback  = module.exports.playback            = require('./lib_v2/playback');
-var $recorder  = module.exports.recorder            = require('./lib_v2/recorder');
-var $scenario  = module.exports.scenario            = require('./lib_v2/scenario');
-var $forwarder = module.exports.forwarder           = require('./lib_v2/forwarder');
-var $responder = module.exports.responder           = require('./lib_v2/responder');
-var $reporter  = module.exports.reporter           = require('./lib_v2/reporter');
-var $httpInterface = module.exports.httpInterface = require('./lib_v2/httpInterface');
-var $stats     = module.exports.stats               = require('./lib_v2/stats');
-var $errors    = module.exports.errors              = require('./lib_v2/errors');
-                 module.exports.setup               = setup;
-                 module.exports.chainBuilderFactory = defaultChainBuilderFactory;
+var $server            = module.exports.server              = require('./lib_v2/server');
+var $caches            = module.exports.caches              = require('./lib_v2/caches');
+var $keys              = module.exports.keys                = require('./lib_v2/keys');
+var $playback          = module.exports.playback            = require('./lib_v2/playback');
+var $recorder          = module.exports.recorder            = require('./lib_v2/recorder');
+var $scenario          = module.exports.scenario            = require('./lib_v2/scenario');
+var $scenarioRecorder  = module.exports.scenarioRecorder    = require('./lib_v2/scenarioRecorder');
+var $forwarder         = module.exports.forwarder           = require('./lib_v2/forwarder');
+var $responder         = module.exports.responder           = require('./lib_v2/responder');
+var $reporter          = module.exports.reporter            = require('./lib_v2/reporter');
+var $httpInterface     = module.exports.httpInterface       = require('./lib_v2/httpInterface');
+var $stats             = module.exports.stats               = require('./lib_v2/stats');
+var $errors            = module.exports.errors              = require('./lib_v2/errors');
+                         module.exports.setup               = setup;
+                         module.exports.chainBuilderFactory = defaultChainBuilderFactory;
+
+var $extend            = require('extend');
 
 var FORWARDING = module.exports.FORWARDING          = {
     FORWARD_ALL    : true,
     FORWARD_NONE   : false,
     FORWARD_MISSING: 'MISSING'
 };
-
-var $extend = require('extend');
 
 var defaultSettings = {
     
@@ -45,6 +46,7 @@ var defaultSettings = {
     playback: {
         matcher: $playback.defaultRequestMatcher,
         recorder: $playback.addRecording,
+        scenarioRecorder: $playback.addScenario,
         mocker: $recorder.defaultRecorder,
         exporter: $playback.exportRecordings
     },
@@ -70,8 +72,8 @@ var defaultSettings = {
 
 function setup(customOptions) {
 
-    var opts = $extend({}, defaultSettings, customOptions);
-    
+    var opts = $extend(true, {}, defaultSettings, customOptions);
+
     var cacheNames = Object.keys(opts.endpoints);
     for (var i = 0; i < cacheNames.length; i++) {
         $caches.newEndpoint(cacheNames[i], opts.endpoints[cacheNames[i]]);

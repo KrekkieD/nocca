@@ -1,6 +1,8 @@
 'use strict';
 
 var $http = require('http');
+var $url = require('url');
+var $scenarioRecorder = require('../scenarioRecorder');
 
 module.exports = {};
 module.exports.createServer = createServer;
@@ -24,7 +26,7 @@ function createRequestRouter (config) {
 
     function requestRouter (req, res) {
 
-        switch (req.method.toUpperCase() + ':' + req.url) {
+        switch (req.method.toUpperCase() + ':' + $url.parse(req.url).pathname) {
 
             //
             case 'GET:/caches':
@@ -42,6 +44,12 @@ function createRequestRouter (config) {
                 res.write('ayeee you gave me fresh caches!', function () {
                     res.end();
                 });
+                break;
+            case 'POST:/scenarios/startRecording':
+                tryStartRecordingScenario(req, res);
+                break;
+            case 'POST:/scenarios/finishRecording':
+                tryStopRecordingScenario(req, res, config.playback.scenarioRecorder);
                 break;
             // create a new cache package
             case 'POST:/caches/package':
@@ -105,8 +113,9 @@ function createRequestRouter (config) {
 				res.writeHead(404, 'Not found', {
 					'Access-Control-Allow-Origin': '*'
 				});
-				res.write('Could not open ' + req.url);
-				res.end();
+				res.write('Could not open ' + req.url, function() {
+				    res.end();
+                });
 
         }
 
@@ -114,3 +123,44 @@ function createRequestRouter (config) {
 
 }
 
+
+function tryStartRecordingScenario(req, res) {
+    try {
+        var parsedUrl = $url.parse(req.url);
+        var title = (parsedUrl.query && parsedUrl.query.title) ? parsedUrl.query.title : undefined;
+        
+        $scenarioRecorder.startRecordingScenario(title);
+        res.write('Started recording', function() {
+            res.end();
+        });
+    } catch (e) {
+        res.writeHead(409, 'Already Recording');
+        res.write('Recording is already active', function() {
+            res.end();
+        });
+    }
+}
+
+function tryStopRecordingScenario(req, res, recorder) {
+    try {
+        var parsedUrl = $url.parse(req.url, true);
+        var scenario = $scenarioRecorder.finishRecordingScenario();
+
+        console.log(parsedUrl);
+        console.log(scenario);
+        console.log(parsedUrl.query['save']);
+        if (parsedUrl.query && parsedUrl.query['save'] == 'true') {
+            console.log(scenario);
+            recorder(scenario.player());
+        }
+        
+        res.write(JSON.stringify(scenario), function() {
+            res.end();
+        });
+    } catch (e) {
+        res.writeHead(409, 'Finish Recording Failed');
+        res.write(e.message, function() {
+            res.end();
+        });
+    }
+}
