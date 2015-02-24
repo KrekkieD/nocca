@@ -2,6 +2,7 @@
 
 module.exports = {};
 module.exports.Builder = Builder;
+module.exports.Serializer = Serializer;
 module.exports.Matchers = {
     requestKeyMatcher: requestKeyMatcherBuilder
 };
@@ -65,8 +66,48 @@ function Builder(title) {
 }
 
 function Serializer(scenario) {
+    // TODO: EEEWWWWWWWWW
+    var filePreamble = "'use strict';\n\nvar $nocca = require('nocca');\n\n";
     
+    var builderCode  = "\n\nvar scenario = new $nocca.scenario.Builder('" + scenario.title + "')\n";
+    if (scenario.type === TYPE.SEQUENTIAL) {
+        builderCode += "    .sequentialScenario()\n";
+    }
     
+    if (scenario.repeatable === REPEATABLE.ONE_SHOT) {
+        builderCode += "    .oneShot()\n";
+    }
+    else if (scenario.repeatable === REPEATABLE.INFINITE) {
+        builderCode += "    .infiniteLoop()\n";
+    }
+    
+    var collectedResponses = {};
+    var initialStateGenerated = false;
+    Object.keys(scenario.states).forEach(function(stateKey) {
+        var state = scenario.states[stateKey];
+        if (initialStateGenerated) { builderCode += "    .then()\n"; }
+        
+        builderCode += "    .on('" + state.endpointKey + "')\n";
+        builderCode += "    .name('" + state.name + "')\n";
+        builderCode += "    .title('" + state.title  + "')\n";
+        builderCode += "    .matchUsing(" + state.matcher  + ")\n";
+        collectedResponses[state.name] = state.response;
+        builderCode += "    .respondWith(Responses['" + state.name + "'])\n";
+        if (state.hasOwnProperty('responseTransformer')) {
+            builderCode += "    .transformResponse('" + state.responseTransformer  + "')\n";
+        }
+        if (state.hasOwnProperty('delay')) {
+            builderCode += "    .delayBy(" + state.delay + ")\n";
+            
+        }
+
+    });
+    
+    builderCode += "    .build();";
+
+    var responsesCode = 'var Responses = ' + JSON.stringify(collectedResponses, null, 2) + ';';
+
+    return filePreamble + responsesCode + builderCode;
 }
 
 function builderSetter(builderProperty, propertyName, requiresState, propertyValue) {

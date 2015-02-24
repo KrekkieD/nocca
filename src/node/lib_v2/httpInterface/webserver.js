@@ -3,6 +3,7 @@
 var $http = require('http');
 var $url = require('url');
 var $scenarioRecorder = require('../scenarioRecorder');
+var $scenario = require('../scenario');
 
 module.exports = {};
 module.exports.createServer = createServer;
@@ -30,7 +31,7 @@ function createRequestRouter (config) {
 
             //
             case 'GET:/caches':
-                res.write('ayeee caches here!', function () {
+                res.write(JSON.stringify(config.playback.exporter(), null, 2), function () {
                     res.end();
                 });
                 break;
@@ -145,10 +146,9 @@ function tryStopRecordingScenario(req, res, recorder) {
     try {
         var parsedUrl = $url.parse(req.url, true);
         var scenario = $scenarioRecorder.finishRecordingScenario();
+        
+        console.log($scenario.Serializer(scenario));
 
-        console.log(parsedUrl);
-        console.log(scenario);
-        console.log(parsedUrl.query['save']);
         if (parsedUrl.query && parsedUrl.query['save'] == 'true') {
             console.log(scenario);
             recorder(scenario.player());

@@ -44,6 +44,7 @@ function writeResponseToOutput(response, output) {
     }
 
     output.writeHead(response.statusCode, response.headers);
+    console.log('|      Status: ' + response.statusCode);
     if (response.body) {
         output.write(response.body, function() {
             output.end();

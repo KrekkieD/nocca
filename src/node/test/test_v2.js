@@ -20,13 +20,13 @@ var config = {
             targetBaseUrl: 'https://api.ite1.klm.com/customerapi-develop/'
         },
         'MyA_Crisp_Logoff': {
-            targetBaseUrl: 'https://www.ite2.klm.com/ams/crisp/logoff/'
+            targetBaseUrl: 'https://www.ite2.klm.com/ams/crisp/'
         },
         'MyA_Crisp_Logon': {
-            targetBaseUrl: 'https://www.ite2.klm.com/ams/crisp/logon/'
+            targetBaseUrl: 'https://www.ite2.klm.com/ams/crisp/'
         },
         'MyA_Crisp_Verify': {
-            targetBaseUrl: 'https://www.ite2.klm.com/ams/crisp/verifyLogon/'
+            targetBaseUrl: 'https://www.ite2.klm.com/ams/crisp/'
         },
         'MyA_fbupgrade_UpgradeToFBActionV2do': {
             targetBaseUrl: 'https://b2c-evol4rct3-rct.airfrance.fr/FR/fr/local/myaccount/flyingblue/UpgradeToFBActionV2.do'
