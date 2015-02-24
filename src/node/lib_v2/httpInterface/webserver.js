@@ -8,7 +8,10 @@ var $scenario = require('../scenario');
 module.exports = {};
 module.exports.createServer = createServer;
 
+// Configured routes will be collected in this map
+var routes = {};
 
+// Setup the HTTP server and use the request router to handle all traffic
 function createServer (config) {
 
     return $http.createServer(createRequestRouter(config))
@@ -18,6 +21,7 @@ function createServer (config) {
 
 }
 
+// Wraps the request router in a closure to provide access to the configuration
 function createRequestRouter (config) {
 
     var router = requestRouter;
@@ -25,107 +29,113 @@ function createRequestRouter (config) {
 
     return router;
 
+    // Selects handlers from the routes map (routes are defined below)
     function requestRouter (req, res) {
 
-        switch (req.method.toUpperCase() + ':' + $url.parse(req.url).pathname) {
+        var route = req.method.toUpperCase() + ':' + $url.parse(req.url).pathname;
 
-            //
-            case 'GET:/caches':
-                res.write(JSON.stringify(config.playback.exporter(), null, 2), function () {
-                    res.end();
-                });
-                break;
-            // set cache
-            case 'POST:/caches':
-                res.write('ayeee you gave me caches to add!', function () {
-                    res.end();
-                });
-                break;
-            case 'PUT:/caches':
-                res.write('ayeee you gave me fresh caches!', function () {
-                    res.end();
-                });
-                break;
-            case 'POST:/scenarios/startRecording':
-                tryStartRecordingScenario(req, res);
-                break;
-            case 'POST:/scenarios/finishRecording':
-                tryStopRecordingScenario(req, res, config.playback.scenarioRecorder);
-                break;
-            // create a new cache package
-            case 'POST:/caches/package':
-
-                var body = '';
-
-                req.on('data', function (chunk) {
-                    body += chunk;
-                });
-
-                req.on('end', function () {
-
-                    if (body !== '') {
-                        try {
-                            body = JSON.parse(body);
-                        }
-                        catch (e) {
-                            res.writeHead(400, 'Bad request', {
-                                'Access-Control-Allow-Origin': '*'
-                            });
-                            res.write('Request body could not be parsed, is it a valid JSON string?');
-                            res.end();
-                        }
-                    }
-
-
-                    // parse body and extract requested keys
-                    if (body === '') {
-                        body = {};
-                    }
-
-                    var recordings = router.config.playback.exporter();
-
-                    // extract from recordings
-                    var downloadObj = {};
-
-                    if (typeof body.requestKeys !== 'undefined') {
-                        body.requestKeys.forEach(function (value) {
-                            downloadObj[value] = recordings[value];
-                        });
-                    }
-                    else {
-                        // if no keys specified just download all recorded
-                        downloadObj = recordings;
-                    }
-
-
-                    res.writeHead(200, {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-Type': 'application/json'
-                    });
-
-                    res.write(JSON.stringify(downloadObj), function () {
-                        res.end();
-                    });
-
-                });
-
-                break;
-			default:
-				res.writeHead(404, 'Not found', {
-					'Access-Control-Allow-Origin': '*'
-				});
-				res.write('Could not open ' + req.url, function() {
-				    res.end();
-                });
-
+        if (routes.hasOwnProperty(route)) {
+            routes[route](req, res, config);
+        }
+        else {
+            res.writeHead(404, 'Not found', {
+                'Access-Control-Allow-Origin': '*'
+            });
+            res.write('Could not open ' + req.url, function() {
+                res.end();
+            });
         }
 
     }
 
 }
 
+// --- Route definitions
 
-function tryStartRecordingScenario(req, res) {
+// Adds a handler to the routes map using one or more route definitions (first argument can be an array)
+// Route definitions are of the form METHOD:/p/a/t/h
+// Further specialization on query parameters or headers is not provided
+function route(routeStrings, handler) {
+    if (!_.isArray(routeStrings)) { routeStrings = [routeStrings]; }
+    routeStrings.forEach(function(r) { routes[r] = handler; });
+}
+
+route('GET:/caches', function getCaches(req, res, config) {
+    res.write(JSON.stringify(config.playback.exporter(), null, 2), function () {
+        res.end();
+    });
+});
+
+route('POST:/caches', function addCaches(req, res, config) {
+    res.write('ayeee you gave me caches to add!', function () {
+        res.end();
+    });
+});
+
+route('PUT:/caches', function replaceCaches(req, res, config) {
+    res.write('ayeee you gave me fresh caches!', function () {
+        res.end();
+    });
+});
+
+route('POST:/caches/package', function addCachePackage(req, res, config) {
+    var body = '';
+
+    req.on('data', function (chunk) {
+        body += chunk;
+    });
+
+    req.on('end', function () {
+
+        if (body !== '') {
+            try {
+                body = JSON.parse(body);
+            }
+            catch (e) {
+                res.writeHead(400, 'Bad request', {
+                    'Access-Control-Allow-Origin': '*'
+                });
+                res.write('Request body could not be parsed, is it a valid JSON string?');
+                res.end();
+            }
+        }
+
+
+        // parse body and extract requested keys
+        if (body === '') {
+            body = {};
+        }
+
+        var recordings = router.config.playback.exporter();
+
+        // extract from recordings
+        var downloadObj = {};
+
+        if (typeof body.requestKeys !== 'undefined') {
+            body.requestKeys.forEach(function (value) {
+                downloadObj[value] = recordings[value];
+            });
+        }
+        else {
+            // if no keys specified just download all recorded
+            downloadObj = recordings;
+        }
+
+
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+        });
+
+        res.write(JSON.stringify(downloadObj), function () {
+            res.end();
+        });
+
+    });
+});
+
+
+route('POST:/scenarios/startRecording', function startRecordingScenario(req, res, config) {
     try {
         var parsedUrl = $url.parse(req.url);
         var title = (parsedUrl.query && parsedUrl.query.title) ? parsedUrl.query.title : undefined;
@@ -140,9 +150,9 @@ function tryStartRecordingScenario(req, res) {
             res.end();
         });
     }
-}
+});
 
-function tryStopRecordingScenario(req, res, recorder) {
+route('POST:/scenarios/finishRecording', function stopRecordingScenario(req, res, config) {
     try {
         var parsedUrl = $url.parse(req.url, true);
         var scenario = $scenarioRecorder.finishRecordingScenario();
@@ -151,7 +161,7 @@ function tryStopRecordingScenario(req, res, recorder) {
 
         if (parsedUrl.query && parsedUrl.query['save'] == 'true') {
             console.log(scenario);
-            recorder(scenario.player());
+            config.playback.scenarioRecorder(scenario.player());
         }
         
         res.write(JSON.stringify(scenario), function() {
@@ -163,4 +173,4 @@ function tryStopRecordingScenario(req, res, recorder) {
             res.end();
         });
     }
-}
+});
