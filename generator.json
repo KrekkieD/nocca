@@ -12,5 +12,5 @@
         "element": "nocca-core"
     },
     "bowerAddFreakDeps": false,
-    "distDir": "dist"
+    "distDir": "dist/ui"
 }
