@@ -78,7 +78,7 @@
     "wiredep": "^2.0.1"
   },
   "main": "index.js",
-  "files": "dist",
+  "files": ["dist"],
   "dependencies": {
     "connect": "^3.3.4",
     "extend": "^2.0.0",
