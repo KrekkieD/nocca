@@ -1,7 +1,7 @@
 'use strict';
 
-var $scenario = require('../../src/node/index').scenario;
-var $keys     = require('../../src/node/index').keys;
+var $scenario = require('../../index').scenario;
+var $keys     = require('../../index').keys;
 
 var t = new $scenario.Builder('Mandatory Profile Update - Missing Email');
 

@@ -32,6 +32,10 @@ var defaultSettings = {
     endpoints: {},
     
     proxyPort: 3003,
+    gui: {
+        enabled: true,
+        port: 3004
+    },
     server: {
         port: 3005,
         websocketServer: true,
@@ -90,6 +94,7 @@ function setup(customOptions) {
     }
     
     $httpInterface(opts);
+    $gui(opts);
     $server(opts, opts.chainBuilderFactory(opts));
 
 }

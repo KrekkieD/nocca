@@ -240,7 +240,6 @@ gulp.task('package', function (done) {
 		// clean dist
 		// include bootstrap?
 		seq('clean-dist',
-            'dist-node-app',
             'dist-partials',
 			'dist-js',
 			'dist-modules',
@@ -250,6 +249,7 @@ gulp.task('package', function (done) {
 			'dist-all-modules-with-bootstrap',
 			'dist-vendor',
             'dist-index',
+            'dist-cleanup',
 			done);
 	})
 	.help = 'Package for production';
@@ -310,8 +310,7 @@ gulp.task('clean-reports', function (done) {
 	.help = 'Clean reports';
 
 gulp.task('clean-dist', function (done) {
-    // removed generator.json (generator.distDir) here as we also need to clean the node dist
-	rimraf('./dist', function () {
+	rimraf('./' + generator.distDir, function () {
         rimraf('./target/dist', done);
     });
 });
@@ -680,27 +679,20 @@ gulp.task('dev-coverage-browsersync', function () {
 });
 
 // Package
-gulp.task('dist-node-app', function () {
-
-    return gulp.src([
-        './src/node/**'
-    ]).pipe(gulp.dest('./dist'));
-
-});
 
 gulp.task('dist-index', function () {
     var data = extend({}, {
         generator: generator,
         inject: {
             bower: {
-                css: '<link rel="stylesheet" href="vendor/minified/dependencies-min.css">',
-                js: '<script src="vendor/minified/dependencies-min.js"></script>'
+                css: '<!-- bower:css --><!-- endbower -->',
+                js: '<!-- bower:js --><!-- endbower -->'
             },
             app: {
                 css: '<link rel="stylesheet" href="minified.css">',
                 js: '<script src="minified.js"></script>',
                 jsConfigAndRun: '',
-                jsBootstrap: '<script src="modules-bootstrapped.js"></script>'
+                jsBootstrap: '<script src="bootstrap.js"></script>'
             }
         }
     });
@@ -709,6 +701,15 @@ gulp.task('dist-index', function () {
         .pipe(template(data))
         .pipe(prettify())
         .pipe(gulp.dest(generator.distDir));
+});
+
+gulp.task('dist-cleanup', function (done) {
+
+    del([
+        './' + generator.distDir + '/modules',
+        './' + generator.distDir + '/vendor'
+    ], done);
+
 });
 
 gulp.task('dist-templates', function () {
@@ -845,7 +846,7 @@ gulp.task('dist-bootstrap', function () {
 
 gulp.task('dist-all-modules-with-bootstrap', function () {
 	return gulp.src('./target/dist/*.js')
-		.pipe(concat('modules-bootstrapped.js'))
+		.pipe(concat('bootstrap.js'))
 		.pipe(gulp.dest(generator.distDir));
 });
 
