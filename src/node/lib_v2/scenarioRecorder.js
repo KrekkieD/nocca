@@ -5,6 +5,7 @@ module.exports.scenarioEntryRecorderFactory = scenarioEntryRecorderFactory;
 module.exports.startRecordingScenario = startRecordingScenario;
 module.exports.finishRecordingScenario = finishRecordingScenario;
 
+var $fs = require('fs');
 var $scenario = require('./scenario');
 
 var originalEntryRecorder;
@@ -48,7 +49,7 @@ function startRecordingScenario(title) {
 
 }
 
-function finishRecordingScenario() {
+function finishRecordingScenario(scriptOutputDir) {
 
     if (typeof activeScenarioBuilder === 'undefined') {
         throw Error('No scenario is being recorded, cannot finish anything.');
@@ -56,6 +57,16 @@ function finishRecordingScenario() {
     else {
         console.log('|    Finishing recording of new scenario');
         var scenario = activeScenarioBuilder.build();
+        
+        if (typeof scriptOutputDir !== 'undefined') {
+            
+            $fs.writeFile(scriptOutputDir + '/Scenarion_' + scenario.name + '.js', $scenario.Serializer(scenario), function(err) {
+                if (err) { throw err; }
+                console.log('|      Saved serialized scenario to file: ' + scriptOutputDir);
+            });
+            
+        }
+        
         activeScenarioBuilder = undefined;
         return scenario;
     }

@@ -105,6 +105,11 @@ var config = {
     playback: {
         recorder: $nocca2.scenarioRecorder.scenarioEntryRecorderFactory($nocca2.playback.addRecording)
         
+    },
+    scenarios: {
+        writeNewScenarios: true,
+        scenarioOutputDir: 'D:/dev/tmp/'
+        
     }
 };
 
@@ -188,7 +193,7 @@ var googleScenario = googleScenarioBuilder.sequentialScenario()
     .respondWith(GoogleResponses.f3)
     .build();
     
-config.scenarios = [googleScenario];
+config.scenarios.available = [googleScenario];
 
 $nocca2.setup(config);
 

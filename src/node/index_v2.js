@@ -67,7 +67,11 @@ var defaultSettings = {
         keyGenerator: true
     },
     
-    scenarios: []
+    scenarios: {
+        available: [],
+        writeNewScenarios: false,
+        scenarioOutputDir: undefined
+    }
 };
 
 function setup(customOptions) {
@@ -79,8 +83,8 @@ function setup(customOptions) {
         $caches.newEndpoint(cacheNames[i], opts.endpoints[cacheNames[i]]);
     }
     
-    for (var j = 0; j < opts.scenarios.length; j++) {
-        $playback.addScenario(opts.scenarios[j].player());
+    for (var j = 0; j < opts.scenarios.available.length; j++) {
+        $playback.addScenario(opts.scenarios.available[j].player());
     }
     
     $httpInterface(opts);
@@ -130,7 +134,10 @@ function defaultChainBuilderFactory(opts) {
             // TODO: make sure thrown errors are handled properly
             .catch(opts.throwHandlerFactory(context.response))
             // broadcast current stats
-            .then(opts.statistics.reporter);
+            .then(opts.statistics.reporter)
+            .finally(function() {
+                console.log('|  Request processing ended');
+            });
         
     };
     
