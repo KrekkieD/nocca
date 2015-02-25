@@ -2,7 +2,9 @@
   "name": "nocca",
   "version": "0.0.1",
   "description": "NodeJS Mock Server",
-  "scripts": {},
+  "scripts": {
+    "postinstall": "bower install"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/KrekkieD/nocca.git"
@@ -74,7 +76,8 @@
   "files": [
     "lib",
     "ui",
-    "index.js"
+    "index.js",
+    "bower.json"
   ],
   "dependencies": {
     "connect": "^3.3.4",
