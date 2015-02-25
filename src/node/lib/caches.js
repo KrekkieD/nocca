@@ -1,89 +1,71 @@
 'use strict';
 
 module.exports = {};
+module.exports.defaultCacheSelector      = firstUrlPartCacheSelector;
+module.exports.firstUrlPartCacheSelector = firstUrlPartCacheSelector;
 module.exports.newEndpoint = addCacheEndpoint;
-module.exports.select = selectCacheEndpoint;
 
-var $ws = require('ws').Server;
 
-var $recorder = require('./recorder');
+var $q = require('q');
+var $extend = require('extend');
 
-var caches = {};
+var endpoints = {};
 
-function addCacheEndpoint(name, target) {
-    caches[name] = {
-        targetBaseUrl: target,
+// config = {
+//   targetBaseUrl: '', // Full URL to forward to. Note that the part after the cache name will be appended to this URL
+//   keyGenerator: undefined, // Allows for overriding the default key generator for each endpoint
+// }
+function addCacheEndpoint(name, config) {
+    if (!config.targetBaseUrl) { 
+        console.log('|  Warning! Endpoint with key "' + name + '" has not targetBaseUrl property and cannot be used for forwarding/recording. ');
+    }
+    
+    endpoints[name] = $extend({
         statistics: {
             requests: 0,
-            hits:     0,
-            misses:   0
+            hits: 0,
+            misses: 0
         }
-    };
-
-    publishStatistics();
+    }, config);
 
 }
 
-function selectCacheEndpoint(cacheName) {
+function firstUrlPartCacheSelector(reqContext) {
 
-    if (caches.hasOwnProperty(cacheName)) {
-        caches[cacheName].statistics.requests++;
+    var d = $q.defer();
 
-        publishStatistics();
-        return caches[cacheName];
+    var cacheName = firstUrlPart(reqContext.request.url);
+
+    if (endpoints.hasOwnProperty(cacheName)) {
+        endpoints[cacheName].statistics.requests++;
+
+        reqContext.endpoint = {
+            key: cacheName,
+            remainingUrl: remainingUrlAfterCacheKey(reqContext.request.url, cacheName),
+            definition: endpoints[cacheName]
+        };
+
+        d.resolve(reqContext);
+        console.log('|    Selected cache endpoint: ' + cacheName);
     }
     else {
-        return undefined;
+        reqContext.error = 'No matching endpoint found';
+        reqContext.statusCode = 404;
+
+        console.log('|    No cache endpoint found: ' + cacheName);
+
+        d.reject( reqContext );
     }
+
+    return d.promise;
+}
+
+function firstUrlPart(url) {
+    return (url) ? url.split('/')[1] : undefined;
+}
+
+function remainingUrlAfterCacheKey(url, cacheKey) {
+    return url.substring(cacheKey.length + 2);
 }
 
 
-var wss = new $ws({port: 3005});
-wss.on('connection', function (ws) {
-
-    // poll for changes
-    var lastSentState;
-    var interval = setInterval(function () {
-
-        var state = getState();
-
-        if (state !== lastSentState) {
-            lastSentState = state;
-            publishStatistics(state, ws);
-        }
-
-    }, 200);
-
-    ws.on("close", function () {
-        clearInterval(interval);
-    });
-
-});
-
-function getState () {
-
-    // TODO: dirty! should make lightweight func
-    return JSON.stringify($recorder.exportState());
-
-}
-
-function publishStatistics(state, singleConn) {
-
-    if (!state) {
-        state = getState();
-    }
-
-    if (singleConn) {
-
-        singleConn.send(state);
-
-    }
-    else {
-
-        wss.clients.forEach(function each(client) {
-            client.send(state);
-        });
-
-    }
-
-}

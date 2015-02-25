@@ -1,6 +1,6 @@
 'use strict';
 
-var $nocca2 = require('../index_v2');
+var $nocca2 = require('../../src/node/index');
 
 var config = {
     endpoints: {

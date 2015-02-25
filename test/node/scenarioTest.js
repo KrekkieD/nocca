@@ -1,7 +1,7 @@
 'use strict';
 
-var $scenario = require('../lib_v2/scenario');
-var $keys     = require('../lib_v2/keys');
+var $scenario = require('../../src/node/index').scenario;
+var $keys     = require('../../src/node/index').keys;
 
 var t = new $scenario.Builder('Mandatory Profile Update - Missing Email');
 

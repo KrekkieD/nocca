@@ -1,6 +1,6 @@
 'use strict';
 
-var $nocca = require('../index');
+var $nocca = require('../../src/node/index');
 
 $nocca.caches.newEndpoint('google', 'https://www.google.com/');
 
