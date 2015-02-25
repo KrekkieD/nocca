@@ -1,7 +1,9 @@
 'use strict';
 
+var _ = require('lodash');
 var $http = require('http');
 var $url = require('url');
+var $urlPattern = require('url-pattern');
 var $scenarioRecorder = require('../scenarioRecorder');
 var $scenario = require('../scenario');
 
@@ -9,13 +11,20 @@ module.exports = {};
 module.exports.createServer = createServer;
 
 // Configured routes will be collected in this map
-var routes = {};
+var routes = {
+    direct: {},
+    pattern: []
+};
 
 // Configure routes
 addRoute('GET:/caches', getCaches);
 addRoute('POST:/caches/package', addCachePackage);
+addRoute('GET:/enums/scenarios/type', getEnumScenariosType);
+addRoute('GET:/enums/scenarios/repeatable', getEnumScenariosRepeatable);
 addRoute('POST:/scenarios/startRecording', startRecordingScenario);
 addRoute('POST:/scenarios/finishRecording', stopRecordingScenario);
+addRoute('GET:/scenarios/:scenarioKey', true, getScenarioByKey);
+addRoute('GET:/scenarios/:scenarioKey/active', true, getScenarioStatusByKey);
 
 
 // Setup the HTTP server and use the request router to handle all traffic
@@ -41,16 +50,30 @@ function createRequestRouter (config) {
 
         var route = req.method.toUpperCase() + ':' + $url.parse(req.url).pathname;
 
-        if (routes.hasOwnProperty(route)) {
-            routes[route](req, res, config);
+        if (routes.direct.hasOwnProperty(route)) {
+            routes.direct[route](req, res, config);
         }
         else {
-            res.writeHead(404, 'Not found', {
-                'Access-Control-Allow-Origin': '*'
-            });
-            res.write('Could not open ' + req.url, function() {
-                res.end();
-            });
+            var match, handler;
+            console.log(match);
+            for (var idx = 0; idx < routes.pattern.length && !match; idx++) {
+                if (match = routes.pattern[idx].match(route)) {
+                    handler = routes.pattern[idx].handler;
+                }
+            }
+            console.log(match);
+
+            if (typeof handler !== 'undefined') {
+                handler(req, res, config, match);
+            }
+            else {
+                res.writeHead(404, 'Not found', {
+                    'Access-Control-Allow-Origin': '*'
+                });
+                res.write('Could not open ' + req.url, function() {
+                    res.end();
+                });
+            }
         }
 
     }
@@ -62,32 +85,30 @@ function createRequestRouter (config) {
 // Adds a handler to the routes map using one or more route definitions (first argument can be an array)
 // Route definitions are of the form METHOD:/p/a/t/h
 // Further specialization on query parameters or headers is not provided
-function addRoute (routeStrings, handler) {
+function addRoute (routeStrings, isPattern, handler) {
 
-	// force array
-    if (!_.isArray(routeStrings)) {
+	if (typeof handler === 'undefined') {
+		handler = isPattern;
+		isPattern = false;
+	}
+
+	// force routeStrings to array
+	if (!_.isArray(routeStrings)) {
 		routeStrings = [routeStrings];
 	}
 
-    routeStrings.forEach(function(routeDefinition) {
-		routes[routeDefinition] = handler;
+	routeStrings.forEach(function (routeDefinition) {
+		if (isPattern) {
+			var p = $urlPattern.newPattern(routeDefinition);
+			p.handler = handler;
+			routes.pattern.push(p);
+		}
+		else {
+			routes.direct[routeDefinition] = handler;
+		}
 	});
 
 }
-
-//
-//route('POST:/caches', function addCaches(req, res, config) {
-//    res.write('ayeee you gave me caches to add!', function () {
-//        res.end();
-//    });
-//});
-//
-//route('PUT:/caches', function replaceCaches(req, res, config) {
-//    res.write('ayeee you gave me fresh caches!', function () {
-//        res.end();
-//    });
-//});
-
 
 
 function getCaches (req, res, config) {
@@ -170,11 +191,15 @@ function startRecordingScenario (req, res, config) {
 
 function stopRecordingScenario (req, res, config) {
 	try {
+		var scriptOutputDir = undefined;
+		if (config.scenarios.writeNewScenarios && config.scenarios.scenarioOutputDir) {
+			scriptOutputDir = config.scenarios.scenarioOutputDir;
+		}
+
+		var scenario = $scenarioRecorder.finishRecordingScenario(scriptOutputDir);
+
+
 		var parsedUrl = $url.parse(req.url, true);
-		var scenario = $scenarioRecorder.finishRecordingScenario();
-
-		console.log($scenario.Serializer(scenario));
-
 		if (parsedUrl.query && parsedUrl.query['save'] == 'true') {
 			console.log(scenario);
 			config.playback.scenarioRecorder(scenario.player());
@@ -189,4 +214,20 @@ function stopRecordingScenario (req, res, config) {
 			res.end();
 		});
 	}
+}
+
+function getEnumScenariosType (req, res) {
+	res.write(JSON.stringify($scenario.TYPE), function() { res.end(); });
+}
+
+function getEnumScenariosRepeatable (req, res) {
+	res.write(JSON.stringify($scenario.REPEATABLE), function() { res.end(); });
+}
+
+function getScenarioByKey (req, res, config, params) {
+	res.write('You asked for scenario: ' + params.scenarioKey, function() { res.end(); });
+}
+
+function getScenarioStatusByKey (req, res, config, params) {
+	res.write('You asked for the status of scenario: ' + params.scenarioKey, function() { res.end(); });
 }

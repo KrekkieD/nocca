@@ -106,6 +106,16 @@ function performRequestForward(reqContext, endpointDef, fwdFlatReq, deferred) {
         });
 
     });
+    
+    reqContext.proxiedRequest.on('error', function(err) {
+        
+        console.log('|      Error connecting to remote service: ' + err.message);
+        reqContext.statusCode = 502;
+        reqContext.error = err.message;
+        reqContext.cause = err;
+        
+        deferred.reject(reqContext);
+    });
 
 
 }
