@@ -173,7 +173,7 @@ var GoogleResponses = {
     }
 };
 
-var googleScenarioBuilder = new $nocca2.scenario.Builder('Google Test Scenario');
+var googleScenarioBuilder = new $nocca2.scenario.Builder('google', 'Google Test Scenario');
 
 var googleScenario = googleScenarioBuilder.sequentialScenario()
     .infiniteLoop()

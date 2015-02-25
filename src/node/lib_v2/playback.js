@@ -120,35 +120,36 @@ function scenarioBasedRequestMatcher(reqContext) {
 
 function addSingleScenario(scenarioPlayer) {
     console.log('|      Saving new scenario to player: ' + scenarioPlayer.scenario.title);
-    if (scenarioPlayer.hasOwnProperty('$$scenarioKey')) { throw Error('The specified scenario is already coupled to a player!'); }
+    if (scenarioPlayer.hasOwnProperty('$$active')) { throw Error('The specified scenario is already coupled to a player!'); }
     
-    scenarioPlayer.$$scenarioKey = 'scn-' + Object.keys(scenarios).length;
-    scenarios[scenarioPlayer.$$scenarioKey] = scenarioPlayer;
+    scenarioPlayer.$$active = false;
+    scenarios[scenarioPlayer.scenario.name] = scenarioPlayer;
     
     registerScenarioOnEndpoint(scenarioPlayer, scenarioPlayer.currentPosition.state.endpointKey);
-
 }
 
 function deregisterScenarioFromEndpoint(scenarioPlayer, endpoint) {
-    delete scenarioEndpointBindings[endpoint][scenarioPlayer.$$scenarioKey];
+    delete scenarioEndpointBindings[endpoint][scenarioPlayer.scenario.name];
+    scenarioPlayer.$$active = false;
 }
 
 function registerScenarioOnEndpoint(scenarioPlayer, endpoint) {
     if (!scenarioEndpointBindings.hasOwnProperty(endpoint)) {
         scenarioEndpointBindings[endpoint] = {};
     }
-    scenarioEndpointBindings[endpoint][scenarioPlayer.$$scenarioKey] = scenarioPlayer;
+    scenarioEndpointBindings[endpoint][scenarioPlayer.scenario.name] = scenarioPlayer;
+    scenarioPlayer.$$active = true;
 }
 
 // --- Export data
-function exportRecordings () {
-
-    return recordings;
+function exportRecordings (endpoint, key) {
+    
+    return (typeof endpoint !== 'undefined' && typeof key !== 'undefined') ? recordings[endpoint][key] : recordings ;
 
 }
 
-function exportScenarios() {
+function exportScenarios (key) {
 
-    return scenarios;
+    return (typeof key !== 'undefined') ? scenarios[key] : scenarios;
 
 }

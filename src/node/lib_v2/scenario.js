@@ -17,7 +17,8 @@ var REPEATABLE = module.exports.REPEATABLE = {
 var _ = require('lodash');
 
 
-function Scenario(title) {
+function Scenario(name, title) {
+    this.name = name;
     this.title = title;
     this.states = {};
     this.initialStateKey = undefined;
@@ -57,8 +58,8 @@ Scenario.State = function() {
     this.next = [];
 };
 
-function Builder(title) {
-    this.scenario = new Scenario(title);
+function Builder(name, title) {
+    this.scenario = new Scenario(name, title);
     this.currentState = undefined;
     this.built = false;
     
@@ -69,7 +70,7 @@ function Serializer(scenario) {
     // TODO: EEEWWWWWWWWW
     var filePreamble = "'use strict';\n\nvar $nocca = require('nocca');\n\n";
     
-    var builderCode  = "\n\nvar scenario = new $nocca.scenario.Builder('" + scenario.title + "')\n";
+    var builderCode  = "\n\nvar scenario = new $nocca.scenario.Builder('" + scenario.name + "', '" + scenario.title + "')\n";
     if (scenario.type === TYPE.SEQUENTIAL) {
         builderCode += "    .sequentialScenario()\n";
     }

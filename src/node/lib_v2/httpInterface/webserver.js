@@ -55,13 +55,11 @@ function createRequestRouter (config) {
         }
         else {
             var match, handler;
-            console.log(match);
             for (var idx = 0; idx < routes.pattern.length && !match; idx++) {
                 if (match = routes.pattern[idx].match(route)) {
                     handler = routes.pattern[idx].handler;
                 }
             }
-            console.log(match);
 
             if (typeof handler !== 'undefined') {
                 handler(req, res, config, match);
@@ -225,9 +223,24 @@ function getEnumScenariosRepeatable (req, res) {
 }
 
 function getScenarioByKey (req, res, config, params) {
-	res.write('You asked for scenario: ' + params.scenarioKey, function() { res.end(); });
+    try {
+        res.write(JSON.stringify(config.playback.scenarioExporter(params.scenarioKey)), function () {
+            res.end();
+        });
+    } catch (e) {
+        res.writeHead(404);
+        res.end();
+    }
 }
 
 function getScenarioStatusByKey (req, res, config, params) {
-	res.write('You asked for the status of scenario: ' + params.scenarioKey, function() { res.end(); });
+    // TODO: noooo, you're dependant on the $$active property now! Blegh
+    try {
+        res.write(JSON.stringify(config.playback.scenarioExporter(params.scenarioKey).$$active), function () {
+            res.end();
+        });
+    } catch (e) {
+        res.writeHead(404);
+        res.end();
+    }
 }

@@ -46,9 +46,10 @@ var defaultSettings = {
     playback: {
         matcher: $playback.defaultRequestMatcher,
         recorder: $playback.addRecording,
-        scenarioRecorder: $playback.addScenario,
         mocker: $recorder.defaultRecorder,
-        exporter: $playback.exportRecordings
+        exporter: $playback.exportRecordings,
+        scenarioRecorder: $playback.addScenario,
+        scenarioExporter: $playback.exportScenarios
     },
     requestForwarder: $forwarder.defaultForwarder,
     responder: $responder.defaultResponder,
