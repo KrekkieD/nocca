@@ -11,5 +11,6 @@
         "module": "nocca.core",
         "element": "nocca-core"
     },
-    "bowerAddFreakDeps": false
+    "bowerAddFreakDeps": false,
+    "distDir": "dist"
 }
