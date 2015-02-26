@@ -1,9 +1,8 @@
 'use strict';
 
-var $scenario = require('../../index').scenario;
-var $keys     = require('../../index').keys;
+var $nocca = require('../../index');
 
-var t = new $scenario.Builder('Mandatory Profile Update - Missing Email');
+var t = new $nocca.$scenario.Builder('Mandatory Profile Update - Missing Email');
 
 var Matchers = {
     gin: function(gin) {

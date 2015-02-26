@@ -103,7 +103,7 @@ var config = {
 
     },
     playback: {
-        recorder: $nocca.scenarioRecorder.scenarioEntryRecorderFactory($nocca.playback.addRecording)
+        recorder: $nocca.$scenarioRecorder.scenarioEntryRecorderFactory($nocca.$playback.addRecording)
         
     },
     scenarios: {
@@ -173,7 +173,7 @@ var GoogleResponses = {
     }
 };
 
-var googleScenarioBuilder = new $nocca.scenario.Builder('google', 'Google Test Scenario');
+var googleScenarioBuilder = new $nocca.$scenario.Builder('google', 'Google Test Scenario');
 
 var googleScenario = googleScenarioBuilder.sequentialScenario()
     .infiniteLoop()
@@ -195,5 +195,5 @@ var googleScenario = googleScenarioBuilder.sequentialScenario()
     
 config.scenarios.available = [googleScenario];
 
-$nocca.setup(config);
+$nocca(config);
 

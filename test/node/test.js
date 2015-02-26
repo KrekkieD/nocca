@@ -2,7 +2,7 @@
 
 var $nocca = require('../../index');
 
-$nocca.caches.newEndpoint('google', 'https://www.google.com/');
+$nocca.$caches.newEndpoint('google', 'https://www.google.com/');
 
 var endPoints = {
     'google': {
@@ -132,7 +132,7 @@ var targetConfig = {
     }
 };
 
-$nocca.proxy.proxy(targetConfig);
+$nocca(targetConfig);
 
 
 

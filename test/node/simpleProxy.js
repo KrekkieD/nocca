@@ -10,4 +10,4 @@ var config = {
 	}
 };
 
-$nocca.setup(config);
+$nocca(config);
