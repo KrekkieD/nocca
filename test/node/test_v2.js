@@ -1,6 +1,6 @@
 'use strict';
 
-var $nocca2 = require('../../index');
+var $nocca = require('../../index');
 
 var config = {
     endpoints: {
@@ -103,7 +103,7 @@ var config = {
 
     },
     playback: {
-        recorder: $nocca2.scenarioRecorder.scenarioEntryRecorderFactory($nocca2.playback.addRecording)
+        recorder: $nocca.scenarioRecorder.scenarioEntryRecorderFactory($nocca.playback.addRecording)
         
     },
     scenarios: {
@@ -173,7 +173,7 @@ var GoogleResponses = {
     }
 };
 
-var googleScenarioBuilder = new $nocca2.scenario.Builder('google', 'Google Test Scenario');
+var googleScenarioBuilder = new $nocca.scenario.Builder('google', 'Google Test Scenario');
 
 var googleScenario = googleScenarioBuilder.sequentialScenario()
     .infiniteLoop()
@@ -195,5 +195,5 @@ var googleScenario = googleScenarioBuilder.sequentialScenario()
     
 config.scenarios.available = [googleScenario];
 
-$nocca2.setup(config);
+$nocca.setup(config);
 
