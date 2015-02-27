@@ -6,10 +6,10 @@ var $pubsub = require('node-pubsub');
 
 module.exports = Nocca;
 
-module.exports.$caches = require('./lib/caches');
 module.exports.$chainBuilderFactory = require('./lib/chainBuilderFactory');
 module.exports.$constants = require('./lib/constants');
 module.exports.$defaultSettings = require('./lib/defaultSettings');
+module.exports.$endpoints = require('./lib/endpoints');
 module.exports.$errors = require('./lib/errors');
 module.exports.$forwarder = require('./lib/forwarder');
 module.exports.$gui = require('./lib/gui');
@@ -69,8 +69,8 @@ function Nocca (config) {
     // TODO: read from config!
     self.httpInterface = new $httpInterface(self);
 
-    self.cacheManager = new self.config.cacheManager(self);
-    self.cacheManager.addCacheEndpoints(self.config.endpoints);
+    self.endpointManager = new self.config.endpointManager(self);
+    self.endpointManager.addEndpoints(self.config.endpoints);
 
     // TODO: add comment to explain what this does
     // TODO: create instance of recorder
