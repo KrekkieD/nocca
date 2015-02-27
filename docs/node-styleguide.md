@@ -44,6 +44,20 @@ This is only acceptable when:
 - The module required is **NOT** the main instance of the application (i.e. `nocca` from `index.js`).  
   This is important as it creates a dependency in the `require()` order which is error prone.
   
+## Group `require` statements by origin
+
+This gives a concise overview of what is owned and what is used
+
+    'use strict';
+    
+    // installed modules and Node native modules
+    var $http = require('http');
+    var $q = require('q');
+    var $extend = require('extend');
+    
+    // own modules
+    var $utils = require('./utils');
+
 ## Be verbose
 
 Describing what a var contains in the var name is better than using short names and guessing 

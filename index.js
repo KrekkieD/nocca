@@ -4,32 +4,32 @@ var $extend = require('extend');
 
 module.exports = constructor;
 
-constructor.$caches = require('./lib/caches');
-constructor.$chainBuilderFactory = require('./lib/chainBuilderFactory');
-constructor.$constants = require('./lib/constants');
-constructor.$defaultSettings = require('./lib/defaultSettings');
-constructor.$errors = require('./lib/errors');
-constructor.$forwarder = require('./lib/forwarder');
-constructor.$gui = require('./lib/gui');
-constructor.$httpInterface = require('./lib/httpInterface');
-constructor.$keys = require('./lib/keys');
-constructor.$playback = require('./lib/playback');
-constructor.$recorder = require('./lib/recorder');
-constructor.$reporter = require('./lib/reporter');
-constructor.$responder = require('./lib/responder');
-constructor.$scenario = require('./lib/scenario');
-constructor.$scenarioRecorder = require('./lib/scenarioRecorder');
-constructor.$server = require('./lib/server');
-constructor.$stats = require('./lib/stats');
-constructor.$utils = require('./lib/utils');
+module.exports.$caches = require('./lib/caches');
+module.exports.$chainBuilderFactory = require('./lib/chainBuilderFactory');
+module.exports.$constants = require('./lib/constants');
+module.exports.$defaultSettings = require('./lib/defaultSettings');
+module.exports.$errors = require('./lib/errors');
+module.exports.$forwarder = require('./lib/forwarder');
+module.exports.$gui = require('./lib/gui');
+module.exports.$httpInterface = require('./lib/httpInterface');
+module.exports.$keys = require('./lib/keys');
+module.exports.$playback = require('./lib/playback');
+module.exports.$recorder = require('./lib/recorder');
+module.exports.$reporter = require('./lib/reporter');
+module.exports.$responder = require('./lib/responder');
+module.exports.$scenario = require('./lib/scenario');
+module.exports.$scenarioRecorder = require('./lib/scenarioRecorder');
+module.exports.$server = require('./lib/server');
+module.exports.$stats = require('./lib/stats');
+module.exports.$utils = require('./lib/utils');
 
-// TODO: perhaps we don't want to reference our modules through nocca.$module,
+// TODO: perhaps we don't want to reference our exported modules
 // TODO: as these could be overwritten by consumer before the run phase
 function constructor (customOptions) {
 
-    var opts = $extend(true, {}, constructor.$defaultSettings, customOptions);
+    var config = $extend(true, {}, module.exports.$defaultSettings, customOptions);
 
-    return new Nocca(opts);
+    return new Nocca(config);
 
 }
 
@@ -40,15 +40,26 @@ function Nocca (config) {
     var self = this;
 
     // store what we need
-    // TODO: set up members for all functions
+    // TODO: set up members for all functions?
     self.config = config;
+
+    // set a logger to logger.disabled to turn off logging
+    self.log = config.logger;
+    self.logError = config.logger.error;
+    self.logWarning = config.logger.warning;
+    self.logSuccess = config.logger.success;
+    self.logInfo = config.logger.info;
+    self.logDebug = config.logger.debug;
 
     self.scenarioRecorder = config.playback.scenarioRecorder;
 
+    // this instantiates the proxy, gui, httpApi and websocketServer
+    // TODO: reference to $httpInterface should probably come from config
+    self.server = new module.exports.$server(self, config.chainBuilderFactory(config));
+    self.gui = new module.exports.$gui(self);
+    self.httpInterface = new module.exports.$httpInterface(self);
+
     // TODO: these members should be set from config
-    self.httpInterface = require('./lib/httpInterface');
-    self.gui = require('./lib/gui');
-    self.server = require('./lib/server');
     self.caches = require('./lib/caches');
 
 
@@ -64,11 +75,5 @@ function Nocca (config) {
     for (var i = 0, iMax = config.scenarios.available.length; i < iMax; i++) {
         self.scenarioRecorder(config.scenarios.available[i].player());
     }
-
-
-    // TODO: these functions may need to come from config
-    self.httpInterface(config);
-    self.gui(config);
-    self.server(config, config.chainBuilderFactory(config));
 
 }

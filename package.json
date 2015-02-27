@@ -80,6 +80,7 @@
     "bower.json"
   ],
   "dependencies": {
+    "chalk": "^1.0.0",
     "connect": "^3.3.4",
     "del": "^1.1.1",
     "extend": "^2.0.0",
