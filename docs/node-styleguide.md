@@ -28,6 +28,13 @@ This allows for export part of required modules
     
     module.exports = $q;
     
+## `export` up top
+
+This gives a clear overview on what you get when you require the module
+
+## Use named function declarations
+
+This allows hoisting functions and exporting them up top
 
 ## `requiring` own modules
 
