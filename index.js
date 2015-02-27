@@ -2,46 +2,65 @@
 
 var $extend = require('extend');
 
-module.exports = nocca;
+module.exports = constructor;
 
-// use the $ prefix to indicate these properties may be used internally and shouldn't really be changed
-nocca.$caches = require('./lib/caches');
-nocca.$chainBuilderFactory = require('./lib/chainBuilderFactory');
-nocca.$constants = require('./lib/constants');
-nocca.$defaultSettings = require('./lib/defaultSettings');
-nocca.$errors = require('./lib/errors');
-nocca.$forwarder = require('./lib/forwarder');
-nocca.$gui = require('./lib/gui');
-nocca.$httpInterface = require('./lib/httpInterface');
-nocca.$keys = require('./lib/keys');
-nocca.$playback = require('./lib/playback');
-nocca.$recorder = require('./lib/recorder');
-nocca.$reporter = require('./lib/reporter');
-nocca.$responder = require('./lib/responder');
-nocca.$scenario = require('./lib/scenario');
-nocca.$scenarioRecorder = require('./lib/scenarioRecorder');
-nocca.$server = require('./lib/server');
-nocca.$stats = require('./lib/stats');
-nocca.$utils = require('./lib/utils');
+constructor.$caches = require('./lib/caches');
+constructor.$chainBuilderFactory = require('./lib/chainBuilderFactory');
+constructor.$constants = require('./lib/constants');
+constructor.$defaultSettings = require('./lib/defaultSettings');
+constructor.$errors = require('./lib/errors');
+constructor.$forwarder = require('./lib/forwarder');
+constructor.$gui = require('./lib/gui');
+constructor.$httpInterface = require('./lib/httpInterface');
+constructor.$keys = require('./lib/keys');
+constructor.$playback = require('./lib/playback');
+constructor.$recorder = require('./lib/recorder');
+constructor.$reporter = require('./lib/reporter');
+constructor.$responder = require('./lib/responder');
+constructor.$scenario = require('./lib/scenario');
+constructor.$scenarioRecorder = require('./lib/scenarioRecorder');
+constructor.$server = require('./lib/server');
+constructor.$stats = require('./lib/stats');
+constructor.$utils = require('./lib/utils');
 
+// TODO: perhaps we don't want to reference our modules through nocca.$module,
+// TODO: as these could be overwritten by consumer before the run phase
+function constructor (customOptions) {
 
-function nocca (customOptions) {
+    var opts = $extend(true, {}, constructor.$defaultSettings, customOptions);
 
-    var opts = $extend(true, {}, nocca.$defaultSettings, customOptions);
-
-    var cacheNames = Object.keys(opts.endpoints);
-    for (var i = 0; i < cacheNames.length; i++) {
-        nocca.$caches.newEndpoint(cacheNames[i], opts.endpoints[cacheNames[i]]);
-    }
-
-    for (var j = 0; j < opts.scenarios.available.length; j++) {
-        nocca.$playback.addScenario(opts.scenarios.available[j].player());
-    }
-
-    nocca.$httpInterface(opts);
-    nocca.$gui(opts);
-    nocca.$server(opts, opts.chainBuilderFactory(opts));
+    return new Nocca(opts);
 
 }
 
+// the instance can carry state and allows multiple instances to run at the same time
+function Nocca (config) {
 
+    // store what we need
+    // TODO: set up members for all functions
+    this.config = config;
+
+    // TODO: these members should be set from config
+    this.httpInterface = require('./lib/httpInterface');
+    this.gui = require('./lib/gui');
+    this.server = require('./lib/server');
+
+
+    var cacheNames = Object.keys(config.endpoints);
+    for (var i = 0; i < cacheNames.length; i++) {
+        // TODO: should this come from config instead?
+        constructor.$caches.newEndpoint(cacheNames[i], config.endpoints[cacheNames[i]]);
+    }
+
+    for (var j = 0; j < config.scenarios.available.length; j++) {
+        // TODO: should this come from config instead?
+        constructor.$playback.addScenario(config.scenarios.available[j].player());
+    }
+
+
+    // TODO: these functions may need to come from config
+    this.httpInterface(config);
+    this.gui(config);
+    this.server(config, config.chainBuilderFactory(config));
+
+}
