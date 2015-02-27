@@ -29,11 +29,12 @@ module.exports.$utils = require('./lib/utils');
 function Nocca (config) {
 
     // these requires are within the instance to make sure there's no conflict with other instances
-    var $server = require('./lib/server');
+    var $caches = require('./lib/caches');
+    var $constants = require('./lib/constants');
+    var $defaultSettings = require('./lib/defaultSettings');
     var $gui = require('./lib/gui');
     var $httpInterface = require('./lib/httpInterface');
-    var $caches = require('./lib/caches');
-    var $defaultSettings = require('./lib/defaultSettings');
+    var $server = require('./lib/server');
 
 
     // map this to self so there are no this-scope issues
@@ -41,6 +42,8 @@ function Nocca (config) {
 
     // store what we need
     self.config = $extend(true, {}, $defaultSettings, config);
+
+    self.constants = $constants;
 
     // set a logger to logger.disabled to turn off logging
     self.log = self.config.logger;
@@ -65,17 +68,12 @@ function Nocca (config) {
     self.gui = new $gui(self);
     self.httpInterface = new $httpInterface(self);
 
-    // TODO: instantiate for private instance!
-    self.caches = $caches;
+    self.cacheManager = new self.config.cacheManager(self);
 
 
     // TODO: set up members for all non-functions
     self.endpoints = self.config.endpoints;
-
-    Object.keys(self.config.endpoints).forEach(function (key) {
-        // TODO: should this come from config instead?
-        self.caches.newEndpoint(key, self.endpoints[key]);
-    });
+    self.cacheManager.addCacheEndpoints(self.endpoints);
 
     // TODO: add comment to explain what this does
     for (var i = 0, iMax = self.config.scenarios.available.length; i < iMax; i++) {
