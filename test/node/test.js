@@ -1,8 +1,8 @@
 'use strict';
 
-var $nocca = require('../../index');
+var Nocca = require('../../index');
 
-$nocca.$caches.newEndpoint('google', 'https://www.google.com/');
+Nocca.$caches.newEndpoint('google', 'https://www.google.com/');
 
 var endPoints = {
     'google': {
@@ -132,7 +132,7 @@ var targetConfig = {
     }
 };
 
-$nocca(targetConfig);
+new Nocca(targetConfig);
 
 
 
