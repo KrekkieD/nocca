@@ -2,8 +2,6 @@
 
 var Nocca = require('../../index');
 
-Nocca.$caches.newEndpoint('google', 'https://www.google.com/');
-
 var endPoints = {
     'google': {
         targetBaseUrl: 'https://www.google.com/'

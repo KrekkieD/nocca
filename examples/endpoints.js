@@ -9,12 +9,12 @@ function Caches (Nocca) {
     var self = this;
 
     // required interface!
-    self.addCacheEndpoint = addCacheEndpoint;
-    self.cacheSelector = cacheSelector;
+    self.addEndpoints = addEndpoints;
+    self.endpointSelector = endpointSelector;
 
     var endpoints = {};
 
-    function addCacheEndpoint (name, config) {
+    function addEndpoints (name, config) {
 
         endpoints[name] = config;
 
@@ -23,7 +23,7 @@ function Caches (Nocca) {
     /**
      * It would be good practice to use promises here so you can resolve or reject
      */
-    function cacheSelector (reqContext) {
+    function endpointSelector (reqContext) {
 
         // extract the first part of the path (i.e. /google/sjampoo -> google)
         var firstPathPart = reqContext.request.url.split('/')[1];
