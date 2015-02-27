@@ -13,7 +13,6 @@ module.exports.$endpoints = require('./lib/endpoints');
 module.exports.$errors = require('./lib/errors');
 module.exports.$forwarder = require('./lib/forwarder');
 module.exports.$gui = require('./lib/gui');
-module.exports.$httpInterface = require('./lib/httpInterface');
 module.exports.$keys = require('./lib/keys');
 module.exports.$playback = require('./lib/playback');
 module.exports.$recorder = require('./lib/recorder');
@@ -31,10 +30,6 @@ function Nocca (config) {
     // these requires are within the Nocca instance to make sure the modules are unchanged
     var $constants = require('./lib/constants');
     var $defaultSettings = require('./lib/defaultSettings');
-    var $gui = require('./lib/gui');
-    var $httpInterface = require('./lib/httpInterface');
-    var $server = require('./lib/server');
-
 
     // map this to self so there are no this-scope issues
     var self = this;
@@ -62,12 +57,15 @@ function Nocca (config) {
 
     self.requestChainer = new self.config.chainBuilderFactory(self);
     self.statsLogger = new self.config.statistics.logger(self);
-    // TODO: read from config!
-    self.server = new $server(self);
-    // TODO: read from config!
-    self.gui = new $gui(self);
-    // TODO: read from config!
-    self.httpInterface = new $httpInterface(self);
+
+    // instantiate servers by looping over them. Nice.
+    Object.keys(self.config.servers).forEach(function (server) {
+
+        if (self.config.servers[server].enabled === true) {
+            self[server] = new self.config.servers[server].instance(self);
+        }
+
+    });
 
     self.endpointManager = new self.config.endpointManager(self);
     self.endpointManager.addEndpoints(self.config.endpoints);
