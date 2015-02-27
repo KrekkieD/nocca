@@ -28,8 +28,7 @@ module.exports.$utils = require('./lib/utils');
 // the instance can carry state and allows multiple instances to run at the same time
 function Nocca (config) {
 
-    // these requires are within the instance to make sure there's no conflict with other instances
-    var $caches = require('./lib/caches');
+    // these requires are within the Nocca instance to make sure the modules are unchanged
     var $constants = require('./lib/constants');
     var $defaultSettings = require('./lib/defaultSettings');
     var $gui = require('./lib/gui');
@@ -40,10 +39,17 @@ function Nocca (config) {
     // map this to self so there are no this-scope issues
     var self = this;
 
-    // store what we need
+    // store merged config
     self.config = $extend(true, {}, $defaultSettings, config);
 
+    // add constants for ease of reference
     self.constants = $constants;
+
+    // NOTE: pubsub is NOT configurable
+    self.pubsub = $pubsub;
+
+
+    //   C O N F I G U R A B L E   S T U F F   B E L O W
 
     // set a logger to logger.disabled to turn off logging
     self.log = self.config.logger;
@@ -53,29 +59,22 @@ function Nocca (config) {
     self.logInfo = self.config.logger.info;
     self.logDebug = self.config.logger.debug;
 
-    // TODO: set up members for all functions from config?
-    self.scenarioRecorder = self.config.playback.scenarioRecorder;
-
-    // this instantiates the proxy, gui, httpApi and websocketServer
-    // TODO: all these references should probably come from config
-
-    // NOTE: pubsub is NOT configurable
-    self.pubsub = $pubsub;
 
     self.requestChainer = new self.config.chainBuilderFactory(self);
     self.statsLogger = new self.config.statistics.logger(self);
+    // TODO: read from config!
     self.server = new $server(self);
+    // TODO: read from config!
     self.gui = new $gui(self);
+    // TODO: read from config!
     self.httpInterface = new $httpInterface(self);
 
     self.cacheManager = new self.config.cacheManager(self);
-
-
-    // TODO: set up members for all non-functions
-    self.endpoints = self.config.endpoints;
-    self.cacheManager.addCacheEndpoints(self.endpoints);
+    self.cacheManager.addCacheEndpoints(self.config.endpoints);
 
     // TODO: add comment to explain what this does
+    // TODO: create instance of recorder
+    self.scenarioRecorder = self.config.playback.scenarioRecorder;
     for (var i = 0, iMax = self.config.scenarios.available.length; i < iMax; i++) {
         self.scenarioRecorder(self.config.scenarios.available[i].player());
     }
