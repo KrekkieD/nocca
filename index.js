@@ -15,7 +15,6 @@ module.exports.$httpInterface = require('./lib/httpInterface');
 module.exports.$keys = require('./lib/keys');
 module.exports.$playback = require('./lib/playback');
 module.exports.$recorder = require('./lib/recorder');
-module.exports.$reporter = require('./lib/reporter');
 module.exports.$responder = require('./lib/responder');
 module.exports.$scenario = require('./lib/scenario');
 module.exports.$scenarioRecorder = require('./lib/scenarioRecorder');
@@ -23,11 +22,13 @@ module.exports.$server = require('./lib/server');
 module.exports.$stats = require('./lib/stats');
 module.exports.$utils = require('./lib/utils');
 
-// TODO: perhaps we don't want to reference our exported modules
-// TODO: as these could be overwritten by consumer before the run phase
+
 function constructor (customOptions) {
 
-    var config = $extend(true, {}, module.exports.$defaultSettings, customOptions);
+    // this require is within the instance to make sure there's no conflict with other instances
+    var $defaultSettings = require('./lib/defaultSettings');
+
+    var config = $extend(true, {}, $defaultSettings, customOptions);
 
     return new Nocca(config);
 
@@ -36,11 +37,20 @@ function constructor (customOptions) {
 // the instance can carry state and allows multiple instances to run at the same time
 function Nocca (config) {
 
+    // these requires are within the instance to make sure there's no conflict with other instances
+    var $server = require('./lib/server');
+    var $gui = require('./lib/gui');
+    var $httpInterface = require('./lib/httpInterface');
+    var $caches = require('./lib/caches');
+
+    var $pubsub = require('node-pubsub');
+
+
+
     // map this to self so there are no this-scope issues
     var self = this;
 
     // store what we need
-    // TODO: set up members for all functions?
     self.config = config;
 
     // set a logger to logger.disabled to turn off logging
@@ -51,16 +61,27 @@ function Nocca (config) {
     self.logInfo = config.logger.info;
     self.logDebug = config.logger.debug;
 
+    // TODO: set up members for all functions from config?
     self.scenarioRecorder = config.playback.scenarioRecorder;
 
     // this instantiates the proxy, gui, httpApi and websocketServer
-    // TODO: reference to $httpInterface should probably come from config
-    self.server = new module.exports.$server(self, config.chainBuilderFactory(config));
-    self.gui = new module.exports.$gui(self);
-    self.httpInterface = new module.exports.$httpInterface(self);
+    // TODO: all these references should probably come from config
 
-    // TODO: these members should be set from config
-    self.caches = require('./lib/caches');
+    // NOTE: pubsub is NOT configurable
+    self.pubsub = $pubsub;
+
+    self.requestChainer = new config.chainBuilderFactory(self);
+
+    self.statsLogger = new config.statistics.logger(self);
+
+
+
+    self.server = new $server(self);
+    self.gui = new $gui(self);
+    self.httpInterface = new $httpInterface(self);
+
+    // TODO: instantiate for private instance!
+    self.caches = $caches;
 
 
     // TODO: set up members for all non-functions
@@ -75,5 +96,10 @@ function Nocca (config) {
     for (var i = 0, iMax = config.scenarios.available.length; i < iMax; i++) {
         self.scenarioRecorder(config.scenarios.available[i].player());
     }
+
+    // run all stat reporters so they can subscribe to events. Send in the instance as arg.
+    config.statistics.reporters.forEach(function (reporter) {
+        reporter(self);
+    });
 
 }
