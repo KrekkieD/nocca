@@ -36,31 +36,39 @@ function constructor (customOptions) {
 // the instance can carry state and allows multiple instances to run at the same time
 function Nocca (config) {
 
+    // map this to self so there are no this-scope issues
+    var self = this;
+
     // store what we need
     // TODO: set up members for all functions
-    this.config = config;
+    self.config = config;
+
+    self.scenarioRecorder = config.playback.scenarioRecorder;
 
     // TODO: these members should be set from config
-    this.httpInterface = require('./lib/httpInterface');
-    this.gui = require('./lib/gui');
-    this.server = require('./lib/server');
+    self.httpInterface = require('./lib/httpInterface');
+    self.gui = require('./lib/gui');
+    self.server = require('./lib/server');
+    self.caches = require('./lib/caches');
 
 
-    var cacheNames = Object.keys(config.endpoints);
-    for (var i = 0; i < cacheNames.length; i++) {
+    // TODO: set up members for all non-functions
+    self.endpoints = config.endpoints;
+
+    Object.keys(config.endpoints).forEach(function (key) {
         // TODO: should this come from config instead?
-        constructor.$caches.newEndpoint(cacheNames[i], config.endpoints[cacheNames[i]]);
-    }
+        self.caches.newEndpoint(key, self.endpoints[key]);
+    });
 
-    for (var j = 0; j < config.scenarios.available.length; j++) {
-        // TODO: should this come from config instead?
-        constructor.$playback.addScenario(config.scenarios.available[j].player());
+    // TODO: add comment to explain what this does
+    for (var i = 0, iMax = config.scenarios.available.length; i < iMax; i++) {
+        self.scenarioRecorder(config.scenarios.available[i].player());
     }
 
 
     // TODO: these functions may need to come from config
-    this.httpInterface(config);
-    this.gui(config);
-    this.server(config, config.chainBuilderFactory(config));
+    self.httpInterface(config);
+    self.gui(config);
+    self.server(config, config.chainBuilderFactory(config));
 
 }
