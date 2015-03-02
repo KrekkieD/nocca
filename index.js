@@ -71,8 +71,7 @@ function Nocca (config) {
     self.endpointManager = new self.config.endpointManager(self);
     self.endpointManager.addEndpoints(self.config.endpoints);
 
-    // TODO: add comment to explain what this does
-    // TODO: create instance of recorder
+    // Loop over any provided scenarios, get their respective players registered with the playback service
     self.scenarioRecorder = self.config.playback.scenarioRecorder;
     for (var i = 0, iMax = self.config.scenarios.available.length; i < iMax; i++) {
         self.scenarioRecorder(self.config.scenarios.available[i].player());
