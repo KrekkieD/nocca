@@ -35,6 +35,20 @@
 				$mdSidenav('nav').toggle();
 			};
 
+            var hideNavOnMouseLeaveEnabled = false;
+            $scope.hideNavOnMouseLeave = function (enable) {
+
+                if (enable) {
+                    hideNavOnMouseLeaveEnabled = true;
+                }
+                else {
+                    if (hideNavOnMouseLeaveEnabled === true) {
+                        $mdSidenav('nav').close();
+                    }
+                }
+
+            };
+
             $scope.uiStates = noccaNavigationStates;
 
         }

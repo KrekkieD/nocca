@@ -18,11 +18,13 @@
 
         function ScenariosDirectiveController (
             $scope,
-            $http
+            $http,
+            $mdToast
         ) {
 
             $scope.startRecording = startRecording;
             $scope.stopRecording = stopRecording;
+            $scope.cancelRecording = cancelRecording;
 
             $scope.scenarioModel = {};
 
@@ -34,8 +36,18 @@
                     method: 'get',
                     url: 'http://localhost:3005/scenarios/recorder'
                 }).then(function (response) {
-                    $scope.recorderStatus = response.data;
+                    $scope.recorder = response.data;
+                }, function () {
+                    $scope.recorder = undefined;
                 });
+
+            }
+
+            function showToastWithMessage (msg) {
+
+                $mdToast.show($mdToast.simple()
+                    .content(msg)
+                    .position('top right'));
 
             }
 
@@ -49,9 +61,16 @@
                     url: 'http://localhost:3005/scenarios/recorder',
                     data: payload
                 }).then(function (response) {
-                    $scope.recorderStatus = response.data;
+
+                    showToastWithMessage('Recording started successfully');
 
                     refreshStatus();
+                }, function (response) {
+
+                    showToastWithMessage('Could not start recording: ' + response.data);
+
+                    refreshStatus();
+
                 });
 
             }
@@ -66,9 +85,40 @@
                     url: 'http://localhost:3005/scenarios/recorder',
                     data: payload
                 }).then(function (response) {
-                    $scope.recorderStatus = response.data;
+
+                    showToastWithMessage('Recording stopped and saved');
 
                     refreshStatus();
+                }, function (response) {
+
+                    showToastWithMessage('Could not stop recording: ' + response.data);
+
+                    refreshStatus();
+
+                });
+
+            }
+
+            function cancelRecording () {
+
+                var payload = angular.extend({}, $scope.scenarioModel);
+                payload.cancelRecording = true;
+
+                $http({
+                    method: 'delete',
+                    url: 'http://localhost:3005/scenarios/recorder',
+                    data: payload
+                }).then(function (response) {
+
+                    showToastWithMessage('Recording cancelled');
+
+                    refreshStatus();
+                }, function (response) {
+
+                    showToastWithMessage('Could not cancel recording: ' + response.data);
+
+                    refreshStatus();
+
                 });
 
             }

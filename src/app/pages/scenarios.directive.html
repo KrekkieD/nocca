@@ -1,36 +1,56 @@
 <div>
 
-    <md-content class="md-padding">
+    <md-content class="md-padding" layout="column">
 
         <h2>Manage scenarios</h2>
 
-        <p>
-            Recorder status:
-        </p>
-        <pre>{{ recorderStatus | json:4 }}</pre>
+        <md-content layout="row" layout-margin>
+            <p flex="20">
+                Recorder status:
+            </p>
+            <div flex>
 
-        <p>Controls:</p>
+                <pre ng-show="recorder">{{ recorder | json:4 }}</pre>
+                <p ng-show="!recorder"><span class="fa fa-power-off"></span> OFF</p>
 
-        <md-content layout="row">
-            <md-input-container>
+            </div>
+        </md-content>
+
+        <md-content ng-show="!recorder" layout="row" layout-wrap>
+            <md-input-container flex="60">
                 <label>Scenario name</label>
                 <input ng-model="scenarioModel.name" name="name">
             </md-input-container>
-            <md-input-container>
+            <md-input-container flex="60">
                 <label>Scenario title</label>
                 <input ng-model="scenarioModel.title" name="title">
             </md-input-container>
-            <md-button ng-click="startRecording()">
-                <span class="fa fa-video-camera"></span>
-                start
-            </md-button>
-        </md-content>
-        <md-content layout="row">
 
-            <md-button ng-click="stopRecording()">
-                <span class="fa fa-stop"></span>
-                stop
-            </md-button>
+            <div layout="row" layout-align="end end" flex="60">
+                <md-button ng-click="startRecording()" class="md-primary">
+                    <span class="fa fa-video-camera"></span>
+                    start
+                </md-button>
+            </div>
+        </md-content>
+
+        <md-content ng-show="recorder" layout="row" layout-wrap>
+
+            <md-divider flex="60"></md-divider>
+
+            <md-content flex="60" class="md-padding"></md-content>
+
+            <div flex="60" layout="row">
+                <md-button ng-click="cancelRecording()" ng-show="recorder" class="md-warn">
+                    <span class="fa fa-ban"></span>
+                    cancel
+                </md-button>
+                <span flex></span>
+                <md-button ng-click="stopRecording()" ng-show="recorder" class="md-primary">
+                    <span class="fa fa-stop"></span>
+                    stop and save
+                </md-button>
+            </div>
         </md-content>
 
     </md-content>

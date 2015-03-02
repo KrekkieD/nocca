@@ -44,6 +44,8 @@ function Nocca (config) {
     // NOTE: pubsub is NOT configurable
     self.pubsub = $pubsub;
 
+    self.throwError = throwNoccaError;
+
 
     //   C O N F I G U R A B L E   S T U F F   B E L O W
 

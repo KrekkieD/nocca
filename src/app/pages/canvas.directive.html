@@ -1,6 +1,6 @@
 <div ng-cloak layout="row" class="nocca-full-height">
 
-    <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="nav">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="nav" ng-mouseleave="hideNavOnMouseLeave()">
         <md-toolbar>
 
             <md-button ng-click="toggleNav()" layout="row" layout-align="center center">
@@ -23,7 +23,7 @@
                                 Received requests, responses, recordings, etc
                             </p>
                             <p layout="column">
-                                <a ui-sref="{{ uiStates.status }}" class="nocca-nav-link">
+                                <a ui-sref="{{ uiStates.status }}" class="nocca-nav-link" ng-click="hideNavOnMouseLeave(true)">
                                     View status
                                     <span class="fa fa-angle-right"></span>
                                 </a>
@@ -40,7 +40,7 @@
                                 Import caches, export caches, yadayada
                             </p>
                             <p layout="column">
-                                <a ui-sref="{{ uiStates.status }}" class="nocca-nav-link">
+                                <a ui-sref="{{ uiStates.status }}" class="nocca-nav-link" ng-click="hideNavOnMouseLeave(true)">
                                     Manage caches
                                     <span class="fa fa-angle-right"></span>
                                 </a>
@@ -57,7 +57,7 @@
                                 Start and stop
                             </p>
                             <p layout="column">
-                                <a ui-sref="{{ uiStates.scenarios }}" class="nocca-nav-link">
+                                <a ui-sref="{{ uiStates.scenarios }}" class="nocca-nav-link" ng-click="hideNavOnMouseLeave(true)">
                                     Manage scenarios
                                     <span class="fa fa-angle-right"></span>
                                 </a>
