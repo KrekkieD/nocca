@@ -1,6 +1,7 @@
 'use strict';
 
 var Nocca = require('../../index');
+var _ = require('lodash');
 
 var config = {
     endpoints: {
@@ -188,7 +189,15 @@ var googleScenario = googleScenarioBuilder.sequentialScenario()
     .matchUsing(Matchers.ginInUrlBuilder('1234'))
     .respondWith(GoogleResponses.f3)
     .build();
-    
+
+//var SandboxedModule = require('sandboxed-module');
+//var generated = SandboxedModule.require('./scenario_LoginSuccess', {
+//    requires: {
+//        'lodash': _,
+//        'nocca': Nocca
+//    }
+//});
+
 config.scenarios.available = [googleScenario];
 
 new Nocca(config);
