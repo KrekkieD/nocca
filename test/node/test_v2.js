@@ -102,10 +102,6 @@ var config = {
         }
 
     },
-    playback: {
-        recorder: Nocca.$scenarioRecorder.scenarioEntryRecorderFactory(Nocca.$playback.addRecording)
-        
-    },
     scenarios: {
         writeNewScenarios: true,
         scenarioOutputDir: 'D:/dev/tmp/'

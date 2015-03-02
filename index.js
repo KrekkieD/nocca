@@ -22,6 +22,7 @@ module.exports.$scenarioRecorder = require('./lib/scenarioRecorder');
 module.exports.$server = require('./lib/server');
 module.exports.$stats = require('./lib/stats');
 module.exports.$utils = require('./lib/utils');
+module.exports.throwError = throwNoccaError;
 
 
 // the instance can carry state and allows multiple instances to run at the same time
@@ -59,6 +60,11 @@ function Nocca (config) {
     self.responder = new self.config.responder(self);
     self.statsLogger = new self.config.statistics.instance(self);
 
+    // This plugin should be transparently pluggable. It now enabled scenarios by default
+    self.scenarioRecorder = new Nocca.$scenarioRecorder(self);
+    self.scenario = Nocca.$scenario;
+    self.config.playback.recorder = self.scenarioRecorder.scenarioEntryRecorderFactory(self.config.playback.recorder);
+
     // instantiate servers by looping over them. Nice.
     Object.keys(self.config.servers).forEach(function (server) {
 
@@ -72,9 +78,8 @@ function Nocca (config) {
     self.endpointManager.addEndpoints(self.config.endpoints);
 
     // Loop over any provided scenarios, get their respective players registered with the playback service
-    self.scenarioRecorder = self.config.playback.scenarioRecorder;
     for (var i = 0, iMax = self.config.scenarios.available.length; i < iMax; i++) {
-        self.scenarioRecorder(self.config.scenarios.available[i].player());
+        self.config.playback.scenarioRecorder(self.config.scenarios.available[i].player());
     }
 
     // run all stat reporters so they can subscribe to events. Send in the instance as arg.
@@ -82,4 +87,10 @@ function Nocca (config) {
         reporter(self);
     });
 
+}
+
+function throwNoccaError(message, errorCode) {
+    var e = new Error(message);
+    e.name = errorCode;
+    throw e;
 }
