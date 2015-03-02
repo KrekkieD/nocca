@@ -57,7 +57,7 @@ function Nocca (config) {
 
     self.requestChainer = new self.config.chainBuilderFactory(self);
     self.responder = new self.config.responder(self);
-    self.statsLogger = new self.config.statistics.logger(self);
+    self.statsLogger = new self.config.statistics.instance(self);
 
     // instantiate servers by looping over them. Nice.
     Object.keys(self.config.servers).forEach(function (server) {
