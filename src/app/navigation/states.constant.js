@@ -6,7 +6,8 @@
             'noccaNavigationStates', {
                 status: 'nocca-status',
                 export: 'nocca-export',
-                manage: 'nocca-manage'
+                manage: 'nocca-manage',
+                scenarios: 'nocca-scenarios'
             }
         );
 }());

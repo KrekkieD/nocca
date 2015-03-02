@@ -24,6 +24,10 @@
             .state(states.export, {
                 url: '/export',
                 template: '<nocca-pages-export></nocca-pages-export>'
+            })
+            .state(states.scenarios, {
+                url: '/scenarios',
+                template: '<nocca-pages-scenarios></nocca-pages-scenarios>'
             });
 
     }

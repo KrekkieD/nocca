@@ -1,0 +1,38 @@
+<div>
+
+    <md-content class="md-padding">
+
+        <h2>Manage scenarios</h2>
+
+        <p>
+            Recorder status:
+        </p>
+        <pre>{{ recorderStatus | json:4 }}</pre>
+
+        <p>Controls:</p>
+
+        <md-content layout="row">
+            <md-input-container>
+                <label>Scenario name</label>
+                <input ng-model="scenarioModel.name" name="name">
+            </md-input-container>
+            <md-input-container>
+                <label>Scenario title</label>
+                <input ng-model="scenarioModel.title" name="title">
+            </md-input-container>
+            <md-button ng-click="startRecording()">
+                <span class="fa fa-video-camera"></span>
+                start
+            </md-button>
+        </md-content>
+        <md-content layout="row">
+
+            <md-button ng-click="stopRecording()">
+                <span class="fa fa-stop"></span>
+                stop
+            </md-button>
+        </md-content>
+
+    </md-content>
+
+</div>
