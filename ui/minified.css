@@ -1,4 +1,5 @@
 .nocca-full-height,body,html{height:100%;min-height:100%}.nocca-nav li,.nocca-nav ul{display:inline-block}.nocca-nav-link{color:#333;display:inline-block;transition:all .1s ease-in-out}.nocca-nav-link:hover{padding-left:5px}
+.nocca-story-timestamp{opacity:.7}
 .nocca-request-dialog{min-width:75%;min-height:75%}
 .nocca-request-preview-wrap{white-space:pre-wrap}
 .response-tile-left{text-align:center;font-size:150%;font-weight:700;padding:0 1em}
