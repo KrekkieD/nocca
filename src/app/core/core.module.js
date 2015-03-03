@@ -4,6 +4,7 @@
     angular.module('nocca.core', [
         'ui.router',
         'ngWebsocket',
+        'ngMessages',
         'ngMaterial',
         'LocalStorageModule',
         'truncate',

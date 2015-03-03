@@ -5,34 +5,48 @@
         <h2>Manage scenarios</h2>
 
         <md-content layout="row" layout-margin>
-            <p flex="20">
-                Recorder status:
-            </p>
+            <div flex="20">
+                <span>Recorder status:</span>
+            </div>
             <div flex>
 
                 <pre ng-show="recorder">{{ recorder | json:4 }}</pre>
-                <p ng-show="!recorder"><span class="fa fa-power-off"></span> OFF</p>
+                <span ng-show="!recorder"><span class="fa fa-power-off"></span> OFF</span>
 
             </div>
         </md-content>
 
-        <md-content ng-show="!recorder" layout="row" layout-wrap>
+        <form name="scenarioRecorder" ng-submit="startRecording()" ng-show="!recorder" layout="row" layout-wrap>
+
             <md-input-container flex="60">
-                <label>Scenario name</label>
-                <input ng-model="scenarioModel.name" name="name">
+                <label>Scenario key</label>
+                <input ng-model="scenarioModel.name" required ng-pattern="/^[a-zA-Z0-9]+([a-zA-Z0-9\-\_\.]+[a-zA-Z0-9]+)$/" name="name">
+
+                <div ng-messages="scenarioRecorder.name.$error">
+                    <div ng-message="required">Please provide a key, this is a unique scenario identifier</div>
+                    <div ng-message="pattern">Please keep it simple, don't start or end with a weird char, and no weird chars other than - _ .</div>
+                </div>
+
             </md-input-container>
+
             <md-input-container flex="60">
                 <label>Scenario title</label>
-                <input ng-model="scenarioModel.title" name="title">
+                <input ng-model="scenarioModel.title" required name="title">
+
+                <div ng-messages="scenarioRecorder.title.$error">
+                    <div ng-message="required">Please provide a title, this is your human readable reference</div>
+                </div>
+
             </md-input-container>
 
             <div layout="row" layout-align="end end" flex="60">
-                <md-button ng-click="startRecording()" class="md-primary">
+                <md-button class="md-primary">
                     <span class="fa fa-video-camera"></span>
                     start
                 </md-button>
             </div>
-        </md-content>
+
+        </form>
 
         <md-content ng-show="recorder" layout="row" layout-wrap>
 
