@@ -110,7 +110,7 @@ var paths = {
  */
 var globs = {
 	js: {
-		src: paths.js.src + '/**/!(*spec.js|*scenario.js)',
+		src: paths.js.src + '/**/!(*.spec|*.scenario).js',
 		dev: paths.js.dev + '/**/*.js'
 	},
 	scss: {
@@ -118,7 +118,7 @@ var globs = {
 		dev: paths.scss.dev + '/**/*.css'
 	},
 	spec: {
-		src: paths.js.src + '/**/*spec.js',
+		src: paths.js.src + '/**/*.spec.js'
 	},
 	bootstrap: {
 		src: paths.bootstrap.src + '/bootstrap.js',
@@ -748,7 +748,7 @@ gulp.task('dist-partials', function () {
 gulp.task('dist-js', function () {
 	return gulp.src(globs.js.src)
 		.pipe(ngAnnotate(settings.ngAnnotate))
-		.pipe(angularFilesort())
+		//.pipe(angularFilesort())
 		.pipe(gulp.dest(paths.js.dist));
 });
 
