@@ -9,6 +9,14 @@
             {{ response.hash }}
         </h3>
 
+        <div ng-mouseleave="truncateOn()" ng-mouseenter="truncateOff()">
+            <p>
+                <md-tooltip>Generated request key</md-tooltip>
+                <span class="fa fa-key"></span>
+                {{ response.requestKey | characters:truncateLength:true }}
+            </p>
+        </div>
+
         <p>
             <span>
                 <md-tooltip>incoming request</md-tooltip>

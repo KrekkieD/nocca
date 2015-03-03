@@ -28,6 +28,13 @@
             </nocca-widgets-request-preview>
 
         </md-tab>
+        <md-tab label="full raw">
+
+            <md-content class="md-padding">
+                <pre>{{ content | json:4 }}</pre>
+            </md-content>
+
+        </md-tab>
     </md-tabs>
 
     <md-content class="md-padding">

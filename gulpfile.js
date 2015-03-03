@@ -110,7 +110,7 @@ var paths = {
  */
 var globs = {
 	js: {
-		src: paths.js.src + '/**/!(*spec|*scenario).js',
+		src: paths.js.src + '/**/!(*spec.js|*scenario.js)',
 		dev: paths.js.dev + '/**/*.js'
 	},
 	scss: {

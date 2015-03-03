@@ -28,10 +28,38 @@
         /* @ngInject */
         function ResponseDirectiveController (
             $scope,
-            $mdDialog
+            $mdDialog,
+            $timeout
         ) {
 
+            var truncateLength = 170;
+            var truncateTimer;
+            var truncateTimeout = 400;
+
+            $scope.truncateLength = truncateLength;
+            $scope.truncateOff = truncateOff;
+            $scope.truncateOn = truncateOn;
+
             $scope.showDialog = showDialog;
+
+
+            function truncateOff () {
+
+                truncateTimer = $timeout(function () {
+                    $scope.truncateLength = 'off';
+                }, truncateTimeout);
+
+            }
+
+            function truncateOn () {
+
+                $timeout.cancel(truncateTimer);
+
+                truncateTimer = $timeout(function () {
+                    $scope.truncateLength = truncateLength;
+                }, truncateTimeout);
+
+            }
 
             function showDialog (e, type) {
 

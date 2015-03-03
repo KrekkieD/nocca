@@ -23,7 +23,8 @@
     "ng-websocket": "~0.2.1",
     "angular-material": "~0.7.1",
     "font-awesome": "~4.3.0",
-    "angular-local-storage": "~0.1.5"
+    "angular-local-storage": "~0.1.5",
+    "angular-truncate": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.x"

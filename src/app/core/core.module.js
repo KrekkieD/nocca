@@ -6,6 +6,7 @@
         'ngWebsocket',
         'ngMaterial',
         'LocalStorageModule',
+        'truncate',
 
         'nocca.navigation',
         'nocca.pages',
