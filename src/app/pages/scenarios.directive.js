@@ -16,6 +16,7 @@
 
         return directive;
 
+        /* @ngInject */
         function ScenariosDirectiveController (
             $scope,
             $http,
