@@ -25,12 +25,19 @@
             <md-switch ng-model="requestDialog.bodyWrap" aria-label="Switch 1">
                 wrap
             </md-switch>
+            <md-switch ng-model="requestDialog.bodyPrettyPrint" aria-label="Switch 1">
+                pretty print
+            </md-switch>
         </div>
         <div class="md-tile-content">
             <md-content class="md-padding">
                 <em ng-show="!preview.body">No body to show</em>
-                <pre ng-show="preview.body && requestDialog.body"
+
+                <pre ng-show="preview.body && requestDialog.body && !requestDialog.bodyPrettyPrint"
                     ng-class="{'nocca-request-preview-wrap': requestDialog.bodyWrap}">{{ preview.body }}</pre>
+
+                <pre ng-show="preview.body && requestDialog.body && requestDialog.bodyPrettyPrint"
+                    ng-class="{'nocca-request-preview-wrap': requestDialog.bodyWrap}">{{ prettyBody }}</pre>
 
             </md-content>
         </div>

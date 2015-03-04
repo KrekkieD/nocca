@@ -106,12 +106,13 @@
 
             <md-tab label="Story">
 
-                    <p ng-repeat="line in data.storyLog.slice().reverse() track by $index">
+                    <p ng-repeat="line in data.storyLog.slice().reverse() track by $index" class="nocca-story-line">
                         <span class="nocca-story-timestamp">{{ line.timestamp }}</span><br>
 
                         <span ng-class="{'fa-circle': line.rec}" class="fa fa-fw"></span>
                         <span ng-class="{'fa-sign-out': line.fwd}" class="fa fa-fw"></span>
                         <span ng-class="{'fa-play': line.rpl}" class="fa fa-fw"></span>
+                        <span ng-class="{'fa-question': line.miss}" class="fa fa-fw"></span>
 
                         <span>{{ line.line }}</span>
                     </p>
