@@ -27,7 +27,7 @@
 
         function link (scope) {
 
-            if (typeof scope.preview.body !== 'undefined') {
+            if (scope.preview) {
 
                 var headers = scope.preview.headers || {};
 
@@ -35,11 +35,18 @@
 
                     if (key.toLowerCase() === 'content-type') {
 
-                        if (headers[key].indexOf('xml') > -1) {
+                        if (headers[key].indexOf('xml') > -1 ||
+                            // not entirely sure if html is gonna play
+                            headers[key].indexOf('html') > -1) {
+
                             scope.prettyBody = vkbeautify.xml(scope.preview.body);
                         }
                         else if (headers[key].indexOf('json') > -1) {
                             scope.prettyBody = vkbeautify.json(scope.preview.body);
+                        }
+                        else {
+                            // if we can't format, at least return something
+                            scope.prettyBody = scope.preview.body;
                         }
 
                         return false;

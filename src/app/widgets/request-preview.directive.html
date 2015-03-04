@@ -1,12 +1,32 @@
-<div>
+<md-content>
 
-    <md-item-content class="md-padding">
+    <md-item-content class="md-padding" layout-align="start start">
 
-        <div class="md-tile-left">
-            raw <span class="fa" ng-class="{'fa-eye': requestDialog.raw, 'fa-eye-slash': !requestDialog.raw}"></span>
-            <md-switch ng-model="requestDialog.rawWrap" aria-label="Switch 1">
-                wrap
-            </md-switch>
+        <div class="md-tile-left" flex="5">
+
+            <div layout="column" class="md-padding">
+
+                <md-button ng-click="requestDialog.raw = !requestDialog.raw"
+                    ng-class="{'md-accent': requestDialog.raw}">
+
+                    <md-tooltip md-direction="right">Show or hide this</md-tooltip>
+                    <span class="fa fa-fw" ng-class="{
+                        'fa-eye': requestDialog.raw,
+                        'fa-eye-slash': !requestDialog.raw
+                    }"></span>
+                </md-button>
+                <md-button ng-click="requestDialog.rawWrap = !requestDialog.rawWrap"
+                    ng-class="{'md-accent': requestDialog.rawWrap}">
+
+                    <md-tooltip md-direction="right">Wrap long lines</md-tooltip>
+                    <span class="fa fa-fw" ng-class="{
+                        'fa-level-down fa-rotate-90': requestDialog.rawWrap,
+                        'fa-long-arrow-down fa-rotate-270': !requestDialog.rawWrap
+                    }"></span>
+                </md-button>
+
+            </div>
+
         </div>
         <div class="md-tile-content">
             <md-content class="md-padding">
@@ -18,19 +38,45 @@
 
     <md-divider></md-divider>
 
-    <md-item-content class="md-padding">
+    <md-item-content class="md-padding" layout-align="start start">
 
-        <div class="md-tile-left">
-            body <span class="fa" ng-class="{'fa-eye': requestDialog.body, 'fa-eye-slash': !requestDialog.body}"></span><br>
-            <md-switch ng-model="requestDialog.bodyWrap" aria-label="Switch 1">
-                wrap
-            </md-switch>
-            <md-switch ng-model="requestDialog.bodyPrettyPrint" aria-label="Switch 1">
-                pretty print
-            </md-switch>
+        <div class="md-tile-left" flex="5">
+
+            <div layout="column" class="md-padding">
+                <md-button ng-click="requestDialog.body = !requestDialog.body"
+                    ng-class="{'md-accent': requestDialog.body}">
+
+                    <md-tooltip md-direction="right">Show or hide this</md-tooltip>
+                    <span class="fa fa-fw" ng-class="{
+                        'fa-eye': requestDialog.body,
+                        'fa-eye-slash': !requestDialog.body
+                    }"></span>
+                </md-button>
+                <md-button ng-click="requestDialog.bodyWrap = !requestDialog.bodyWrap"
+                    ng-class="{'md-accent': requestDialog.bodyWrap}">
+
+                    <md-tooltip md-direction="right">Wrap long lines</md-tooltip>
+                    <span class="fa fa-fw" ng-class="{
+                        'fa-level-down fa-rotate-90': requestDialog.bodyWrap,
+                        'fa-long-arrow-down fa-rotate-270': !requestDialog.bodyWrap
+                    }"></span>
+                </md-button>
+
+                <md-button ng-click="requestDialog.bodyPrettyPrint = !requestDialog.bodyPrettyPrint"
+                    ng-class="{'md-accent': requestDialog.bodyPrettyPrint}">
+
+                    <md-tooltip md-direction="right">Fix indention</md-tooltip>
+                    <span class="fa fa-fw" ng-class="{
+                        'fa-align-justify': !requestDialog.bodyPrettyPrint,
+                        'fa-indent': requestDialog.bodyPrettyPrint
+                    }"></span>
+                </md-button>
+            </div>
+
         </div>
         <div class="md-tile-content">
             <md-content class="md-padding">
+
                 <em ng-show="!preview.body">No body to show</em>
 
                 <pre ng-show="preview.body && requestDialog.body && !requestDialog.bodyPrettyPrint"
@@ -44,4 +90,4 @@
 
     </md-item-content>
 
-</div>
+</md-content>
