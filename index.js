@@ -16,6 +16,7 @@ module.exports.$gui = require('./lib/gui');
 module.exports.$keys = require('./lib/keys');
 module.exports.$playback = require('./lib/playback');
 module.exports.$recorder = require('./lib/recorder');
+module.exports.$requestExtractor = require('./lib/requestExtractor');
 module.exports.$responder = require('./lib/responder');
 module.exports.$scenario = require('./lib/scenario');
 module.exports.$scenarioRecorder = require('./lib/scenarioRecorder');
@@ -59,6 +60,7 @@ function Nocca (config) {
 
 
     self.requestChainer = new self.config.chainBuilderFactory(self);
+    self.requestExtractor = new self.config.requestExtractor(self);
     self.responder = new self.config.responder(self);
     self.statsLogger = new self.config.statistics.instance(self);
 
