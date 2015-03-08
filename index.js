@@ -14,6 +14,7 @@ module.exports.$errors = require('./lib/errors');
 module.exports.$forwarder = require('./lib/forwarder');
 module.exports.$gui = require('./lib/gui');
 module.exports.$keys = require('./lib/keys');
+module.exports.$logger = require('./lib/logger');
 module.exports.$playback = require('./lib/playback');
 module.exports.$recorder = require('./lib/recorder');
 module.exports.$requestExtractor = require('./lib/requestExtractor');
