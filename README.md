@@ -33,8 +33,8 @@ The following table shows the possible configuration items Nocca supports, their
     <th>Description</th>
   </tr>
   <tr class="property-row">
-    <td class="property-cell">logger</td>
-    <td class="default-value-cell">Nocca.$logger</td>
+    <td class="property-cell"><code>logger</code></td>
+    <td class="default-value-cell"><code>Nocca.$logger</code></td>
     <td class="description-cell">
       The <code>logger</code> service exposes a top-level logging function and series of log-level functions on which Nocca reports its activities. These functions
       are expected on the configured <code>logger</code> service:
@@ -50,10 +50,64 @@ The following table shows the possible configuration items Nocca supports, their
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell">delay</td>
-    <td class="default-value-cell">500</td>
+    <td class="property-cell"><code>delay</code></td>
+    <td class="default-value-cell"><code>500</code></td>
     <td class="description-cell">
       The default delay used when responding to HTTP requests. Even if there is a recorded response, Nocca will wait this long before sending the response.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>endpoints</code></td>
+    <td class="default-value-cell"><code>{}</code></td>
+    <td class="description-cell">
+      The cache endpoints provided by Nocca. TODO: elaborate, since this is the heart of Nocca :)
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>servers</code></td>
+    <td class="default-value-cell"><code>Object</code></td>
+    <td class="description-cell">
+      Contains configurations for all ports Nocca should open on startup. The defaul configuration contains three sub-entries, describing
+      the different ports opened: <code>proxy</code>, <code>gui</code> and <code>httpApi</code>.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>servers.proxy</code></td>
+    <td class="default-value-cell"><code>Object</code></td>
+    <td class="description-cell">
+      Configures the default proxy instance. Although the constructor function instantiating this server is overridable, you should take
+      great care when doing so. Try not to break it ;)
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>servers.proxy.enabled</code></td>
+    <td class="default-value-cell"><code>true</code></td>
+    <td class="description-cell">
+      If for some reason you do not want to open the actual proxy port, you can turn it off here. Caches and scenarios will still be loaded
+      and can be accessed through the GUI and API, provided they are enabled. Another practical reason to do this is if you want to host the
+      GUI on a different machine from the actual proxy.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>servers.proxy.instance</code></td>
+    <td class="default-value-cell"><code>Nocca.$server</code></td>
+    <td class="description-cell">
+      Constructor function for the proxy server. This function should open de port and initialize the server component to begin receiving
+      requests. <strong>If you override this, make sure you know what you are doing.</strong>
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>servers.proxy.port</code></td>
+    <td class="default-value-cell"><code>3003</code></td>
+    <td class="description-cell">
+      This is the port the proxy will be listening to.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>placeholder</code></td>
+    <td class="default-value-cell"><code>placeholder</code></td>
+    <td class="description-cell">
+      placeholder
     </td>
   </tr>
 </table>
@@ -74,21 +128,6 @@ The following table shows the possible configuration items Nocca supports, their
 
 ## Default Chain
 
-
-
-
-<style>
-
-.table.table-properties {
-}
-
-.table-properties .header-row {
-  font-weight: bold;
-}
-
-code, .table-properties .property-row .property-cell, .table-properties .property-row .default-value-cell {
-  font-family: Inconsolata Monaco "Courier New" monospace;
-}
 
 
 </style>
