@@ -92,7 +92,7 @@ The following table shows the possible configuration items Nocca supports, their
     <td class="property-cell"><code>servers.proxy.instance</code></td>
     <td class="default-value-cell"><code>Nocca.$server</code></td>
     <td class="description-cell">
-      Constructor function for the proxy server. This function should open de port and initialize the server component to begin receiving
+      Constructor function for the proxy server. This function should open the port and initialize the server component to begin receiving
       requests. <strong>If you override this, make sure you know what you are doing.</strong>
     </td>
   </tr>
@@ -101,6 +101,90 @@ The following table shows the possible configuration items Nocca supports, their
     <td class="default-value-cell"><code>3003</code></td>
     <td class="description-cell">
       This is the port the proxy will be listening to.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>gui</code></td>
+    <td class="default-value-cell"><code>Object</code></td>
+    <td class="description-cell">
+      Configures an HTTP server to serve the Nocca user interface.
+    </td>
+  <tr class="property-row">
+    <td class="property-cell"><code>gui.enabled</code></td>
+    <td class="default-value-cell"><code>true</code></td>
+    <td class="description-cell">
+      Whether you want the GUI port to be enabled on this instance. Turning this off might be useful if you want to push Nocca's performance to the max, or you want to split the
+      proxy and gui over two different servers.
+    </td>
+  <tr class="property-row">
+    <td class="property-cell"><code>gui.instance</code></td>
+    <td class="default-value-cell"><code>Nocca.$gui</code></td>
+    <td class="description-cell">
+      Constructor function for the GUI server. This function should open the port and initialize the server component to serve the GUI to user. If you want to be brave and creative
+      and expand on the default user interface, you can override this function.
+    </td>
+  <tr class="property-row">
+    <td class="property-cell"><code>gui.port</code></td>
+    <td class="default-value-cell"><code>3004</code></td>
+    <td class="description-cell">
+      This is the port where the GUI server will be listening to.
+    </td>
+  <tr class="property-row">
+    <td class="property-cell"><code>httpApi</code></td>
+    <td class="default-value-cell"><code>Object</code></td>
+    <td class="description-cell">
+      Configures the REST API for controlling Nocca remotely.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>httpApi.enabled</code></td>
+    <td class="default-value-cell"><code>true</code></td>
+    <td class="description-cell">
+      Allows you to disable the REST api if you do not wish the Nocca instance to be controlled remotely.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>httpApi.instance</code></td>
+    <td class="default-value-cell"><code>Nocca.$httpApi</code></td>
+    <td class="description-cell">
+      Constructor function for the REST api server. This function should open the port and initialize the server component to serve the REST api to any consumers. Be very very careful
+      overriding this :)
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>httpApi.port</code></td>
+    <td class="default-value-cell"><code>3005</code></td>
+    <td class="description-cell">
+      This is the port where the REST api server will be listening to.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>websocketServer</code></td>
+    <td class="default-value-cell"><code>Object</code></td>
+    <td class="description-cell">
+      Configures the WebSocket for receiving Nocca push updates.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>websocketServer.autoAcceptConnections</code></td>
+    <td class="default-value-cell"><code>true</code></td>
+    <td class="description-cell">
+      Configures whether the Websocket library should automatically accept all requests coming in on the Websocket port. If you want to add access control to this port, you'll have
+      to set this to <code>false</code>
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>websocketServer.enabled</code></td>
+    <td class="default-value-cell"><code>true</code></td>
+    <td class="description-cell">
+      placeholder
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>websocketServer.instance</code></td>
+    <td class="default-value-cell"><code>Nocca.$</code></td>
+    <td class="description-cell">
+      placeholder
     </td>
   </tr>
   <tr class="property-row">
