@@ -24,6 +24,7 @@ module.exports.$scenarioRecorder = require('./lib/scenarioRecorder');
 module.exports.$server = require('./lib/server');
 module.exports.$stats = require('./lib/stats');
 module.exports.$utils = require('./lib/utils');
+module.exports.$websocketServer = require('./lib/websocketServer');
 module.exports.throwError = throwNoccaError;
 
 

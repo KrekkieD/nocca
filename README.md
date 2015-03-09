@@ -182,7 +182,181 @@ The following table shows the possible configuration items Nocca supports, their
   </tr>
   <tr class="property-row">
     <td class="property-cell"><code>websocketServer.instance</code></td>
-    <td class="default-value-cell"><code>Nocca.$</code></td>
+    <td class="default-value-cell"><code>Nocca.$websocketServer</code></td>
+    <td class="description-cell">
+      Constructor function for the WebSocket server. This function should open the port and initialize the server to start listening
+      to push events from the Nocca server instance.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>websocketServer.port</code></td>
+    <td class="default-value-cell"><code>3005</code></td>
+    <td class="description-cell">
+      The port which will be used to open a new server if the option <code>useHttpApiServer</code> has been set to <code>false</code>.
+      If that option is set to <code>true</code>, this component will latch onto the <code>httpApi</code> server to handle WebSocket
+      over the same port.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>record</code></td>
+    <td class="default-value-cell"><code>true</code></td>
+    <td class="description-cell">
+      Determines whether newly forwarded requests (and their accompanying responses) will be recorded.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>forward</code></td>
+    <td class="default-value-cell"><code>$constants.FORWARDING_FORWARD_MISSING</code></td>
+    <td class="description-cell">
+      Determines whether requests should be forwarded to the target system. This option supports three values:
+      <dl>
+        <dt><code>true</code></dt>
+        <dd>Indicates all requests should be forwarded and recorded responses should be ignored.</dd>
+        <dt><code>$constants.FORWARDING_FORWARD_MISSING</code></dt>
+        <dd>Indicates only requests for which no matching recorded responses are present should be forwarded. All matching requests will be played from caches and/or scenarios.</dd>
+        <dt><code>false</code><dt>
+        <dd>Indicates no requests will be forwarded. Only matching requests will be played from the caches and/or scenarios.</dd>
+      </dl>
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>requestContextConstructor</code></td>
+    <td class="default-value-cell"><code>RequestContext</code></td>
+    <td class="description-cell">
+      Constructor function for creating <code>RequestContext</code> objects. If you wish to use a subclass of the <code>RequestContext</code>, you
+      can substitute your own constructor function for the default version.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>requestExtractor</code></td>
+    <td class="default-value-cell"><code>Nocca.$requestExtractor</code></td>
+    <td class="description-cell">
+      Nocca plugin initializer function which returns a function capable of extracting responses from a RequestContext. In the default chain,
+      this component is responsible for decorating the request context with a property <code>request</code>, containing <code>url</code>, <code>method</code>,
+      <code>path</code> and <code>headers</code> objects.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>endpointManager</code></td>
+    <td class="default-value-cell"><code>Nocca.$endpoints</code></td>
+    <td class="description-cell">
+      Nocca plugin initializer function which returns exposes the default <code>endpointSelector</code> service.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>keyGenerator</code></td>
+    <td class="default-value-cell"><code>Nocca.$keys.defaultGenerator</code></td>
+    <td class="description-cell">
+      Request key generator used by default for incoming requests. This can be overridden per endpoint, provided the <code>allowEndpointOverrides</code>
+      configuration directive is set to <code>true</code>. Nocca's default keygenerator is called <code>requestWithoutBodyKeyGenerator</code> and includes
+      url, method and headers into the calculation of the request key.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>playback</code></td>
+    <td class="default-value-cell"><code>Object</code></td>
+    <td class="description-cell">
+      Configures several services related to the playback of recorded cache entries and scenarios.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>playback.exporter</code></td>
+    <td class="default-value-cell"><code>Nocca.$playback.exportRecordings</code></td>
+    <td class="description-cell">
+      Function used to retrieve stored cache entries. This function should accept zero or two parameters. If no parameters are supplied, it should
+      return a complete map of all available cache entries, grouped by endpoint key and then request key. If two parameters are supplied, the first
+      one is interpreted as an endpoint key, the second one as a request key:
+
+      <ul>
+        <li><code>function ([endpointKey, requestKey])</code></li>
+      </ul>
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>playback.matcher</code></td>
+    <td class="default-value-cell"><code>Nocca.$playback.defaultRequestMather</code></td>
+    <td class="description-cell">
+      Request chain function used to find a recorded response matching the incoming request. The default function will prefer matching scenarios of
+      single cache entries. If operates on the <code>RequestContext</code> and is expected to add a property <code>playbackResponse</code> containing
+      the matching recorded response.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>playback.mocker</code></td>
+    <td class="default-value-cell"><code>Nocca.$recorder.simpleResponseRecorder</code></td>
+    <td class="description-cell">
+      Request chain function used to turn the forwarded response into a mock that can be saved to either a single cache or a scenario. It should
+      offer the created mock entry to <code>Nocca.config.playback.recorder</code> for storage and activation.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>playback.recorder</code></td>
+    <td class="default-value-cell"><code>Nocca.$playback.addRecording</code></td>
+    <td class="description-cell">
+      Service function used to store a single mock entry in the cache database.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>playback.scenarioExporter</code></td>
+    <td class="default-value-cell"><code>Nocca.$playback.exportScenarios</code></td>
+    <td class="description-cell">
+      Function used to retrieve scenarios. It can be called with zero or one argument. When no argument is specified, the
+      function will return the complete set of all scenarios currently stored. When an argument is specified, it will be
+      interpreted as the scenario key and only a single scenario will be returned.
+
+      <ul>
+        <li><code>function([scenarioKey])</code></li>
+      </ul>
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>playback.scenarioRecorder</code></td>
+    <td class="default-value-cell"><code>Nocca.$playback.addScenario</code></td>
+    <td class="description-cell">
+      Service function used to store a single scenario in the cache database.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>playback.scenarioResetter</code></td>
+    <td class="default-value-cell"><code>Nocca.$playback.resetScenario</code></td>
+    <td class="description-cell">
+      Service function used to rewind a scenario to its initial state.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>requestForwarder</code></td>
+    <td class="default-value-cell"><code>Nocca.$forwarder.defaultForwarder</code></td>
+    <td class="description-cell">
+      Request chain function responsible for sending the request to the target backend. It must add the properties
+      <code>proxiedRequest</code> and <code>proxiedResponse</code> to the <code>RequestContext</code>.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>responder</code></td>
+    <td class="default-value-cell"><code>Nocca.$responder</code></td>
+    <td class="description-cell">
+      Request chain function responsible for returning the result of the request chain to the client. It can select to
+      send either the property <code>proxiedResponse</code> or <code>playbackResponse</code>, based on rules it can define
+      itself.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>failureHandlerFactory</code></td>
+    <td class="default-value-cell"><code>Nocca.$errors.defaultFailureHandlerFactory</code></td>
+    <td class="description-cell">
+      Request chain builder function that should return a function able to handle errors that might occured with the request.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>throwHandlerFactory</code></td>
+    <td class="default-value-cell"><code>Nocca.$errors.defaultThrowHandlerFactory</code></td>
+    <td class="description-cell">
+      Request chain builder function that should return a function able to handle thro
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>placeholder</code></td>
+    <td class="default-value-cell"><code>placeholder</code></td>
     <td class="description-cell">
       placeholder
     </td>
