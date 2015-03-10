@@ -355,6 +355,59 @@ The following table shows the possible configuration items Nocca supports, their
     </td>
   </tr>
   <tr class="property-row">
+    <td class="property-cell"><code>statistics</code></td>
+    <td class="default-value-cell"><code>Object</code></td>
+    <td class="description-cell">
+      Configures the way Nocca gathers and distributes statistices about its operation.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>statistics.instance</code></td>
+    <td class="default-value-cell"><code>Nocca.$stats</code></td>
+    <td class="description-cell">
+      Nocca plugin initializer function which is responsible for creating the statistics service. The value returned from this initializer should contain a <code>log</code>
+      function which accepts an instance of <code>RequestContext</code> from which it gathers its statistics.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>statistics.mode</code></td>
+    <td class="default-value-cell"><code>$constants.STATISTICS_LOG_MODE_REALTIME</code></td>
+    <td class="description-cell">
+      Configures the way statistics are pushed. The real-time mode will push any updates through the websocket interface immediately. There is a lazy mode configuration option which
+      will send updates more lazily, but it is not yet implemented.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>statistics.reporters</code></td>
+    <td class="default-value-cell"><code>[]</code></td>
+    <td class="description-cell">
+      Reporters ... 
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>chainBuilderFactory</code></td>
+    <td class="default-value-cell"><code>Nocca.$chainBuilderFactory</code></td>
+    <td class="description-cell">
+      Nocca plugin initializer function which is responsible for creating the function that build a promise chain. This initializer should return a function which accepts an instance
+      of a <code>RequestContext</code> and sets up the entire chain of plugins that need to handle the request. See the documentation of the default for more information. <strong>Be careful
+      when overriding this, you can completely alter the way Nocca works with this</code>
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>allowEndpointOverrides</code></td>
+    <td class="default-value-cell"><code>Object</code></td>
+    <td class="description-cell">
+      Configures which entries may be overridden per endpoint.
+    </td>
+  </tr>
+  <tr class="property-row">
+    <td class="property-cell"><code>allowEndpointOverrides.keyGenerator</code></td>
+    <td class="default-value-cell"><code></code></td>
+    <td class="description-cell">
+      placeholder
+    </td>
+  </tr>
+  <tr class="property-row">
     <td class="property-cell"><code>placeholder</code></td>
     <td class="default-value-cell"><code>placeholder</code></td>
     <td class="description-cell">
