@@ -1,7 +1,27 @@
 <div>
 
     <md-content class="md-padding">
-        <h2 flex>Status</h2>
+        <div layout="row">
+            <h2 flex>Status</h2>
+
+            <div>
+                <md-input-container>
+                    <label><span class="fa fa-filter"></span> Filter</label>
+                    <input type="text"
+                        ng-model="filter.query"
+                        ng-change="filterData(filter.query)"
+                        ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}">
+
+                    <div ng-messages="filter">
+                        <div ng-message="on">Found {{ filter.size }} responses</div>
+                    </div>
+                </md-input-container>
+
+            </div>
+
+        </div>
+
+
         <md-tabs md-selected="selectedTabIndex" flex>
             <md-tab label="All responses ({{ data.responses | noccaDataObjectLength }})">
                 <md-content class="md-spacing">
@@ -26,7 +46,7 @@
                         <md-subheader class="md-primary">{{ endpoint }}</md-subheader>
 
                         <md-list>
-                            <md-item ng-repeat="hashKey in hashKeys | noccaDataUnique">
+                            <md-item ng-repeat="hashKey in hashKeys | noccaDataUnique" ng-if="data.responses[hashKey]">
 
                                 <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
@@ -46,7 +66,7 @@
                     <section>
 
                         <md-list>
-                            <md-item ng-repeat="hashKey in data.recorded track by $index">
+                            <md-item ng-repeat="hashKey in data.recorded track by $index" ng-if="data.responses[hashKey]">
 
                                 <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
@@ -67,7 +87,7 @@
                     <section>
 
                         <md-list>
-                            <md-item ng-repeat="hashKey in data.forwarded track by $index">
+                            <md-item ng-repeat="hashKey in data.forwarded track by $index" ng-if="data.responses[hashKey]">
 
                                 <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
@@ -89,7 +109,7 @@
                     <section>
 
                         <md-list>
-                            <md-item ng-repeat="hashKey in data.replayed track by $index">
+                            <md-item ng-repeat="hashKey in data.replayed track by $index" ng-if="data.responses[hashKey]">
 
                                 <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
@@ -106,7 +126,10 @@
 
             <md-tab label="Story">
 
-                    <p ng-repeat="line in data.storyLog.slice().reverse() track by $index" class="nocca-story-line">
+                    <p ng-repeat="line in data.storyLog.slice().reverse() track by $index"
+                        class="nocca-story-line"
+                        ng-if="data.responses[line.requestKeyHash]">
+
                         <span class="nocca-story-timestamp">timestamp {{ line.timestamp | date:'HH:mm:ss.sss' }}</span><br>
 
                         <span ng-class="{'fa-circle': line.rec}" class="fa fa-fw"></span>
