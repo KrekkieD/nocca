@@ -1,6 +1,7 @@
 <md-item-content>
 
     <div class="md-tile-left response-tile-left">
+        <small>{{ response.timestamp | date:'HH:mm:ss.sss' }}</small> <br>
         {{ response.response.statusCode}} <br>
         {{ response.request.method }} <br>
     </div>
