@@ -107,7 +107,7 @@
             <md-tab label="Story">
 
                     <p ng-repeat="line in data.storyLog.slice().reverse() track by $index" class="nocca-story-line">
-                        <span class="nocca-story-timestamp">{{ line.timestamp }}</span><br>
+                        <span class="nocca-story-timestamp">timestamp {{ line.timestamp | date:'HH:mm:ss.sss' }}</span><br>
 
                         <span ng-class="{'fa-circle': line.rec}" class="fa fa-fw"></span>
                         <span ng-class="{'fa-sign-out': line.fwd}" class="fa fa-fw"></span>
