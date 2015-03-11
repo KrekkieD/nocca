@@ -5,6 +5,7 @@
         'ui.router',
         'ngWebsocket',
         'ngMessages',
+        'ngAnimate',
         'ngMaterial',
         'LocalStorageModule',
         'truncate',

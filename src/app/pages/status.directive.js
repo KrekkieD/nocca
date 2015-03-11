@@ -54,7 +54,7 @@
             function filterData (query) {
 
                 if (!query) {
-                    $scope.data = rawData;
+                    $scope.data = angular.extend({}, rawData);
                     $scope.filter.on = false;
                     $scope.filter.size = 0;
                 }
@@ -82,8 +82,6 @@
                     });
 
                     $scope.data.responses = newResponses;
-
-
 
                 }
 

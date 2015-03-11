@@ -10,6 +10,14 @@
             {{ response.hash }}
         </h3>
 
+        <p>
+            <span>
+                <md-tooltip>endpoint definition</md-tooltip>
+                <span class="fa fa-server"></span>
+                {{ response.endpoint.key }}
+            </span>
+        </p>
+
         <div ng-mouseleave="truncateOn()" ng-mouseenter="truncateOff()">
             <p>
                 <md-tooltip>Generated request key</md-tooltip>
