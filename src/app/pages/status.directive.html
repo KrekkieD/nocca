@@ -27,7 +27,7 @@
                 <md-content class="md-spacing">
 
                     <md-list>
-                        <md-list-item ng-repeat="(hash, response) in data.responses track by hash">
+                        <md-list-item ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true track by hash">
 
                             <nocca-widgets-response response="response"></nocca-widgets-response>
 
@@ -46,7 +46,8 @@
                         <md-subheader class="md-primary">{{ endpoint }}</md-subheader>
 
                         <md-list>
-                            <md-item ng-repeat="hashKey in hashKeys | noccaDataUnique" ng-if="data.responses[hashKey]">
+                            <md-item ng-repeat="hashKey in hashKeys | noccaDataUnique track by hashKey"
+                                ng-if="data.responses[hashKey]">
 
                                 <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
 
@@ -130,7 +131,7 @@
                         class="nocca-story-line"
                         ng-if="data.responses[line.requestKeyHash]">
 
-                        <span class="nocca-story-timestamp">timestamp {{ line.timestamp | date:'HH:mm:ss.sss' }}</span><br>
+                        <span class="nocca-timestamp fa fa-clock-o"> {{ line.timestamp | date:'HH:mm:ss.sss' }}</span><br>
 
                         <span ng-class="{'fa-circle': line.rec}" class="fa fa-fw"></span>
                         <span ng-class="{'fa-sign-out': line.fwd}" class="fa fa-fw"></span>
