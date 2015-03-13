@@ -61,6 +61,7 @@ function Nocca (config) {
     self.logDebug = self.config.logger.debug;
 
 
+    self.errorHandler = new self.config.errorHandler(self);
     self.requestContextFactory = new self.config.requestContextFactory(self);
     self.httpMessageFactory = new self.config.httpMessageFactory(self);
     self.requestChainer = new self.config.chainBuilderFactory(self);
