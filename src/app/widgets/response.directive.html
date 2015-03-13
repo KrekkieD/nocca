@@ -34,7 +34,7 @@
             <span>
                 <md-tooltip>incoming request</md-tooltip>
                 <span class="fa fa-sign-in"></span>
-                {{ response.request.method }} {{ response.request.url }}
+                {{ response.request.method }} {{ response.request.path }}
             </span>
         </p>
         <p ng-show="response.proxiedRequest">
@@ -44,14 +44,6 @@
                 {{ response.proxiedRequest.method }} {{ response.proxiedRequest.protocol + '//' + response.proxiedRequest.host + response.proxiedRequest.path }}
             </span>
         </p>
-        <!--<h4>-->
-            <!--recorded: 0 | forwarded: 0 | replayed: 0-->
-        <!--</h4>-->
-        <!--<p>-->
-            <!--<md-button ng-click="showDialog($event)">-->
-                <!--View bodies-->
-            <!--</md-button>-->
-        <!--</p>-->
     </div>
 
 </md-item-content>
