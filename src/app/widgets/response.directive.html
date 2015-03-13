@@ -1,9 +1,13 @@
 <md-item-content>
 
-    <div class="md-tile-left response-tile-left">
-        <span class="nocca-timestamp fa fa-clock-o"> {{ response.timestamp | date:'HH:mm:ss.sss' }}</span> <br>
-        {{ response.response.statusCode}} <br>
-        {{ response.request.method }} <br>
+    <div class="md-tile-left nocca-response-tile-left">
+        <span class="nocca-timestamp fa fa-clock-o"> {{ response.timestamp | date:'HH:mm:ss.sss' }}</span>
+        <em>{{ response.response.statusCode}}</em>
+        <em>{{ response.request.method }}</em>
+
+        <md-button ng-click="showDialog($event)">
+            View bodies
+        </md-button>
     </div>
     <div class="md-tile-content">
         <h3>
@@ -43,11 +47,11 @@
         <!--<h4>-->
             <!--recorded: 0 | forwarded: 0 | replayed: 0-->
         <!--</h4>-->
-        <p>
-            <md-button ng-click="showDialog($event)">
-                View bodies
-            </md-button>
-        </p>
+        <!--<p>-->
+            <!--<md-button ng-click="showDialog($event)">-->
+                <!--View bodies-->
+            <!--</md-button>-->
+        <!--</p>-->
     </div>
 
 </md-item-content>

@@ -1,7 +1,12 @@
 <md-content layout="column">
 
     <md-tabs md-selected="selectedIndex" flex layout-fill>
-        <md-tab label="Request">
+        <md-tab>
+            <md-tab-label ng-if="!asIcons">Client Request</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Client Request</md-tooltip>
+                <span class="fa fa-fw fa-sign-in"></span>
+            </md-tab-label>
 
             <nocca-widgets-request-preview
                 preview="content.request"
@@ -10,7 +15,13 @@
             </nocca-widgets-request-preview>
 
         </md-tab>
-        <md-tab label="Proxied Request">
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">Proxy Request</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Proxy Request</md-tooltip>
+                <span class="fa fa-fw fa-sign-out"></span>
+            </md-tab-label>
 
             <nocca-widgets-request-preview
                 preview="content.proxiedRequest"
@@ -19,7 +30,28 @@
             </nocca-widgets-request-preview>
 
         </md-tab>
-        <md-tab label="Response">
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">Proxy Response</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Proxy Response</md-tooltip>
+                <span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>
+            </md-tab-label>
+
+            <nocca-widgets-request-preview
+                preview="content.proxiedResponse"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">Client Response</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Client Response</md-tooltip>
+                <span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span>
+            </md-tab-label>
 
             <nocca-widgets-request-preview
                 preview="content.response"
@@ -28,7 +60,13 @@
             </nocca-widgets-request-preview>
 
         </md-tab>
-        <md-tab label="full raw">
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">full raw</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>full raw</md-tooltip>
+                <span class="fa fa-fw fa-puzzle-piece"></span>
+            </md-tab-label>
 
             <md-content class="md-padding">
                 <pre>{{ content | json:4 }}</pre>

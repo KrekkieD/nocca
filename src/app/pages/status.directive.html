@@ -16,7 +16,15 @@
                         <div ng-message="on">Found {{ filter.size }} responses</div>
                     </div>
                 </md-input-container>
+                <div ng-show="filter.query">
 
+                    <md-tooltip>Searching in these properties</md-tooltip>
+                    <md-button><span class="fa fa-server"></span></md-button>
+                    <md-button><span class="fa fa-key"></span></md-button>
+                    <md-button><span class="fa fa-sign-in"></span></md-button>
+                    <md-button><span class="fa fa-sign-out"></span></md-button>
+
+                </div>
             </div>
 
         </div>
@@ -27,12 +35,12 @@
                 <md-content class="md-spacing">
 
                     <md-list>
-                        <md-list-item ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true track by hash">
+                        <md-item ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true track by hash">
 
                             <nocca-widgets-response response="response"></nocca-widgets-response>
 
                             <md-divider></md-divider>
-                        </md-list-item>
+                        </md-item>
                     </md-list>
 
                 </md-content>
