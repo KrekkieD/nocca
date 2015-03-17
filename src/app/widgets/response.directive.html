@@ -2,8 +2,8 @@
 
     <div class="md-tile-left nocca-response-tile-left">
         <span class="nocca-timestamp fa fa-clock-o"> {{ response.timestamp | date:'HH:mm:ss.sss' }}</span>
-        <em>{{ response.response.statusCode}}</em>
-        <em>{{ response.request.method }}</em>
+        <em>{{ response.clientResponse.statusCode}}</em>
+        <em>{{ response.clientRequest.method }}</em>
 
         <md-button ng-click="showDialog($event)">
             View bodies
@@ -34,7 +34,7 @@
             <span>
                 <md-tooltip>incoming request</md-tooltip>
                 <span class="fa fa-sign-in"></span>
-                {{ response.request.method }} {{ response.request.path }}
+                {{ response.clientRequest.method }} {{ response.clientRequest.path }}
             </span>
         </p>
         <p ng-show="response.proxiedRequest">

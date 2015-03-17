@@ -26,11 +26,15 @@
         function StatusDirectiveController (
             noccaDataConnection,
             $scope,
-            noccaUtilsDownload
+            noccaUtilsDownload,
+            noccaDataSearchFilter,
+            noccaDataSearchModel
         ) {
 
             var rawData;
             $scope.data = {};
+
+            $scope.searchModel = noccaDataSearchModel;
 
             $scope.filter = {
                 size: 0,
@@ -46,44 +50,15 @@
             }, function () {
 
                 rawData = noccaDataConnection.data;
-                $scope.data = angular.extend({}, rawData);
-                filterData($scope.filter.query);
+
+                filterData();
 
             });
 
-            function filterData (query) {
+            function filterData () {
 
-                if (!query) {
-                    $scope.data = angular.extend({}, rawData);
-                    $scope.filter.on = false;
-                    $scope.filter.size = 0;
-                }
-                else {
-                    $scope.filter.on = true;
-
-                    var newResponses = {};
-                    Object.keys(rawData.responses).forEach(function (requestHash) {
-                        var response = rawData.responses[requestHash];
-
-                        // dirty way for one-off match
-                        var matchString = '';
-                        matchString += response.requestKey;
-                        matchString += response.request ? response.request.url || '' : '';
-                        matchString += response.proxiedRequest ? response.proxiedRequest.url || '' : '';
-                        matchString += response.endpoint && response.endpoint.definition ? response.endpoint.definition.targetBaseUrl || '' : '';
-
-                        // match filter
-                        if (matchString.indexOf(query) > -1) {
-
-                            $scope.filter.size++;
-                            newResponses[requestHash] = response;
-                        }
-
-                    });
-
-                    $scope.data.responses = newResponses;
-
-                }
+                // perform filtering
+                $scope.data = noccaDataSearchFilter(angular.extend({}, rawData));
 
             }
 

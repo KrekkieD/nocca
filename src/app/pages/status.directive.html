@@ -3,26 +3,77 @@
     <md-content class="md-padding">
         <div layout="row">
             <h2 flex>Status</h2>
-
             <div>
                 <md-input-container>
                     <label><span class="fa fa-filter"></span> Filter</label>
                     <input type="text"
-                        ng-model="filter.query"
-                        ng-change="filterData(filter.query)"
+                        ng-model="searchModel.model.query"
+                        ng-change="filterData()"
                         ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}">
 
-                    <div ng-messages="filter">
-                        <div ng-message="on">Found {{ filter.size }} responses</div>
+                    <div ng-messages="searchModel.search">
+                        <div ng-message="active">Found {{ searchModel.search.count }} responses</div>
                     </div>
                 </md-input-container>
-                <div ng-show="filter.query">
+                <div ng-show="searchModel.model.query">
 
-                    <md-tooltip>Searching in these properties</md-tooltip>
-                    <md-button><span class="fa fa-server"></span></md-button>
-                    <md-button><span class="fa fa-key"></span></md-button>
-                    <md-button><span class="fa fa-sign-in"></span></md-button>
-                    <md-button><span class="fa fa-sign-out"></span></md-button>
+                    <div>
+                        <md-button ng-click="searchModel.toggleField('clientRequest'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.clientRequest }">
+
+                            <span class="fa fa-fw fa-sign-in"></span>
+                        </md-button>
+                        <md-button ng-click="searchModel.toggleField('proxyRequest'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.proxyRequest }">
+
+                            <span class="fa fa-fw fa-sign-out"></span>
+                        </md-button>
+                        <md-button ng-click="searchModel.toggleField('proxyResponse'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.proxyResponse }">
+
+                            <span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>
+                        </md-button>
+                        <md-button ng-click="searchModel.toggleField('playbackResponse'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.playbackResponse }">
+
+                            <span class="fa fa-fw fa-play-circle-o"></span>
+                        </md-button>
+                        <md-button ng-click="searchModel.toggleField('clientResponse'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.clientResponse }">
+
+                            <span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span>
+                        </md-button>
+                        | search where
+                    </div>
+                    <md-divider></md-divider>
+                    <div>
+                        <md-button ng-click="searchModel.toggleField('endpointKey'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.endpointKey }">
+
+                            <span class="fa fa-fw fa-server"></span>
+                        </md-button>
+                        <md-button ng-click="searchModel.toggleField('requestKey'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.requestKey }">
+
+                            <span class="fa fa-fw fa-key"></span>
+                        </md-button>
+                        <md-button ng-click="searchModel.toggleField('headers'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.headers }">
+
+                            <span class="fa fa-fw fa-file-code-o"></span>
+                        </md-button>
+                        <md-button ng-click="searchModel.toggleField('body'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.body }">
+
+                            <span class="fa fa-fw fa-user"></span>
+                        </md-button>
+                        <md-button ng-click="searchModel.toggleField('path'); filterData()"
+                            ng-class="{'md-primary': searchModel.model.path }">
+
+                            <span class="fa fa-fw fa-link"></span>
+                        </md-button>
+                        | search what
+                    </div>
 
                 </div>
             </div>
@@ -182,7 +233,7 @@
             </md-button>
         </md-content>
 
-        <pre ng-show="showRaw">{{ data | json:4 }}</pre>
+        <pre ng-if="showRaw">{{ data | json:4 }}</pre>
 
     </md-content>
 </div>

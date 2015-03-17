@@ -9,7 +9,7 @@
             </md-tab-label>
 
             <nocca-widgets-request-preview
-                preview="content.request"
+                preview="content.clientRequest"
                 request-dialog="requestDialog">
 
             </nocca-widgets-request-preview>
@@ -24,7 +24,7 @@
             </md-tab-label>
 
             <nocca-widgets-request-preview
-                preview="content.proxiedRequest"
+                preview="content.proxyRequest"
                 request-dialog="requestDialog">
 
             </nocca-widgets-request-preview>
@@ -39,7 +39,22 @@
             </md-tab-label>
 
             <nocca-widgets-request-preview
-                preview="content.proxiedResponse"
+                preview="content.proxyResponse"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">Playback Response</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Playback Response</md-tooltip>
+                <span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>
+            </md-tab-label>
+
+            <nocca-widgets-request-preview
+                preview="content.playbackResponse"
                 request-dialog="requestDialog">
 
             </nocca-widgets-request-preview>
@@ -54,7 +69,7 @@
             </md-tab-label>
 
             <nocca-widgets-request-preview
-                preview="content.response"
+                preview="content.clientResponse"
                 request-dialog="requestDialog">
 
             </nocca-widgets-request-preview>
