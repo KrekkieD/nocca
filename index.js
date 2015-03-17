@@ -66,6 +66,7 @@ function Nocca (config) {
     self.httpMessageFactory = new self.config.httpMessageFactory(self);
     self.requestChainer = new self.config.chainBuilderFactory(self);
     self.requestExtractor = new self.config.requestExtractor(self);
+    self.playback = new self.config.playback(self);
     self.forwarder = new self.config.forwarder(self);
     self.recorder = new self.config.recorder(self);
     self.responder = new self.config.responder(self);
@@ -74,7 +75,7 @@ function Nocca (config) {
     // This plugin should be transparently pluggable. It now enabled scenarios by default
     self.scenarioRecorder = new Nocca.$scenarioRecorder(self);
     self.scenario = Nocca.$scenario;
-    self.config.playback.recorder = self.scenarioRecorder.scenarioEntryRecorderFactory(self.config.playback.recorder);
+    self.playback.addRecording = self.scenarioRecorder.scenarioEntryRecorderFactory(self.playback.addRecording);
 
     // instantiate servers by looping over them. Nice.
     Object.keys(self.config.servers).forEach(function (server) {
@@ -90,7 +91,7 @@ function Nocca (config) {
 
     // Loop over any provided scenarios, get their respective players registered with the playback service
     for (var i = 0, iMax = self.config.scenarios.available.length; i < iMax; i++) {
-        self.config.playback.scenarioRecorder(self.config.scenarios.available[i].player());
+        self.playback.addScenario(self.config.scenarios.available[i].player());
     }
 
     // run all stat reporters so they can subscribe to events. Send in the instance as arg.
