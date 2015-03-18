@@ -253,15 +253,15 @@ The following table shows the possible configuration items Nocca supports, their
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback</code></td>
+    <td class="property-cell"><code>cacheentries</code></td>
     <td class="default-value-cell"><code>Object</code></td>
     <td class="description-cell">
-      Configures several services related to the playback of recorded cache entries and scenarios.
+      Configures several services related to the cacheentries of recorded cache entries and scenarios.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.exporter</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.exportRecordings</code></td>
+    <td class="property-cell"><code>cacheentries.exporter</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.exportRecordings</code></td>
     <td class="description-cell">
       Function used to retrieve stored cache entries. This function should accept zero or two parameters. If no parameters are supplied, it should
       return a complete map of all available cache entries, grouped by endpoint key and then request key. If two parameters are supplied, the first
@@ -273,32 +273,32 @@ The following table shows the possible configuration items Nocca supports, their
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.matcher</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.defaultRequestMather</code></td>
+    <td class="property-cell"><code>cacheentries.matcher</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.defaultRequestMather</code></td>
     <td class="description-cell">
       Request chain function used to find a recorded response matching the incoming request. The default function will prefer matching scenarios of
-      single cache entries. If operates on the <code>RequestContext</code> and is expected to add a property <code>playbackResponse</code> containing
+      single cache entries. If operates on the <code>RequestContext</code> and is expected to add a property <code>cacheentriesResponse</code> containing
       the matching recorded response.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.mocker</code></td>
+    <td class="property-cell"><code>cacheentries.mocker</code></td>
     <td class="default-value-cell"><code>Nocca.$recorder.simpleResponseRecorder</code></td>
     <td class="description-cell">
       Request chain function used to turn the forwarded response into a mock that can be saved to either a single cache or a scenario. It should
-      offer the created mock entry to <code>Nocca.config.playback.recorder</code> for storage and activation.
+      offer the created mock entry to <code>Nocca.config.cacheentries.recorder</code> for storage and activation.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.recorder</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.addRecording</code></td>
+    <td class="property-cell"><code>cacheentries.recorder</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.addRecording</code></td>
     <td class="description-cell">
       Service function used to store a single mock entry in the cache database.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.scenarioExporter</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.exportScenarios</code></td>
+    <td class="property-cell"><code>cacheentries.scenarioExporter</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.exportScenarios</code></td>
     <td class="description-cell">
       Function used to retrieve scenarios. It can be called with zero or one argument. When no argument is specified, the
       function will return the complete set of all scenarios currently stored. When an argument is specified, it will be
@@ -310,15 +310,15 @@ The following table shows the possible configuration items Nocca supports, their
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.scenarioRecorder</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.addScenario</code></td>
+    <td class="property-cell"><code>cacheentries.scenarioRecorder</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.addScenario</code></td>
     <td class="description-cell">
       Service function used to store a single scenario in the cache database.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.scenarioResetter</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.resetScenario</code></td>
+    <td class="property-cell"><code>cacheentries.scenarioResetter</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.resetScenario</code></td>
     <td class="description-cell">
       Service function used to rewind a scenario to its initial state.
     </td>
@@ -336,7 +336,7 @@ The following table shows the possible configuration items Nocca supports, their
     <td class="default-value-cell"><code>Nocca.$responder</code></td>
     <td class="description-cell">
       Request chain function responsible for returning the result of the request chain to the client. It can select to
-      send either the property <code>proxiedResponse</code> or <code>playbackResponse</code>, based on rules it can define
+      send either the property <code>proxiedResponse</code> or <code>cacheentriesResponse</code>, based on rules it can define
       itself.
     </td>
   </tr>

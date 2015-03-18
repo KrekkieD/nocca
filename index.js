@@ -16,7 +16,7 @@ module.exports.$gui = require('./lib/gui');
 module.exports.$keys = require('./lib/keys');
 module.exports.$logger = require('./lib/logger');
 module.exports.$patchScenarios = require('./lib/patchScenarios');
-module.exports.$playback = require('./lib/playback');
+module.exports.$cacheEntryRepository = require('./lib/cacheEntryRepository');
 module.exports.$recorder = require('./lib/recorder');
 module.exports.$requestExtractor = require('./lib/requestExtractor');
 module.exports.$responder = require('./lib/responder');
@@ -67,7 +67,7 @@ function Nocca (config) {
     self.httpMessageFactory = new self.config.httpMessageFactory(self);
     self.requestChainer = new self.config.chainBuilderFactory(self);
     self.requestExtractor = new self.config.requestExtractor(self);
-    self.playback = new self.config.playback(self);
+    self.cacheentries = new self.config.cacheentries(self);
     self.forwarder = new self.config.forwarder(self);
     self.recorder = new self.config.recorder(self);
     self.responder = new self.config.responder(self);
@@ -76,7 +76,7 @@ function Nocca (config) {
     // This plugin should be transparently pluggable. It now enabled scenarios by default
     self.scenarioRecorder = new Nocca.$scenarioRecorder(self);
     self.scenario = Nocca.$scenario;
-    self.playback.addRecording = self.scenarioRecorder.scenarioEntryRecorderFactory(self.playback.addRecording);
+    self.cacheentries.addRecording = self.scenarioRecorder.scenarioEntryRecorderFactory(self.cacheentries.addRecording);
 
     // instantiate servers by looping over them. Nice.
     Object.keys(self.config.servers).forEach(function (server) {
@@ -92,7 +92,7 @@ function Nocca (config) {
 
     // Loop over any provided scenarios, get their respective players registered with the playback service
     for (var i = 0, iMax = self.config.scenarios.available.length; i < iMax; i++) {
-        self.playback.addScenario(self.config.scenarios.available[i].player());
+        self.cacheentries.addScenario(self.config.scenarios.available[i].player());
     }
 
     // run all stat reporters so they can subscribe to events. Send in the instance as arg.
