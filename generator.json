@@ -1,0 +1,16 @@
+{
+    "type": "spa",
+    "name": {
+        "full": "nocca",
+        "slug": "nocca"
+    },
+    "description": "Node mock server",
+    "prefix": "nocca",
+    "srcDir": "src/app",
+    "bootstrap": {
+        "module": "nocca.core",
+        "element": "nocca-core"
+    },
+    "bowerAddFreakDeps": false,
+    "distDir": "ui"
+}

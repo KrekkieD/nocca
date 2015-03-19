@@ -1,0 +1,105 @@
+<md-content layout="column">
+
+    <md-tabs md-selected="selectedIndex" flex layout-fill>
+        <md-tab>
+            <md-tab-label ng-if="!asIcons">Client Request</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Client Request</md-tooltip>
+                <span class="fa fa-fw fa-sign-in"></span>
+            </md-tab-label>
+
+            <nocca-widgets-request-preview
+                preview="content.clientRequest"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">Proxy Request</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Proxy Request</md-tooltip>
+                <span class="fa fa-fw fa-sign-out"></span>
+            </md-tab-label>
+
+            <nocca-widgets-request-preview
+                preview="content.proxyRequest"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">Proxy Response</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Proxy Response</md-tooltip>
+                <span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>
+            </md-tab-label>
+
+            <nocca-widgets-request-preview
+                preview="content.proxyResponse"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">Playback Response</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Playback Response</md-tooltip>
+                <span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>
+            </md-tab-label>
+
+            <nocca-widgets-request-preview
+                preview="content.playbackResponse"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">Client Response</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>Client Response</md-tooltip>
+                <span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span>
+            </md-tab-label>
+
+            <nocca-widgets-request-preview
+                preview="content.clientResponse"
+                request-dialog="requestDialog">
+
+            </nocca-widgets-request-preview>
+
+        </md-tab>
+        <md-tab>
+
+            <md-tab-label ng-if="!asIcons">full raw</md-tab-label>
+            <md-tab-label ng-if="asIcons">
+                <md-tooltip>full raw</md-tooltip>
+                <span class="fa fa-fw fa-puzzle-piece"></span>
+            </md-tab-label>
+
+            <md-content class="md-padding">
+                <pre>{{ content | json:4 }}</pre>
+            </md-content>
+
+        </md-tab>
+    </md-tabs>
+
+    <md-content class="md-padding">
+
+        <md-divider></md-divider>
+
+        <div layout="row">
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary">
+                close
+            </md-button>
+        </div>
+    </md-content>
+
+</md-content>
