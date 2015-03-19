@@ -9,7 +9,7 @@
             View bodies
         </md-button>
     </div>
-    <div class="md-tile-content">
+    <div class="md-tile-content nocca-response-tile-right">
         <h3>
             {{ response.hash }}
         </h3>
@@ -22,11 +22,13 @@
             </span>
         </p>
 
-        <div ng-mouseleave="truncateOn()" ng-mouseenter="truncateOff()">
+        <div>
             <p>
                 <md-tooltip>Generated request key</md-tooltip>
-                <span class="fa fa-key"></span>
-                {{ response.requestKey | characters:truncateLength:true }}
+                <a class="nocca-key" ng-click="showKey($event, response.requestKey)" href="">
+                    <span class="fa fa-key"></span>
+                    {{ response.requestKey | characters:truncateLength:true }}
+                </a>
             </p>
         </div>
 

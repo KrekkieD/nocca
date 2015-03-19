@@ -13,3 +13,16 @@
         font-size: 80%;
     }
 }
+
+.nocca-response-tile-right {
+
+	.nocca-key {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+}

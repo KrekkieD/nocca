@@ -125,9 +125,14 @@
 
                     <section ng-repeat="(endpoint, hashKeys) in data.endpoints track by endpoint">
 
-                        <md-subheader class="md-primary">{{ endpoint }}</md-subheader>
+                        <md-subheader class="md-primary" ng-init="opened = true" layout="row">
+                            <md-button ng-click="opened = !opened">
+                                <span class="fa fa-chevron-right" ng-class="{'fa-rotate-90': opened}"></span>
+                                {{ endpoint }}
+                            </md-button>
+                        </md-subheader>
 
-                        <md-list>
+                        <md-list ng-if="opened">
                             <md-item ng-repeat="hashKey in hashKeys | noccaDataUnique track by hashKey"
                                 ng-if="data.responses[hashKey]">
 
