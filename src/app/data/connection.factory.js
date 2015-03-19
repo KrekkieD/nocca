@@ -14,7 +14,15 @@
 
         var factory = {
             api: {
-                data: {}
+                data: {
+					responses: {},
+					endpoints: {},
+					recorded: [],
+					forwarded: [],
+					replayed: [],
+					miss: [],
+					storyLog: []
+				}
             }
         };
 
@@ -29,13 +37,27 @@
 
             ws.$on('$message', function (data) {
 
-                Object.keys(factory.api.data).forEach(function (key) {
-                    delete factory.api.data[key];
-                });
+				// merge data with factory data
+				Object.keys(data).forEach(function (key) {
 
-                Object.keys(data).forEach(function (key) {
-                    factory.api.data[key] = data[key];
-                });
+					if (Array.isArray(data[key])) {
+						Array.prototype.push.apply(
+							factory.api.data[key],
+							data[key]
+						);
+					}
+					else if (data[key] instanceof Object) {
+
+						Object.keys(data[key]).forEach(function (dataKey) {
+
+							factory.api.data[key][dataKey] = data[key][dataKey];
+
+						});
+
+
+					}
+
+				});
 
                 $rootScope.$apply();
 
