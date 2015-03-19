@@ -82,6 +82,29 @@
 
 
         <md-tabs md-selected="selectedTabIndex" flex>
+            <md-tab>
+                <md-tab-label><span class="fa fa-fw fa-cog"></span></md-tab-label>
+                <md-content>
+                    <md-subheader>Display settings</md-subheader>
+
+                    <md-button>
+                        <span class="fa fa-fw fa-th-large"></span> blocks
+                    </md-button>
+
+                    <md-button>
+                        <span class="fa fa-fw fa-th"></span> compact blocks
+                    </md-button>
+
+                    <md-button>
+                        <span class="fa fa-fw fa-th-list"></span> list
+                    </md-button>
+
+                    <md-button>
+                        <span class="fa fa-fw fa-list"></span> compact list
+                    </md-button>
+
+                </md-content>
+            </md-tab>
             <md-tab label="All responses ({{ data.responses | noccaDataObjectLength }})">
                 <md-content class="md-spacing">
 
