@@ -6,6 +6,7 @@ var $pubsub = require('node-pubsub');
 
 module.exports = Nocca;
 
+module.exports.$cacheEntryRepository = require('./lib/cacheEntryRepository');
 module.exports.$chainBuilderFactory = require('./lib/chainBuilderFactory');
 module.exports.$constants = require('./lib/constants');
 module.exports.$defaultSettings = require('./lib/defaultSettings');
@@ -16,12 +17,13 @@ module.exports.$gui = require('./lib/gui');
 module.exports.$keys = require('./lib/keys');
 module.exports.$logger = require('./lib/logger');
 module.exports.$patchScenarios = require('./lib/patchScenarios');
-module.exports.$cacheEntryRepository = require('./lib/cacheEntryRepository');
+module.exports.$playback = require('./lib/playback');
 module.exports.$recorder = require('./lib/recorder');
 module.exports.$requestExtractor = require('./lib/requestExtractor');
 module.exports.$responder = require('./lib/responder');
 module.exports.$scenario = require('./lib/scenario');
 module.exports.$scenarioRecorder = require('./lib/scenarioRecorder');
+module.exports.$scenarioRepository = require('./lib/scenarioRepository');
 module.exports.$server = require('./lib/server');
 module.exports.$stats = require('./lib/stats');
 module.exports.$utils = require('./lib/utils');
@@ -67,16 +69,18 @@ function Nocca (config) {
     self.httpMessageFactory = new self.config.httpMessageFactory(self);
     self.requestChainer = new self.config.chainBuilderFactory(self);
     self.requestExtractor = new self.config.requestExtractor(self);
-    self.cacheentries = new self.config.cacheentries(self);
     self.forwarder = new self.config.forwarder(self);
     self.recorder = new self.config.recorder(self);
     self.responder = new self.config.responder(self);
     self.statsLogger = new self.config.statistics.instance(self);
+    self.playback = new self.config.playback(self);
 
     // This plugin should be transparently pluggable. It now enabled scenarios by default
     self.scenarioRecorder = new Nocca.$scenarioRecorder(self);
     self.scenario = Nocca.$scenario;
     self.cacheentries.addRecording = self.scenarioRecorder.scenarioEntryRecorderFactory(self.cacheentries.addRecording);
+    
+    self.repositories = _.map(self.config.repositories, function(RepositoryConstructor) { return new RepositoryConstructor(self); });
 
     // instantiate servers by looping over them. Nice.
     Object.keys(self.config.servers).forEach(function (server) {
