@@ -13,23 +13,22 @@
 
 
         var factory = {
-            api: {
-                data: {
-					responses: {},
-					endpoints: {},
-					recorded: [],
-					forwarded: [],
-					replayed: [],
-					miss: [],
-					storyLog: []
-				}
-            }
+			lastUpdate: 0,
+			data: {
+				responses: {},
+				endpoints: {},
+				recorded: [],
+				forwarded: [],
+				replayed: [],
+				miss: [],
+				storyLog: []
+			}
         };
 
         load();
 
         // factory functions here
-        return factory.api;
+        return factory;
 
         function load () {
 
@@ -42,7 +41,7 @@
 
 					if (Array.isArray(data[key])) {
 						Array.prototype.push.apply(
-							factory.api.data[key],
+							factory.data[key],
 							data[key]
 						);
 					}
@@ -50,7 +49,7 @@
 
 						Object.keys(data[key]).forEach(function (dataKey) {
 
-							factory.api.data[key][dataKey] = data[key][dataKey];
+							factory.data[key][dataKey] = data[key][dataKey];
 
 						});
 
@@ -58,6 +57,8 @@
 					}
 
 				});
+
+				factory.lastUpdate = new Date().getTime();
 
                 $rootScope.$apply();
 
