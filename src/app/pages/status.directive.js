@@ -46,7 +46,7 @@
 			$scope.downloadAll = noccaUtilsDownload.createPackageAndSave;
 
             $scope.$watch(function () {
-                return JSON.stringify(noccaDataConnection.data);
+                return noccaDataConnection.lastUpdate;
             }, function () {
 
                 rawData = noccaDataConnection.data;

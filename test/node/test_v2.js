@@ -10,13 +10,14 @@ var config = {
         },
         'yahoo': {
             targetBaseUrl: 'http://www.yahoo.com/'
-        }
-
+        },
+		'_default': {
+			targetBaseUrl: 'http://localhost:3004/'
+		}
     },
     scenarios: {
         writeNewScenarios: true,
         scenarioOutputDir: 'D:/dev/tmp/'
-        
     }
 };
 
@@ -108,7 +109,7 @@ var googleScenario = googleScenarioBuilder.sequentialScenario()
 //    }
 //});
 
-config.scenarios.available = [googleScenario];
+//config.scenarios.available = [googleScenario];
 
 new Nocca(config);
 
