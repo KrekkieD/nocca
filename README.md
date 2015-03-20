@@ -439,6 +439,83 @@ The following table shows the possible configuration items Nocca supports, their
 
 ## Default Chain
 
+# Extending Nocca
 
+Nocca plugins are modules which should expose an initializer method:
+
+```javascript
+module.exports = MyModule;
+
+function MyModule(Nocca) {
+
+  var myModule = {
+      
+  };
+  // Initialize your module, assigning methods you implement to the myModule object
+
+  return myModule; 
+}
+```
+
+The initializer method is called when Nocca starts up. Nocca passes itself to the plugin initializer to allow plugins to access the correct instance
+of Nocca. Every instance of Nocca will have new instances of each plugin, be aware of that when you write a plugin.
+
+This plugin initializer should be used to setup the plugin, register functions and structurally create the plugin. Since Nocca is still initializing,
+not all of its components may be accessible yet. There is a secondary plugin lifecycle function in which Nocca is guaranteed to have completed initializing
+all plugins and configuration. That method is called `init` and should be part of the plugin returned by the plugin initializer:
+
+```javascript
+module.exports = MyModule;
+
+function MyModule(Nocca) {
+
+  var myModule = {
+    init: function() {
+      Nocca.pubsub.publish('someEvent');    
+    }
+  };
+  
+  return myModule;
+}
+```
+
+The example above shows one of the things you can do with this. The pubsub channel inside Nocca can be used to establish inter-plugin communication. In the
+`init()` call, every Nocca plugin will have been initialized and any plugin interested in events will have registered to the `pubsub` component. Publishing an
+event before the `init()` call will not guarantee delivery of that event.
+
+## Exposing a REST endpoint
+
+If you have a plugin that wishes to expose some controls through the REST api, you can use the `pubsub` channel for this. For example, the default `scenarioRepository`
+exposes its recording interface by registering several routes for this purpose:
+
+```javascript
+module.exports = ScenarioRepository;
+
+function ScenarioRepository(Nocca) {
+
+  return {
+    init: function() {
+      Nocca.pubsub.publish(Nocca.constants.PUBSUB_REST_ROUTE_ADDED, ['GET:/scenarios/recorder', getRecorder]);
+    }
+  };
+
+  /* The httpApi component calls a route handler with the HTTP request, response, 
+   * the Nocca config (deprecated), potential path variables, and two functions to write
+   * to the response stream.
+   */
+  function getRecorder (req, res, config, match, writeHead, writeEnd) {
+    var recordingState = isRecording();
+    if (recordingState !== false) {
+
+      writeHead(res, 200, {
+        'Content-Type': 'application/json'
+      }).writeEnd(JSON.stringify(recordingState));
+
+    }
+    else {
+      writeHead(res, 404).writeEnd();
+    }
+  }
+}
 
 </style>
