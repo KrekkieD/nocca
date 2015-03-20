@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 var $extend = require('extend');
 var $pubsub = require('node-pubsub');
 
@@ -54,6 +56,7 @@ function Nocca (config) {
 
 
     //   C O N F I G U R A B L E   S T U F F   B E L O W
+    var collectedPlugins = [];
 
     // set a logger to logger.disabled to turn off logging
     self.log = self.config.logger;
@@ -64,23 +67,19 @@ function Nocca (config) {
     self.logDebug = self.config.logger.debug;
 
 
-    self.errorHandler = new self.config.errorHandler(self);
-    self.requestContextFactory = new self.config.requestContextFactory(self);
-    self.httpMessageFactory = new self.config.httpMessageFactory(self);
-    self.requestChainer = new self.config.chainBuilderFactory(self);
-    self.requestExtractor = new self.config.requestExtractor(self);
-    self.forwarder = new self.config.forwarder(self);
-    self.recorder = new self.config.recorder(self);
-    self.responder = new self.config.responder(self);
-    self.statsLogger = new self.config.statistics.instance(self);
-    self.playback = new self.config.playback(self);
+    self.errorHandler = instantiateAndCollectPlugin(self.config.errorHandler, collectedPlugins);
+    self.requestContextFactory = instantiateAndCollectPlugin(self.config.requestContextFactory, collectedPlugins);
+    self.httpMessageFactory = instantiateAndCollectPlugin(self.config.httpMessageFactory, collectedPlugins);
+    self.requestChainer = instantiateAndCollectPlugin(self.config.chainBuilderFactory, collectedPlugins);
+    self.requestExtractor = instantiateAndCollectPlugin(self.config.requestExtractor, collectedPlugins);
+    self.forwarder = instantiateAndCollectPlugin(self.config.forwarder, collectedPlugins);
+    self.recorder = instantiateAndCollectPlugin(self.config.recorder, collectedPlugins);
+    self.responder = instantiateAndCollectPlugin(self.config.responder, collectedPlugins);
+    self.statsLogger = instantiateAndCollectPlugin(self.config.statistics.instance, collectedPlugins);
+    self.playback = instantiateAndCollectPlugin(self.config.playback, collectedPlugins);
+    self.scenario = instantiateAndCollectPlugin(self.config.scenario, collectedPlugins);
 
-    // This plugin should be transparently pluggable. It now enabled scenarios by default
-    self.scenarioRecorder = new Nocca.$scenarioRecorder(self);
-    self.scenario = Nocca.$scenario;
-    self.cacheentries.addRecording = self.scenarioRecorder.scenarioEntryRecorderFactory(self.cacheentries.addRecording);
-    
-    self.repositories = _.map(self.config.repositories, function(RepositoryConstructor) { return new RepositoryConstructor(self); });
+    self.repositories = _.map(self.config.repositories, function(RepositoryConstructor) { return instantiateAndCollectPlugin(RepositoryConstructor, collectedPlugins); });
 
     // instantiate servers by looping over them. Nice.
     Object.keys(self.config.servers).forEach(function (server) {
@@ -91,18 +90,25 @@ function Nocca (config) {
 
     });
 
-    self.endpointManager = new self.config.endpointManager(self);
+    self.endpointManager = instantiateAndCollectPlugin(self.config.endpointManager, collectedPlugins);
     self.endpointManager.addEndpoints(self.config.endpoints);
 
-    // Loop over any provided scenarios, get their respective players registered with the playback service
-    for (var i = 0, iMax = self.config.scenarios.available.length; i < iMax; i++) {
-        self.cacheentries.addScenario(self.config.scenarios.available[i].player());
-    }
-
+    // Call init on all created plugins (if they support it)
+    _.invoke(collectedPlugins, 'init');
+    
     // run all stat reporters so they can subscribe to events. Send in the instance as arg.
     self.config.statistics.reporters.forEach(function (reporter) {
         reporter(self);
     });
+
+    
+    function instantiateAndCollectPlugin(constructor, bucket) {
+    
+        var instance = new constructor(self);
+        bucket.push(instance);
+        return instance;
+    
+    }
 
 }
 
@@ -111,3 +117,4 @@ function throwNoccaError(message, errorCode) {
     e.name = errorCode;
     throw e;
 }
+

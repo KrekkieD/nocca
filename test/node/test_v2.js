@@ -1,6 +1,6 @@
 'use strict';
 
-var Nocca = require('../../index');
+var $nocca = require('../../index');
 var _ = require('lodash');
 
 var config = {
@@ -39,7 +39,7 @@ var Matchers = {
     }
 };
 
-var GoogleResponses = {
+var GoogleResponses = $nocca.$patchScenarios( {
     "f1": {
         "statusCode": 404,
         "headers": {
@@ -79,9 +79,9 @@ var GoogleResponses = {
         },
         "body": "<!DOCTYPE html>\n<html lang=en>\nYahoooooo\n"
     }
-};
+} );
 
-var googleScenarioBuilder = new Nocca.$scenario.Builder('google', 'Google Test Scenario');
+var googleScenarioBuilder = new $nocca.$scenario.Builder('google', 'Google Test Scenario');
 
 var googleScenario = googleScenarioBuilder.sequentialScenario()
     .infiniteLoop()
@@ -105,11 +105,12 @@ var googleScenario = googleScenarioBuilder.sequentialScenario()
 //var generated = SandboxedModule.require('./scenario_LoginSuccess', {
 //    requires: {
 //        'lodash': _,
-//        'nocca': Nocca
+//        '$nocca': $nocca
 //    }
 //});
 
-//config.scenarios.available = [googleScenario];
+config.scenarios.available = [googleScenario];
 
-new Nocca(config);
+var Nocca = new $nocca(config);
+
 
