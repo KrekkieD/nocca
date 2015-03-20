@@ -19,6 +19,7 @@ var config = {
         writeNewScenarios: true,
         scenarioOutputDir: 'D:/dev/tmp/'
     }
+
 };
 
 
@@ -94,11 +95,11 @@ var googleScenario = googleScenarioBuilder.sequentialScenario()
     .title('Get Google Woohoo Page')
     .matchUsing(Matchers.anyMatcher)
     .respondWith(GoogleResponses.f2)
-    .then()
-    .on('yahoo')
-    .title('Get Yahoo Page')
-    .matchUsing(Matchers.ginInUrlBuilder('1234'))
-    .respondWith(GoogleResponses.f3)
+    //.then()
+    //.on('yahoo')
+    //.title('Get Yahoo Page')
+    //.matchUsing(Matchers.ginInUrlBuilder('1234'))
+    //.respondWith(GoogleResponses.f3)
     .build();
 
 //var SandboxedModule = require('sandboxed-module');
