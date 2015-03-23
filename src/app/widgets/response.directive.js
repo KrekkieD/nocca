@@ -28,38 +28,25 @@
         /* @ngInject */
         function ResponseDirectiveController (
             $scope,
-            $mdDialog,
-            $timeout
+            $mdDialog
         ) {
 
             var truncateLength = 170;
-            var truncateTimer;
-            var truncateTimeout = 400;
 
             $scope.truncateLength = truncateLength;
-            $scope.truncateOff = truncateOff;
-            $scope.truncateOn = truncateOn;
 
+            $scope.showKey = showKey;
             $scope.showDialog = showDialog;
 
 
-            function truncateOff () {
+			function showKey (ev, key) {
 
-                truncateTimer = $timeout(function () {
-                    $scope.truncateLength = 'off';
-                }, truncateTimeout);
+				$mdDialog.show({
+					template: '<md-dialog><md-content><h2>Request key</h2><pre>{{ ' + key + ' | json:4 }}</pre></md-content></md-dialog>',
+					targetEvent: ev
+				});
 
-            }
-
-            function truncateOn () {
-
-                $timeout.cancel(truncateTimer);
-
-                truncateTimer = $timeout(function () {
-                    $scope.truncateLength = truncateLength;
-                }, truncateTimeout);
-
-            }
+			}
 
             function showDialog (e, type) {
 
