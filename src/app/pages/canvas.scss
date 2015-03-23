@@ -3,19 +3,23 @@ body, html, .nocca-full-height {
     min-height: 100%;
 }
 
-.nocca-nav {
+.nocca-side-nav {
 
-    ul, li {
+    .nocca-nav-link {
+        color: #333;
         display: inline-block;
+        transition: all .1s ease-in-out;
     }
-}
 
-.nocca-nav-link {
-	color: #333;
-	display: inline-block;
-	transition: all .1s ease-in-out;
+    .nocca-nav-block {
+        &:hover {
 
-	&:hover {
-		padding-left: 5px;
-	}
+            cursor: pointer;
+
+            .nocca-nav-link {
+                padding-left: 5px;
+            }
+        }
+    }
+
 }
