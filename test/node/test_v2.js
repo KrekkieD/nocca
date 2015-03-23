@@ -1,6 +1,6 @@
 'use strict';
 
-var Nocca = require('../../index');
+var $nocca = require('../../index');
 var _ = require('lodash');
 
 var config = {
@@ -10,14 +10,16 @@ var config = {
         },
         'yahoo': {
             targetBaseUrl: 'http://www.yahoo.com/'
-        }
-
+        },
+		'_default': {
+			targetBaseUrl: 'http://localhost:3004/'
+		}
     },
     scenarios: {
         writeNewScenarios: true,
         scenarioOutputDir: 'D:/dev/tmp/'
-        
     }
+
 };
 
 
@@ -38,7 +40,7 @@ var Matchers = {
     }
 };
 
-var GoogleResponses = {
+var GoogleResponses = $nocca.$patchScenarios( {
     "f1": {
         "statusCode": 404,
         "headers": {
@@ -78,9 +80,9 @@ var GoogleResponses = {
         },
         "body": "<!DOCTYPE html>\n<html lang=en>\nYahoooooo\n"
     }
-};
+} );
 
-var googleScenarioBuilder = new Nocca.$scenario.Builder('google', 'Google Test Scenario');
+var googleScenarioBuilder = new $nocca.$scenario.Builder('google', 'Google Test Scenario');
 
 var googleScenario = googleScenarioBuilder.sequentialScenario()
     .infiniteLoop()
@@ -93,22 +95,23 @@ var googleScenario = googleScenarioBuilder.sequentialScenario()
     .title('Get Google Woohoo Page')
     .matchUsing(Matchers.anyMatcher)
     .respondWith(GoogleResponses.f2)
-    .then()
-    .on('yahoo')
-    .title('Get Yahoo Page')
-    .matchUsing(Matchers.ginInUrlBuilder('1234'))
-    .respondWith(GoogleResponses.f3)
+    //.then()
+    //.on('yahoo')
+    //.title('Get Yahoo Page')
+    //.matchUsing(Matchers.ginInUrlBuilder('1234'))
+    //.respondWith(GoogleResponses.f3)
     .build();
 
 //var SandboxedModule = require('sandboxed-module');
 //var generated = SandboxedModule.require('./scenario_LoginSuccess', {
 //    requires: {
 //        'lodash': _,
-//        'nocca': Nocca
+//        '$nocca': $nocca
 //    }
 //});
 
 config.scenarios.available = [googleScenario];
 
-new Nocca(config);
+var Nocca = new $nocca(config);
+
 

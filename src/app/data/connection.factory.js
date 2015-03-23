@@ -13,15 +13,22 @@
 
 
         var factory = {
-            api: {
-                data: {}
-            }
+			lastUpdate: 0,
+			data: {
+				responses: {},
+				endpoints: {},
+				recorded: [],
+				forwarded: [],
+				replayed: [],
+				miss: [],
+				storyLog: []
+			}
         };
 
         load();
 
         // factory functions here
-        return factory.api;
+        return factory;
 
         function load () {
 
@@ -29,13 +36,29 @@
 
             ws.$on('$message', function (data) {
 
-                Object.keys(factory.api.data).forEach(function (key) {
-                    delete factory.api.data[key];
-                });
+				// merge data with factory data
+				Object.keys(data).forEach(function (key) {
 
-                Object.keys(data).forEach(function (key) {
-                    factory.api.data[key] = data[key];
-                });
+					if (Array.isArray(data[key])) {
+						Array.prototype.push.apply(
+							factory.data[key],
+							data[key]
+						);
+					}
+					else if (data[key] instanceof Object) {
+
+						Object.keys(data[key]).forEach(function (dataKey) {
+
+							factory.data[key][dataKey] = data[key][dataKey];
+
+						});
+
+
+					}
+
+				});
+
+				factory.lastUpdate = new Date().getTime();
 
                 $rootScope.$apply();
 
