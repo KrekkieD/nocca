@@ -34,13 +34,11 @@
             var rawData;
             $scope.data = {};
 
-            $scope.searchModel = noccaDataSearchModel;
+            // select tab 1 by default
+            // TODO: to localStorage
+            $scope.selectedTabIndex = 1;
 
-            $scope.filter = {
-                size: 0,
-                on: false,
-                query: undefined
-            };
+            $scope.searchModel = noccaDataSearchModel;
 
             $scope.filterData = filterData;
 			$scope.downloadAll = noccaUtilsDownload.createPackageAndSave;

@@ -6,6 +6,7 @@
 
     function noccaDataSearchModel ($mdToast) {
 
+        // TODO: should use localStorage
         var factory = {
             model: {
                 query: undefined,

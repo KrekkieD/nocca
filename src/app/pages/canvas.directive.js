@@ -26,8 +26,15 @@
         /* @ngInject */
         function CanvasDirectiveController (
 			$scope,
-			$mdSidenav
+			$mdSidenav,
+            noccaDataConnection
 		) {
+
+            $scope.hasWebsocketConnection = noccaDataConnection.hasConnection;
+
+            $scope.$watch(function () {
+                $scope.hasWebsocketConnection = noccaDataConnection.hasConnection;
+            });
 
 			$scope.toggleNav = function () {
 				$mdSidenav('nav').toggle();

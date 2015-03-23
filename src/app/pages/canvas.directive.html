@@ -4,14 +4,17 @@
 
     <md-content flex>
 
-        <md-toolbar layout="row">
-
+        <md-toolbar layout="row" class="nocca-header">
             <h1 class="md-toolbar-tools" flex>
                 You are looking at the Nocca interface
             </h1>
         </md-toolbar>
 
-        <md-content class="md-padding" flex="100"></md-content>
+        <md-subheader class="md-warn" ng-if="!hasWebsocketConnection">
+            <span class="fa fa-fw fa-exclamation"></span>
+            Could not connect to the Nocca Websocket Server, data shown is from cache
+        </md-subheader>
+
         <md-button class="md-raised md-primary" ng-click="toggleNav()">
             <span class="fa fa-cogs"></span>
             <span class="fa fa-chevron-right"></span>
