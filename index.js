@@ -79,7 +79,9 @@ function Nocca (config) {
     self.playback = instantiateAndCollectPlugin(self.config.playback, collectedPlugins);
     self.scenario = instantiateAndCollectPlugin(self.config.scenario, collectedPlugins);
 
-    self.repositories = _.map(self.config.repositories, function(RepositoryConstructor) { return instantiateAndCollectPlugin(RepositoryConstructor, collectedPlugins); });
+    self.repositories = _.map(self.config.repositories, function(RepositoryConstructor) {
+        return instantiateAndCollectPlugin(RepositoryConstructor, collectedPlugins);
+    });
 
     // instantiate servers by looping over them. Nice.
     Object.keys(self.config.servers).forEach(function (server) {
