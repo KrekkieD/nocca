@@ -15,6 +15,7 @@ var config = {
 			targetBaseUrl: 'http://localhost:3004/'
 		}
     },
+    forward: false,
     scenarios: {
         writeNewScenarios: true,
         scenarioOutputDir: 'D:/dev/tmp/'
