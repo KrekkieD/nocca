@@ -253,15 +253,15 @@ The following table shows the possible configuration items Nocca supports, their
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback</code></td>
+    <td class="property-cell"><code>cacheentries</code></td>
     <td class="default-value-cell"><code>Object</code></td>
     <td class="description-cell">
-      Configures several services related to the playback of recorded cache entries and scenarios.
+      Configures several services related to the cacheentries of recorded cache entries and scenarios.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.exporter</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.exportRecordings</code></td>
+    <td class="property-cell"><code>cacheentries.exporter</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.exportRecordings</code></td>
     <td class="description-cell">
       Function used to retrieve stored cache entries. This function should accept zero or two parameters. If no parameters are supplied, it should
       return a complete map of all available cache entries, grouped by endpoint key and then request key. If two parameters are supplied, the first
@@ -273,32 +273,32 @@ The following table shows the possible configuration items Nocca supports, their
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.matcher</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.defaultRequestMather</code></td>
+    <td class="property-cell"><code>cacheentries.matcher</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.defaultRequestMather</code></td>
     <td class="description-cell">
       Request chain function used to find a recorded response matching the incoming request. The default function will prefer matching scenarios of
-      single cache entries. If operates on the <code>RequestContext</code> and is expected to add a property <code>playbackResponse</code> containing
+      single cache entries. If operates on the <code>RequestContext</code> and is expected to add a property <code>cacheentriesResponse</code> containing
       the matching recorded response.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.mocker</code></td>
+    <td class="property-cell"><code>cacheentries.mocker</code></td>
     <td class="default-value-cell"><code>Nocca.$recorder.simpleResponseRecorder</code></td>
     <td class="description-cell">
       Request chain function used to turn the forwarded response into a mock that can be saved to either a single cache or a scenario. It should
-      offer the created mock entry to <code>Nocca.config.playback.recorder</code> for storage and activation.
+      offer the created mock entry to <code>Nocca.config.cacheentries.recorder</code> for storage and activation.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.recorder</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.addRecording</code></td>
+    <td class="property-cell"><code>cacheentries.recorder</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.addRecording</code></td>
     <td class="description-cell">
       Service function used to store a single mock entry in the cache database.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.scenarioExporter</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.exportScenarios</code></td>
+    <td class="property-cell"><code>cacheentries.scenarioExporter</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.exportScenarios</code></td>
     <td class="description-cell">
       Function used to retrieve scenarios. It can be called with zero or one argument. When no argument is specified, the
       function will return the complete set of all scenarios currently stored. When an argument is specified, it will be
@@ -310,15 +310,15 @@ The following table shows the possible configuration items Nocca supports, their
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.scenarioRecorder</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.addScenario</code></td>
+    <td class="property-cell"><code>cacheentries.scenarioRecorder</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.addScenario</code></td>
     <td class="description-cell">
       Service function used to store a single scenario in the cache database.
     </td>
   </tr>
   <tr class="property-row">
-    <td class="property-cell"><code>playback.scenarioResetter</code></td>
-    <td class="default-value-cell"><code>Nocca.$playback.resetScenario</code></td>
+    <td class="property-cell"><code>cacheentries.scenarioResetter</code></td>
+    <td class="default-value-cell"><code>Nocca.$cacheEntryRepository.resetScenario</code></td>
     <td class="description-cell">
       Service function used to rewind a scenario to its initial state.
     </td>
@@ -336,7 +336,7 @@ The following table shows the possible configuration items Nocca supports, their
     <td class="default-value-cell"><code>Nocca.$responder</code></td>
     <td class="description-cell">
       Request chain function responsible for returning the result of the request chain to the client. It can select to
-      send either the property <code>proxiedResponse</code> or <code>playbackResponse</code>, based on rules it can define
+      send either the property <code>proxiedResponse</code> or <code>cacheentriesResponse</code>, based on rules it can define
       itself.
     </td>
   </tr>
@@ -439,6 +439,83 @@ The following table shows the possible configuration items Nocca supports, their
 
 ## Default Chain
 
+# Extending Nocca
 
+Nocca plugins are modules which should expose an initializer method:
+
+```javascript
+module.exports = MyModule;
+
+function MyModule(Nocca) {
+
+  var myModule = {
+      
+  };
+  // Initialize your module, assigning methods you implement to the myModule object
+
+  return myModule; 
+}
+```
+
+The initializer method is called when Nocca starts up. Nocca passes itself to the plugin initializer to allow plugins to access the correct instance
+of Nocca. Every instance of Nocca will have new instances of each plugin, be aware of that when you write a plugin.
+
+This plugin initializer should be used to setup the plugin, register functions and structurally create the plugin. Since Nocca is still initializing,
+not all of its components may be accessible yet. There is a secondary plugin lifecycle function in which Nocca is guaranteed to have completed initializing
+all plugins and configuration. That method is called `init` and should be part of the plugin returned by the plugin initializer:
+
+```javascript
+module.exports = MyModule;
+
+function MyModule(Nocca) {
+
+  var myModule = {
+    init: function() {
+      Nocca.pubsub.publish('someEvent');    
+    }
+  };
+  
+  return myModule;
+}
+```
+
+The example above shows one of the things you can do with this. The pubsub channel inside Nocca can be used to establish inter-plugin communication. In the
+`init()` call, every Nocca plugin will have been initialized and any plugin interested in events will have registered to the `pubsub` component. Publishing an
+event before the `init()` call will not guarantee delivery of that event.
+
+## Exposing a REST endpoint
+
+If you have a plugin that wishes to expose some controls through the REST api, you can use the `pubsub` channel for this. For example, the default `scenarioRepository`
+exposes its recording interface by registering several routes for this purpose:
+
+```javascript
+module.exports = ScenarioRepository;
+
+function ScenarioRepository(Nocca) {
+
+  return {
+    init: function() {
+      Nocca.pubsub.publish(Nocca.constants.PUBSUB_REST_ROUTE_ADDED, ['GET:/scenarios/recorder', getRecorder]);
+    }
+  };
+
+  /* The httpApi component calls a route handler with the HTTP request, response, 
+   * the Nocca config (deprecated), potential path variables, and two functions to write
+   * to the response stream.
+   */
+  function getRecorder (req, res, config, match, writeHead, writeEnd) {
+    var recordingState = isRecording();
+    if (recordingState !== false) {
+
+      writeHead(res, 200, {
+        'Content-Type': 'application/json'
+      }).writeEnd(JSON.stringify(recordingState));
+
+    }
+    else {
+      writeHead(res, 404).writeEnd();
+    }
+  }
+}
 
 </style>
