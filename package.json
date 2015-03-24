@@ -17,7 +17,6 @@
   ],
   "devDependencies": {
     "browser-sync": "^1.7.1",
-    "change-case": "^2.2.0",
     "connect-modrewrite": "^0.7.9",
     "del": "^1.1.0",
     "event-stream": "^3.2.2",
@@ -82,6 +81,7 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
+    "change-case": "^2.2.0",
     "connect": "^3.3.4",
     "del": "^1.1.1",
     "extend": "^2.0.0",
