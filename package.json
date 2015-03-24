@@ -68,7 +68,7 @@
     "random-string": "^0.1.1",
     "rimraf": "^2.2.8",
     "supererror": "^0.6.0",
-    "webdriver-manager": "^1.0.0",
+    "webdriver-manager": "^1.0.0"
   },
   "main": "index.js",
   "files": [
