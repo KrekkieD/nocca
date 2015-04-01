@@ -6,11 +6,9 @@
 
     function noccaDataConnection (
         $websocket,
-        noccaDataOptions,
+		noccaCoreConfig,
         $rootScope
     ) {
-        // values here
-
 
         var factory = {
 			lastUpdate: 0,
@@ -32,9 +30,14 @@
 
         function load () {
 
-            var ws = $websocket.$new(noccaDataOptions.host);
+			var websocketServerUrl = 'ws://';
+			websocketServerUrl += noccaCoreConfig.servers.websocketServer.listen.host;
+			websocketServerUrl += ':' + noccaCoreConfig.servers.websocketServer.listen.port;
+			websocketServerUrl += noccaCoreConfig.servers.websocketServer.contextRoot;
 
-            ws.$on('$message', function (data) {
+			var ws = $websocket.$new(websocketServerUrl);
+
+			ws.$on('$message', function (data) {
 
 				// merge data with factory data
 				Object.keys(data).forEach(function (key) {
@@ -60,9 +63,9 @@
 
 				factory.lastUpdate = new Date().getTime();
 
-                $rootScope.$apply();
+				$rootScope.$apply();
 
-            });
+			});
 
         }
 

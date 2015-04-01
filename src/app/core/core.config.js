@@ -10,7 +10,7 @@
     ) {
 
         localStorageServiceProvider
-            .setPrefix('nocca')
+            .setPrefix('nocca');
 
         $mdThemingProvider.theme('default')
             .primaryPalette('blue-grey')

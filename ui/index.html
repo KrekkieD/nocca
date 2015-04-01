@@ -6,6 +6,8 @@
 
     <!-- Bower css includes -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="angular-material/angular-material.css" />
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
     <!-- endbower -->
 
     <!-- Project css includes -->
@@ -14,10 +16,20 @@
 </head>
 
 <body>
-    <div id="nocca-core" nocca-pages-canvas></div>
+    <div id="nocca-core" ui-view></div>
 
     <!-- Bower js includes -->
     <!-- bower:js -->
+    <script src="angular/angular.js"></script>
+    <script src="ui-router/release/angular-ui-router.js"></script>
+    <script src="ng-websocket/ng-websocket.js"></script>
+    <script src="angular-animate/angular-animate.js"></script>
+    <script src="angular-aria/angular-aria.js"></script>
+    <script src="angular-material/angular-material.js"></script>
+    <script src="angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="angular-truncate/src/truncate.js"></script>
+    <script src="angular-messages/angular-messages.js"></script>
+    <script src="vkbeautify-wrapper/dist/vkbeautify.0.99.00.beta.js"></script>
     <!-- endbower -->
 
     <!-- Project js includes -->
