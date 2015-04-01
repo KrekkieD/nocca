@@ -11,7 +11,10 @@
 
 </head>
 <body>
-  <div id="<%= generator.bootstrap.element %>" ui-view></div>
+
+    <div id="<%= generator.bootstrap.element %>">
+        <div ui-view></div>
+    </div>
 
   <!-- Bower js includes -->
   <%= inject.bower.js %>

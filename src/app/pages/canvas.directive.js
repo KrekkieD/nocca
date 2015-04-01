@@ -16,7 +16,6 @@
 
         var directive = {
             restrict: 'EA',
-			replace: true,
             templateUrl: 'canvas.directive.html',
             controller: CanvasDirectiveController
         };
