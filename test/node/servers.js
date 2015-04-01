@@ -4,20 +4,6 @@ var $nocca = require('../../index');
 var $connect = require('connect');
 
 var Nocca = new $nocca({
-	servers: {
-		gui: {
-			contextRoot: '/gui'
-		},
-		httpApi: {
-			contextRoot: '/http-api'
-		},
-		proxy: {
-			contextRoot: '/proxy'
-		},
-		websocketServer: {
-			contextRoot: '/socket'
-		}
-	},
 	endpoints: {
 		'google': {
 			targetBaseUrl: 'http://www.google.com/'
