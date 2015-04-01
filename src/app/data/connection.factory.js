@@ -31,9 +31,17 @@
         function load () {
 
 			var websocketServerUrl = 'ws://';
-			websocketServerUrl += noccaCoreConfig.servers.websocketServer.listen.host;
-			websocketServerUrl += ':' + noccaCoreConfig.servers.websocketServer.listen.port;
-			websocketServerUrl += noccaCoreConfig.servers.websocketServer.contextRoot;
+
+			if (noccaCoreConfig.servers.wrapperServer.enabled) {
+				websocketServerUrl += noccaCoreConfig.servers.wrapperServer.listen.host;
+				websocketServerUrl += ':' + noccaCoreConfig.servers.wrapperServer.listen.port;
+				websocketServerUrl += noccaCoreConfig.servers.websocketServer.contextRoot;
+			}
+			else {
+				websocketServerUrl += noccaCoreConfig.servers.websocketServer.listen.host;
+				websocketServerUrl += ':' + noccaCoreConfig.servers.websocketServer.listen.port;
+			}
+
 
 			var ws = $websocket.$new(websocketServerUrl);
 

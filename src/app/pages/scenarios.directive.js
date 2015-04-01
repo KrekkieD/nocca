@@ -32,16 +32,27 @@
 
             refreshStatus();
 
-            function refreshStatus () {
+			function _getHttpApiHost () {
 
 				var httpApiUrl = 'http://';
-				httpApiUrl += noccaCoreConfig.servers.httpApi.listen.host;
-				httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
-				httpApiUrl += noccaCoreConfig.servers.httpApi.contextRoot;
+
+				if (noccaCoreConfig.servers.wrapperServer.enabled) {
+					httpApiUrl += noccaCoreConfig.servers.wrapperServer.listen.host;
+					httpApiUrl += ':' + noccaCoreConfig.servers.wrapperServer.listen.port;
+					httpApiUrl += noccaCoreConfig.servers.httpApi.contextRoot;
+				}
+				else {
+					httpApiUrl += noccaCoreConfig.servers.httpApi.listen.host;
+					httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
+				}
+
+			}
+
+            function refreshStatus () {
 
 				$http({
 					method: 'get',
-					url: httpApiUrl + '/scenarios/recorder'
+					url: _getHttpApiHost() + '/scenarios/recorder'
 				}).then(function (response) {
 					$scope.recorder = response.data;
 				}, function () {
@@ -60,17 +71,12 @@
 
             function startRecording () {
 
-				var httpApiUrl = 'http://';
-				httpApiUrl += noccaCoreConfig.servers.httpApi.listen.host;
-				httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
-				httpApiUrl += noccaCoreConfig.servers.httpApi.contextRoot;
-
 				var payload = angular.extend({}, $scope.scenarioModel);
 				payload.startRecording = true;
 
 				$http({
 					method: 'put',
-					url: httpApiUrl + '/scenarios/recorder',
+					url: _getHttpApiHost() +  + '/scenarios/recorder',
 					data: payload
 				}).then(function (response) {
 
@@ -89,18 +95,12 @@
 
             function stopRecording () {
 
-				var httpApiUrl = 'http://';
-				httpApiUrl += noccaCoreConfig.servers.httpApi.listen.host;
-				httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
-				httpApiUrl += noccaCoreConfig.servers.httpApi.contextRoot;
-
-
 				var payload = angular.extend({}, $scope.scenarioModel);
 				payload.stopRecording = true;
 
 				$http({
 					method: 'put',
-					url: httpApiUrl + '/scenarios/recorder',
+					url: _getHttpApiHost() +  + '/scenarios/recorder',
 					data: payload
 				}).then(function (response) {
 
@@ -119,18 +119,12 @@
 
             function cancelRecording () {
 
-				var httpApiUrl = 'http://';
-				httpApiUrl += noccaCoreConfig.servers.httpApi.listen.host;
-				httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
-				httpApiUrl += noccaCoreConfig.servers.httpApi.contextRoot;
-
-
 				var payload = angular.extend({}, $scope.scenarioModel);
 				payload.cancelRecording = true;
 
 				$http({
 					method: 'delete',
-					url: httpApiUrl + '/scenarios/recorder',
+					url: _getHttpApiHost() +  + '/scenarios/recorder',
 					data: payload
 				}).then(function (response) {
 
