@@ -33,15 +33,15 @@
 			var websocketServerUrl = 'ws://';
 
 			if (noccaCoreConfig.servers.wrapperServer.enabled) {
-				websocketServerUrl += noccaCoreConfig.servers.wrapperServer.listen.host;
-				websocketServerUrl += ':' + noccaCoreConfig.servers.wrapperServer.listen.port;
-				websocketServerUrl += noccaCoreConfig.servers.websocketServer.contextRoot;
+				websocketServerUrl += noccaCoreConfig.servers.wrapperServer.wrapper.host || document.location.host;
+				websocketServerUrl += noccaCoreConfig.servers.websocketServer.wrapper.path;
 			}
 			else {
-				websocketServerUrl += noccaCoreConfig.servers.websocketServer.listen.host;
+				websocketServerUrl += noccaCoreConfig.servers.websocketServer.listen.hostname || document.location.hostname;
 				websocketServerUrl += ':' + noccaCoreConfig.servers.websocketServer.listen.port;
 			}
 
+			//websocketServerUrl = 'ws://localhost:3005';
 
 			var ws = $websocket.$new(websocketServerUrl);
 
@@ -63,7 +63,6 @@
 							factory.data[key][dataKey] = data[key][dataKey];
 
 						});
-
 
 					}
 

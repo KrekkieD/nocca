@@ -37,12 +37,11 @@
 				var httpApiUrl = 'http://';
 
 				if (noccaCoreConfig.servers.wrapperServer.enabled) {
-					httpApiUrl += noccaCoreConfig.servers.wrapperServer.listen.host;
-					httpApiUrl += ':' + noccaCoreConfig.servers.wrapperServer.listen.port;
-					httpApiUrl += noccaCoreConfig.servers.httpApi.contextRoot;
+					httpApiUrl += noccaCoreConfig.servers.wrapperServer.wrapper.host || document.location.host;
+					httpApiUrl += noccaCoreConfig.servers.httpApi.wrapper.path;
 				}
 				else {
-					httpApiUrl += noccaCoreConfig.servers.httpApi.listen.host;
+					httpApiUrl += noccaCoreConfig.servers.httpApi.listen.hostname || document.location.hostname;
 					httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
 				}
 
