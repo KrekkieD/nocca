@@ -1,0 +1,89 @@
+{
+    "delay": 0,
+    "endpoints": {
+        "google": {
+            "targetBaseUrl": "http://www.google.com/"
+        },
+        "yahoo": {
+            "targetBaseUrl": "http://www.yahoo.com/"
+        },
+        "_default": {
+            "targetBaseUrl": "http://localhost:3004/"
+        }
+    },
+    "repositories": {},
+    "servers": {
+        "proxy": {
+            "enabled": true,
+            "listen": {
+                "host": "localhost",
+                "port": 3003
+            },
+            "contextRoot": "/proxy"
+        },
+        "gui": {
+            "enabled": true,
+            "listen": {
+                "host": "localhost",
+                "port": 3004
+            },
+            "contextRoot": "/gui"
+        },
+        "httpApi": {
+            "enabled": true,
+            "listen": {
+                "host": "localhost",
+                "port": 3005
+            },
+            "contextRoot": "/http-api"
+        },
+        "websocketServer": {
+            "enabled": true,
+            "options": {
+                "autoAcceptConnections": true,
+                "httpServer": {
+                    "domain": null,
+                    "_events": {},
+                    "_maxListeners": 10,
+                    "_connections": 0,
+                    "connections": 0,
+                    "_handle": {
+                        "fd": 15,
+                        "writeQueueSize": 0
+                    },
+                    "_usingSlaves": false,
+                    "_slaves": {},
+                    "allowHalfOpen": true,
+                    "httpAllowHalfOpen": false,
+                    "timeout": 120000,
+                    "_connectionKey": "4:0.0.0.0:3005"
+                }
+            },
+            "autoAcceptConnections": true,
+            "useHttpApiServer": true,
+            "listen": {
+                "host": "localhost",
+                "port": 3005
+            },
+            "contextRoot": "/socket"
+        },
+        "wrapperServer": {
+            "enabled": true,
+            "host": "localhost",
+            "port": "8989"
+        }
+    },
+    "record": true,
+    "forward": "MISSING",
+    "statistics": {
+        "mode": "STATISTICS_LOG_MODE_REALTIME",
+        "reporters": {}
+    },
+    "allowEndpointOverrides": {
+        "keyGenerator": true
+    },
+    "scenarios": {
+        "available": {},
+        "writeNewScenarios": false
+    }
+}

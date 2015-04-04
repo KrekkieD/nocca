@@ -4,6 +4,7 @@ var _ = require('lodash');
 
 var $extend = require('extend');
 var $pubsub = require('node-pubsub');
+var $q = require('q');
 
 
 module.exports = Nocca;
@@ -26,7 +27,7 @@ module.exports.$responder = require('./lib/responder');
 module.exports.$scenario = require('./lib/scenario');
 module.exports.$scenarioRecorder = require('./lib/scenarioRecorder');
 module.exports.$scenarioRepository = require('./lib/scenarioRepository');
-module.exports.$server = require('./lib/server');
+module.exports.$proxy = require('./lib/proxy');
 module.exports.$stats = require('./lib/stats');
 module.exports.$utils = require('./lib/utils');
 module.exports.$websocketServer = require('./lib/websocketServer');
@@ -53,6 +54,7 @@ function Nocca (config) {
     self.pubsub = $pubsub;
 
     self.throwError = throwNoccaError;
+    self.getConfig = getConfig;
 
 
     //   C O N F I G U R A B L E   S T U F F   B E L O W
@@ -96,7 +98,10 @@ function Nocca (config) {
     self.endpointManager.addEndpoints(self.config.endpoints);
 
     // Call init on all created plugins (if they support it)
+	// TODO: this can be improved by using pubsub to publish the event
     _.invoke(collectedPlugins, 'init');
+
+	self.pubsub.publish(self.constants.PUBSUB_NOCCA_INITIALIZE_PLUGIN);
     
     // run all stat reporters so they can subscribe to events. Send in the instance as arg.
     self.config.statistics.reporters.forEach(function (reporter) {
@@ -118,5 +123,37 @@ function throwNoccaError(message, errorCode) {
     var e = new Error(message);
     e.name = errorCode;
     throw e;
+}
+
+function getConfig (key, obj, asPromise) {
+
+	var workingObj = obj;
+
+	var extractedConfig;
+
+	var keys = key.split('.');
+
+	while (keys.length) {
+		key = keys.shift();
+		workingObj = workingObj[key];
+		extractedConfig = workingObj;
+
+		if (typeof extractedConfig === 'undefined') {
+			break;
+		}
+	}
+
+	if (asPromise) {
+		var deferred = $q.defer();
+
+		typeof extractedConfig !== 'undefined' ?
+			deferred.resolve(extractedConfig) : deferred.reject();
+
+		return deferred.promise;
+	}
+	else {
+		return extractedConfig;
+	}
+
 }
 

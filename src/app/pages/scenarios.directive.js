@@ -20,7 +20,8 @@
         function ScenariosDirectiveController (
             $scope,
             $http,
-            $mdToast
+            $mdToast,
+			noccaCoreConfig
         ) {
 
             $scope.startRecording = startRecording;
@@ -31,16 +32,31 @@
 
             refreshStatus();
 
+			function _getHttpApiHost () {
+
+				var httpApiUrl = 'http://';
+
+				if (noccaCoreConfig.servers.wrapperServer.enabled) {
+					httpApiUrl += noccaCoreConfig.servers.wrapperServer.wrapper.host || document.location.host;
+					httpApiUrl += noccaCoreConfig.servers.httpApi.wrapper.path;
+				}
+				else {
+					httpApiUrl += noccaCoreConfig.servers.httpApi.listen.hostname || document.location.hostname;
+					httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
+				}
+
+			}
+
             function refreshStatus () {
 
-                $http({
-                    method: 'get',
-                    url: 'http://localhost:3005/scenarios/recorder'
-                }).then(function (response) {
-                    $scope.recorder = response.data;
-                }, function () {
-                    $scope.recorder = undefined;
-                });
+				$http({
+					method: 'get',
+					url: _getHttpApiHost() + '/scenarios/recorder'
+				}).then(function (response) {
+					$scope.recorder = response.data;
+				}, function () {
+					$scope.recorder = undefined;
+				});
 
             }
 
@@ -54,73 +70,73 @@
 
             function startRecording () {
 
-                var payload = angular.extend({}, $scope.scenarioModel);
-                payload.startRecording = true;
+				var payload = angular.extend({}, $scope.scenarioModel);
+				payload.startRecording = true;
 
-                $http({
-                    method: 'put',
-                    url: 'http://localhost:3005/scenarios/recorder',
-                    data: payload
-                }).then(function (response) {
+				$http({
+					method: 'put',
+					url: _getHttpApiHost() +  + '/scenarios/recorder',
+					data: payload
+				}).then(function (response) {
 
-                    showToastWithMessage('Recording started successfully');
+					showToastWithMessage('Recording started successfully');
 
-                    refreshStatus();
-                }, function (response) {
+					refreshStatus();
+				}, function (response) {
 
-                    showToastWithMessage('Could not start recording: ' + response.data);
+					showToastWithMessage('Could not start recording: ' + response.data);
 
-                    refreshStatus();
+					refreshStatus();
 
-                });
+				});
 
             }
 
             function stopRecording () {
 
-                var payload = angular.extend({}, $scope.scenarioModel);
-                payload.stopRecording = true;
+				var payload = angular.extend({}, $scope.scenarioModel);
+				payload.stopRecording = true;
 
-                $http({
-                    method: 'put',
-                    url: 'http://localhost:3005/scenarios/recorder',
-                    data: payload
-                }).then(function (response) {
+				$http({
+					method: 'put',
+					url: _getHttpApiHost() +  + '/scenarios/recorder',
+					data: payload
+				}).then(function (response) {
 
-                    showToastWithMessage('Recording stopped and saved');
+					showToastWithMessage('Recording stopped and saved');
 
-                    refreshStatus();
-                }, function (response) {
+					refreshStatus();
+				}, function (response) {
 
-                    showToastWithMessage('Could not stop recording: ' + response.data);
+					showToastWithMessage('Could not stop recording: ' + response.data);
 
-                    refreshStatus();
+					refreshStatus();
 
-                });
+				});
 
             }
 
             function cancelRecording () {
 
-                var payload = angular.extend({}, $scope.scenarioModel);
-                payload.cancelRecording = true;
+				var payload = angular.extend({}, $scope.scenarioModel);
+				payload.cancelRecording = true;
 
-                $http({
-                    method: 'delete',
-                    url: 'http://localhost:3005/scenarios/recorder',
-                    data: payload
-                }).then(function (response) {
+				$http({
+					method: 'delete',
+					url: _getHttpApiHost() +  + '/scenarios/recorder',
+					data: payload
+				}).then(function (response) {
 
-                    showToastWithMessage('Recording cancelled');
+					showToastWithMessage('Recording cancelled');
 
-                    refreshStatus();
-                }, function (response) {
+					refreshStatus();
+				}, function (response) {
 
-                    showToastWithMessage('Could not cancel recording: ' + response.data);
+					showToastWithMessage('Could not cancel recording: ' + response.data);
 
-                    refreshStatus();
+					refreshStatus();
 
-                });
+				});
 
             }
 

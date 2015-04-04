@@ -511,11 +511,11 @@ gulp.task('dev-js-template', function () {
 			src: true
 		})
 		.pipe(inject(
-			gulp.src('target/dev/**/!(*bootstrap|*config|*run).js')
+			gulp.src('target/dev/**/!(*bootstrap|*.config|*.run).js')
 			.pipe(angularFilesort()), {
 				ignorePath: '/target/dev/',
 				whitelist: [
-					'./src/**/!(*config|*run).js'
+					'./src/**/!(*.config|*.run).js'
 				]
 			}))
 		.pipe(gulp.dest('./.tmp'));
@@ -527,7 +527,7 @@ gulp.task('dev-js-config-run-template', function () {
 				src: true
 			})
 		.pipe(inject(
-			gulp.src(['target/dev/**/*config.js', 'target/dev/**/*run.js']), {
+			gulp.src(['target/dev/**/*.config.js', 'target/dev/**/*.run.js']), {
 				ignorePath: '/target/dev/'
 			}
 		))

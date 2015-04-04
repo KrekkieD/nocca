@@ -6,11 +6,9 @@
 
     function noccaDataConnection (
         $websocket,
-        noccaDataOptions,
+		noccaCoreConfig,
         $rootScope
     ) {
-        // values here
-
 
         var factory = {
 			lastUpdate: 0,
@@ -32,9 +30,22 @@
 
         function load () {
 
-            var ws = $websocket.$new(noccaDataOptions.host);
+			var websocketServerUrl = 'ws://';
 
-            ws.$on('$message', function (data) {
+			if (noccaCoreConfig.servers.wrapperServer.enabled) {
+				websocketServerUrl += noccaCoreConfig.servers.wrapperServer.wrapper.host || document.location.host;
+				websocketServerUrl += noccaCoreConfig.servers.websocketServer.wrapper.path;
+			}
+			else {
+				websocketServerUrl += noccaCoreConfig.servers.websocketServer.listen.hostname || document.location.hostname;
+				websocketServerUrl += ':' + noccaCoreConfig.servers.websocketServer.listen.port;
+			}
+
+			//websocketServerUrl = 'ws://localhost:3005';
+
+			var ws = $websocket.$new(websocketServerUrl);
+
+			ws.$on('$message', function (data) {
 
 				// merge data with factory data
 				Object.keys(data).forEach(function (key) {
@@ -53,16 +64,15 @@
 
 						});
 
-
 					}
 
 				});
 
 				factory.lastUpdate = new Date().getTime();
 
-                $rootScope.$apply();
+				$rootScope.$apply();
 
-            });
+			});
 
         }
 

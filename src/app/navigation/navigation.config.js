@@ -17,6 +17,16 @@
         var states = noccaNavigationStates;
 
         $stateProvider
+			.state(states.nocca, {
+				abstract: true,
+				url: '',
+				template: '<nocca-pages-canvas></nocca-pages-canvas>',
+				resolve: {
+					config: function (noccaCoreConfig) {
+						return noccaCoreConfig.getConfig();
+					}
+				}
+			})
             .state(states.status, {
                 url: '/',
                 template: '<nocca-pages-status></nocca-pages-status>'
