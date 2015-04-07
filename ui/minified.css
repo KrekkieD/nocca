@@ -1,4 +1,4 @@
-.nocca-full-height,body,html{height:100%;min-height:100%}.nocca-nav li,.nocca-nav ul{display:inline-block}.nocca-nav-link{color:#333;display:inline-block;transition:all .1s ease-in-out}.nocca-nav-link:hover{padding-left:5px}
+.nocca-full-height,body,html{height:100%;min-height:100%}.nocca-side-nav .nocca-nav-link{color:#333;display:inline-block;transition:all .1s ease-in-out}.nocca-side-nav .nocca-nav-block:hover{cursor:pointer}.nocca-side-nav .nocca-nav-block:hover .nocca-nav-link{padding-left:5px}
 .nocca-timestamp{opacity:.7;font-size:12px}.nocca-story-line{-webkit-transition:.5s linear all;-moz-transition:.5s linear all;-o-transition:.5s linear all;transition:.5s linear all;-webkit-transition-delay:6s;transition-delay:6s;color:rgba(0,0,0,.5)}.nocca-story-line.ng-enter.ng-enter-active{color:#000;-webkit-transition-delay:0s;transition-delay:0s}.nocca-story-line:hover .md-tile-content{color:#000}.nocca-story-line .md-tile-content{padding-bottom:5px;padding-top:5px}
 .nocca-request-dialog{min-width:75%;min-height:75%}
 .nocca-request-preview-wrap{white-space:pre-wrap}

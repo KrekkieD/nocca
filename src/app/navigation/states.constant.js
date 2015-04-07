@@ -4,10 +4,11 @@
     angular.module('nocca.navigation')
         .constant(
             'noccaNavigationStates', {
-                status: 'nocca-status',
-                export: 'nocca-export',
-                manage: 'nocca-manage',
-                scenarios: 'nocca-scenarios'
+				nocca: 'nocca',
+                status: 'nocca.status',
+                export: 'nocca.export',
+                manage: 'nocca.manage',
+                scenarios: 'nocca.scenarios'
             }
         );
 }());

@@ -91,7 +91,7 @@
     "sandboxed-module": "^2.0.0",
     "serve-static": "^1.9.1",
     "url-pattern": "^0.6.0",
-    "websocket": "^1.0.17",
+    "websocket": "^1.0.18",
       "wiredep": "^2.0.1"
   },
   "contributors": [
