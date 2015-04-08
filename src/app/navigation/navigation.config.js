@@ -31,6 +31,10 @@
                 url: '/',
                 template: '<nocca-pages-status></nocca-pages-status>'
             })
+            .state(states.caches, {
+                url: '/caches',
+                template: '<nocca-pages-caches></nocca-pages-caches>'
+            })
             .state(states.export, {
                 url: '/export',
                 template: '<nocca-pages-export></nocca-pages-export>'
