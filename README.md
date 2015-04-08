@@ -8,7 +8,7 @@ Node mock server
 Nocca can be installed and used as a NodeJS module. Simply run the following command:
 
 ```bash
-npm install nocca
+npm install --save-dev nocca
 ```
 
 Then include it into your source file and you're ready to go:
@@ -67,7 +67,7 @@ The following table shows the possible configuration items Nocca supports, their
     <td class="property-cell"><code>servers</code></td>
     <td class="default-value-cell"><code>Object</code></td>
     <td class="description-cell">
-      Contains configurations for all ports Nocca should open on startup. The defaul configuration contains three sub-entries, describing
+      Contains configurations for all ports Nocca should open on startup. The default configuration contains three sub-entries, describing
       the different ports opened: <code>proxy</code>, <code>gui</code> and <code>httpApi</code>.
     </td>
   </tr>
