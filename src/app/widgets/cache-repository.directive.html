@@ -1,0 +1,25 @@
+<md-item-content>
+
+    <div class="md-tile-content">
+        <h3>{{ endpointKey }}</h3>
+        <!--<h4 class="nocca-scenario-key">{{ scenario.scenario.name }}</h4>-->
+
+        <md-content layout="row" class="md-padding">
+            <dl class="nocca-scenario-details" layout layout-wrap>
+                <dt flex="30">Cache count:</dt>
+                <dd flex="60">{{ caches | noccaDataObjectLength }}</dd>
+            </dl>
+            <div layout="column">
+                <md-button ng-click="clearCacheRepository(endpointKey)"
+                    class="md-primary">
+
+                    <span class="fa fa-fw fa-trash-o"></span>
+                    Empty caches
+
+                </md-button>
+            </div>
+        </md-content>
+
+    </div>
+
+</md-item-content>

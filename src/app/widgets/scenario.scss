@@ -1,0 +1,24 @@
+.nocca-scenario-tile-left {
+
+    padding-right: 15px;
+    text-align: center;
+
+}
+.nocca-scenario-tile-right {
+
+}
+.nocca-scenario-key {
+    font-family: "Courier new", monospace;
+}
+.nocca-scenario-details {
+    padding: 0;
+    margin: 0;
+
+    dt {
+        min-width: 140px;
+    }
+    dd {
+        padding: 0;
+        margin: 0;
+    }
+}
