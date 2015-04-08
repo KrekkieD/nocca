@@ -26,12 +26,14 @@
             </md-tab>
             <md-tab label="Repositories">
 
-                <md-content>
-
-                    <md-button ng-click="clearCacheRepositories()">
+                <md-content class="md-padding">
+                    <md-button ng-click="noccaPagesCaches.clearCacheRepositories()">
                         <span class="fa fa-fw fa-trash-o"></span>
                         Clear all
                     </md-button>
+                </md-content>
+
+                <md-content>
 
                     <md-list>
                         <md-item ng-repeat="(endpointKey, caches) in repositories">

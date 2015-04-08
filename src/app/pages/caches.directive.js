@@ -12,7 +12,7 @@
             restrict: 'EA',
             templateUrl: 'caches.directive.html',
             controller: CachesDirectiveController,
-            controllerAs: 'vm'
+            controllerAs: 'noccaPagesCaches'
         };
 
         return directive;
