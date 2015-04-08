@@ -83,7 +83,7 @@
 
         <md-tabs md-selected="selectedTabIndex" flex>
             <md-tab label="All responses ({{ data.responses | noccaDataObjectLength }})">
-                <md-content class="md-spacing">
+                <md-content>
 
                     <md-list>
                         <md-item ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true track by hash">
