@@ -45,6 +45,8 @@
 					httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
 				}
 
+                return httpApiUrl;
+
 			}
 
             function refreshStatus () {
@@ -75,7 +77,7 @@
 
 				$http({
 					method: 'put',
-					url: _getHttpApiHost() +  + '/scenarios/recorder',
+					url: _getHttpApiHost() + '/scenarios/recorder',
 					data: payload
 				}).then(function (response) {
 
@@ -99,7 +101,7 @@
 
 				$http({
 					method: 'put',
-					url: _getHttpApiHost() +  + '/scenarios/recorder',
+					url: _getHttpApiHost() + '/scenarios/recorder',
 					data: payload
 				}).then(function (response) {
 
@@ -123,8 +125,7 @@
 
 				$http({
 					method: 'delete',
-					url: _getHttpApiHost() +  + '/scenarios/recorder',
-					data: payload
+					url: _getHttpApiHost() + '/scenarios/recorder'
 				}).then(function (response) {
 
 					showToastWithMessage('Recording cancelled');
