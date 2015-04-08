@@ -1,0 +1,46 @@
+<md-item-content>
+
+    <div class="md-tile-content">
+        <h3>{{ scenario.scenario.title }}</h3>
+        <h4 class="nocca-scenario-key">{{ scenario.scenario.name }}</h4>
+
+        <md-content layout="row" class="md-padding">
+            <dl class="nocca-scenario-details" layout layout-wrap>
+                <dt flex="30">Scenario enabled:</dt>
+                <dd flex="60">{{ scenario.$$active }}</dd>
+                <dt flex="30">Current step:</dt>
+                <dd flex="60">{{ scenario.currentPosition.state.name }}</dd>
+                <dt flex="30">Step count:</dt>
+                <dd flex="60">{{ scenario.states | noccaDataObjectLength }}</dd>
+            </dl>
+            <div layout="column">
+                <md-button ng-click="resetScenario(scenario.scenario.name)"
+                    ng-disabled="scenario.currentPosition.state.name == scenario.scenario.initialStateKey"
+                    class="md-primary">
+
+                    <span class="fa fa-fw fa-backward"></span>
+                    Reset scenario
+
+                </md-button>
+                <md-button ng-click="disableScenario(scenario.scenario.name)"
+                    ng-show="scenario.$$active"
+                    class="md-primary">
+
+                    <span class="fa fa-fw fa-pause"></span>
+                    Pause scenario
+
+                </md-button>
+                <md-button ng-click="enableScenario(scenario.scenario.name)"
+                    ng-hide="scenario.$$active"
+                    class="md-primary">
+
+                    <span class="fa fa-fw fa-play"></span>
+                    Play scenario
+
+                </md-button>
+            </div>
+        </md-content>
+
+    </div>
+
+</md-item-content>

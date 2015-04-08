@@ -14,7 +14,8 @@
         'nocca.pages',
         'nocca.data',
         'nocca.widgets',
-        'nocca.utils'
+        'nocca.utils',
+        'nocca.api'
     ]);
 
 }());
