@@ -45,7 +45,7 @@
 					httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
 				}
 
-                return httpApiUrl;
+				return httpApiUrl;
 
 			}
 
