@@ -22,5 +22,15 @@ var Nocca = new $nocca({
         ],
         writeNewScenarios: true,
         scenarioOutputDir: '/dev/tmp/'
+    },
+    keyGenerator: $nocca.$keys.cherryPicking,
+    requestKeyParams: {
+        properties: ['path', 'method'],
+        query: ['login', 'password'],
+        headers: ['accept', 'content-type', 'soapaction'],
+        body: {
+            xpath: ['//S:Body'],
+            json: ['user.id']
+        }
     }
 });
