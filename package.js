@@ -55,7 +55,7 @@ function checkMaster (config) {
 
 }
 
-function checkGitStatus () {
+function checkGitStatus (config) {
 
     var deferred = $q.defer();
 
@@ -69,7 +69,7 @@ function checkGitStatus () {
             deferred.reject('Cannot create a package when the working directory is not clean');
         }
         else {
-            deferred.resolve();
+            deferred.resolve(config);
         }
 
     });
@@ -139,9 +139,6 @@ function release () {
     var config = {
         primaryBranch: 'feature/packaging'
     };
-
-
-
 
     checkCommand(config)
         .then(checkMaster)
