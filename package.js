@@ -77,7 +77,7 @@ function checkStatus (config) {
 
     var deferred = $q.defer();
 
-    var gitStatus = $spawn('git', ['status', '-' + config.primaryBranch]);
+    var gitStatus = $spawn('git', ['status', '-uno']);
 
     gitStatus.stdout.on('data', function (data) {
 
