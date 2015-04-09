@@ -4,8 +4,6 @@ var _ = require('lodash');
 
 var $extend = require('extend');
 var $pubsub = require('node-pubsub');
-var $q = require('q');
-
 
 module.exports = Nocca;
 
@@ -17,7 +15,6 @@ module.exports.$endpoints = require('./lib/endpoints');
 module.exports.$errors = require('./lib/errors');
 module.exports.$forwarder = require('./lib/forwarder');
 module.exports.$gui = require('./lib/gui');
-module.exports.$keys = require('./lib/keys');
 module.exports.$logger = require('./lib/logger');
 module.exports.$patchScenarios = require('./lib/patchScenarios');
 module.exports.$playback = require('./lib/playback');
@@ -40,6 +37,8 @@ function Nocca (config) {
     // these requires are within the Nocca instance to make sure the modules are unchanged
     var $constants = require('./lib/constants');
     var $defaultSettings = require('./lib/defaultSettings');
+    var $pluginLoader = require('./lib/pluginLoader');
+    var $utils = require('./lib/utils');
 
     // map this to self so there are no this-scope issues
     var self = this;
@@ -53,9 +52,17 @@ function Nocca (config) {
     // NOTE: pubsub is NOT configurable
     self.pubsub = $pubsub;
 
-    self.throwError = throwNoccaError;
-    self.getConfig = getConfig;
+    self.pluginLoader = new $pluginLoader(self);
+    self.usePlugin = usePlugin;
 
+    self.throwError = throwNoccaError;
+    self.getConfig = $utils.extractConfig;
+
+
+    // load all plugins from config so they can be used when parsing config
+    if (self.config.plugins && Array.isArray(self.config.plugins)) {
+        self.pluginLoader.registerPlugins(self.config.plugins);
+    }
 
     //   C O N F I G U R A B L E   S T U F F   B E L O W
     var collectedPlugins = [];
@@ -100,7 +107,6 @@ function Nocca (config) {
     // Call init on all created plugins (if they support it)
 	// TODO: this can be improved by using pubsub to publish the event
     _.invoke(collectedPlugins, 'init');
-
 	self.pubsub.publish(self.constants.PUBSUB_NOCCA_INITIALIZE_PLUGIN);
     
     // run all stat reporters so they can subscribe to events. Send in the instance as arg.
@@ -108,13 +114,18 @@ function Nocca (config) {
         reporter(self);
     });
 
-    
     function instantiateAndCollectPlugin(constructor, bucket) {
-    
+
         var instance = new constructor(self);
         bucket.push(instance);
         return instance;
     
+    }
+
+    function usePlugin (pluginId) {
+
+        return self.pluginLoader.instantiatePlugin(pluginId);
+
     }
 
 }
@@ -124,36 +135,3 @@ function throwNoccaError(message, errorCode) {
     e.name = errorCode;
     throw e;
 }
-
-function getConfig (key, obj, asPromise) {
-
-	var workingObj = obj;
-
-	var extractedConfig;
-
-	var keys = key.split('.');
-
-	while (keys.length) {
-		key = keys.shift();
-		workingObj = workingObj[key];
-		extractedConfig = workingObj;
-
-		if (typeof extractedConfig === 'undefined') {
-			break;
-		}
-	}
-
-	if (asPromise) {
-		var deferred = $q.defer();
-
-		typeof extractedConfig !== 'undefined' ?
-			deferred.resolve(extractedConfig) : deferred.reject();
-
-		return deferred.promise;
-	}
-	else {
-		return extractedConfig;
-	}
-
-}
-

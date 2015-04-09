@@ -1,7 +1,6 @@
 'use strict';
 
 var $nocca = require('../../index');
-var $connect = require('connect');
 
 var Nocca = new $nocca({
 	endpoints: {
