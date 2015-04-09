@@ -5,6 +5,26 @@ var $npm = require('npm');
 
 var $spawn = require('child_process').spawn;
 
+function checkCommand (config) {
+
+    var deferred = $q.defer();
+
+    var versionType = process.argv[2] || undefined;
+
+    if (typeof versionType === 'undefined' ||
+        ['major', 'minor', 'patch'].indexOf(versionType) === -1) {
+
+        deferred.reject('Unspecified or invalid version type: ' + versionType);
+
+    }
+    else {
+        config.versionType = versionType;
+        deferred.resolve(config);
+    }
+
+    return deferred.promise;
+
+}
 
 function checkMaster (config) {
 
@@ -83,10 +103,8 @@ function checkStatus (config) {
 
         data = data.toString().replace(/\s+/, '');
 
-        console.log(data);
-		console.log('remote change');
-        if (data.indexOf('Already up-to-date') === -1) {
-            deferred.reject('Working directory was not up to date');
+        if (data !== '') {
+            deferred.reject('Working directory is not in sync with remote');
         }
         else {
             deferred.resolve(config);
@@ -98,15 +116,36 @@ function checkStatus (config) {
 
 }
 
+function bumpVersion (config) {
+
+
+
+}
+
+function tag (config) {
+
+
+
+}
+
+function publish (config) {
+
+
+
+}
+
 function release () {
 
     var config = {
         primaryBranch: 'feature/packaging'
     };
 
-    checkMaster(config)
-        //.then(checkGitStatus)
-        //.then(updateRemoteRefs)
+
+
+
+    checkCommand(config)
+        .then(checkMaster)
+        .then(checkGitStatus)
         .then(checkStatus)
         .fail(function (err) {
             console.error('ERR: ' + err);
