@@ -78,21 +78,6 @@ function checkGitStatus (config) {
 
 }
 
-function updateRemoteRefs (config) {
-
-    var deferred = $q.defer();
-
-    var cmd = $spawn('git', ['remote', 'update']);
-
-    cmd.stdout.on('data', function (data) {
-        console.log(data.toString());
-        deferred.resolve(config);
-    });
-
-    return deferred.promise;
-
-}
-
 function checkStatus (config) {
 
     var deferred = $q.defer();
