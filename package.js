@@ -84,7 +84,7 @@ function checkGitPull () {
 function release () {
 
     var config = {
-        primaryBranch: 'develop'
+        primaryBranch: 'feature/packaging'
     };
 
     checkMaster(config)
