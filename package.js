@@ -2,6 +2,7 @@
 
 var $q = require('q');
 var $npm = require('npm');
+var $semver = require('semver');
 
 var $spawn = require('child_process').spawn;
 
@@ -11,10 +12,9 @@ function checkCommand (config) {
 
     var versionType = process.argv[2] || undefined;
 
-    if (typeof versionType === 'undefined' ||
-        ['major', 'minor', 'patch'].indexOf(versionType) === -1) {
+    if (typeof versionType === 'undefined') {
 
-        deferred.reject('Unspecified or invalid version type: ' + versionType);
+        deferred.reject('Unspecified version or version type');
 
     }
     else {
@@ -26,7 +26,7 @@ function checkCommand (config) {
 
 }
 
-function checkMaster (config) {
+function checkPrimaryBranch (config) {
 
     var deferred = $q.defer();
 
@@ -127,30 +127,19 @@ function bumpVersion (config) {
 
     cmd.stdout.on('data', function (data) {
 
-        data = data.toString().replace(/\s+/, '');
+        data = $semver.clean(data.toString().replace(/\s+/, ''));
 
-        if (data !== '') {
+        if ($semver.valid(data) === null) {
             deferred.reject('Working directory is not in sync with remote');
         }
         else {
+            config.version = data;
             deferred.resolve(config);
         }
 
     });
 
     return deferred.promise;
-
-}
-
-function commit (config) {
-
-
-
-}
-
-function tag (config) {
-
-
 
 }
 
@@ -167,9 +156,10 @@ function release () {
     };
 
     checkCommand(config)
-        .then(checkMaster)
+        .then(checkPrimaryBranch)
         .then(checkGitStatus)
         .then(checkStatus)
+        .then(bumpVersion)
         .fail(function (err) {
             console.error('ERR: ' + err);
         });
