@@ -77,7 +77,7 @@ function checkStatus (config) {
 
     var deferred = $q.defer();
 
-    var gitStatus = $spawn('git', ['status', '-uno']);
+    var gitStatus = $spawn('git', ['log', 'HEAD..origin/' + config.primaryBranch, '--oneline']);
 
     gitStatus.stdout.on('data', function (data) {
 
@@ -105,7 +105,7 @@ function release () {
 
     checkMaster(config)
         //.then(checkGitStatus)
-        .then(updateRemoteRefs)
+        //.then(updateRemoteRefs)
         .then(checkStatus)
         .fail(function (err) {
             console.error('ERR: ' + err);
