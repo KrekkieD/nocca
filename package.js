@@ -58,8 +58,8 @@ function checkPrimaryBranch (config) {
         if (data !== config.primaryBranch) {
             deferred.reject([
                 'Cannot create a package when the current branch is not',
-                config.primaryBranch,
-                ', you are on:',
+                config.primaryBranch + ',',
+                'you are on:',
                 data
                 ].join(' ')
             );
