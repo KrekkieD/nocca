@@ -1,6 +1,6 @@
 {
   "name": "nocca",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "description": "NodeJS Mock Server",
   "scripts": {
     "postinstall": "bower install"
@@ -64,7 +64,6 @@
     "lodash": "^3.1.0",
     "main-bower-files": "^2.4.0",
     "minimist": "^1.1.0",
-    "npm": "^2.7.5",
     "protractor": "^1.4.0",
     "random-string": "^0.1.1",
     "rimraf": "^2.2.8",

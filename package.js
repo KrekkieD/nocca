@@ -1,11 +1,29 @@
 'use strict';
 
 var $q = require('q');
-//var $npm = require('npm');
 var $semver = require('semver');
 
 var $spawn = require('child_process').spawn;
 var $exec = require('child_process').exec;
+
+
+var config = {
+    // branch that should be tagged on
+    primaryBranch: 'develop'
+};
+
+checkCommand(config)
+    .then(checkPrimaryBranch)
+    .then(checkGitStatus)
+    .then(fetchRemote)
+    .then(checkRemoteStatus)
+    .then(bumpVersion)
+    .then(publish)
+    .fail(function (err) {
+        console.error('ERR: ' + err);
+    });
+
+
 
 function checkCommand (config) {
 
@@ -135,7 +153,8 @@ function bumpVersion (config) {
 
     config.packageJson = require(__dirname + '/package.json');
 
-    var cmd = $exec('npm version ' + config.versionType, function (err, data) {
+    // spawn cannot resolve PATH so need to use exec here
+    $exec('npm version ' + config.versionType, function (err, data) {
 
         if (err) {
             console.log(err);
@@ -166,29 +185,10 @@ function publish (config) {
     console.log('Done! Version bumped to ' + config.version);
     console.log('Package is ready for publishing.');
     console.log('Don\'t forget to git push --tags');
+    console.log('Don\'t forget to merge the tag into master');
 
     return true;
 
 }
 
-function release () {
 
-    var config = {
-        primaryBranch: 'feature/packaging'
-    };
-
-    checkCommand(config)
-        .then(checkPrimaryBranch)
-        //.then(checkGitStatus)
-        .then(fetchRemote)
-        .then(checkRemoteStatus)
-        .then(bumpVersion)
-        .then(publish)
-        .fail(function (err) {
-            console.error('ERR: ' + err);
-        });
-
-}
-
-release();
-//checkGitStatus();
