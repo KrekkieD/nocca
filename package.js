@@ -1,10 +1,11 @@
 'use strict';
 
 var $q = require('q');
-var $npm = require('npm');
+//var $npm = require('npm');
 var $semver = require('semver');
 
 var $spawn = require('child_process').spawn;
+var $exec = require('child_process').exec;
 
 function checkCommand (config) {
 
@@ -134,28 +135,33 @@ function bumpVersion (config) {
 
     config.packageJson = require(__dirname + '/package.json');
 
-    console.log(config.versionType);
-    return;
-    var cmd = $spawn('npm', ['version', config.versionType]);
+    var cmd = $exec('npm version ' + config.versionType, function (err, stdout) {
 
-
-    cmd.stdout.on('data', function (data) {
-
-        data = data.toString().replace(/\s+/, '');
-        var version = $semver.clean(data);
-
-        if ($semver.valid(version) === null) {
-            deferred.reject(data);
+        if (err) {
+            console.log(err);
         }
-        else {
-            config.version = version;
-            deferred.resolve(config);
-        }
+        console.log(stdout);
+        //
+        //stdout.on('data', function (data) {
+        //
+        //    console.log('data!', data);
+        //    data = data.toString().replace(/\s+/, '');
+        //    var version = $semver.clean(data);
+        //
+        //    if ($semver.valid(version) === null) {
+        //        deferred.reject(data);
+        //    }
+        //    else {
+        //        config.version = version;
+        //        deferred.resolve(config);
+        //    }
+        //
+        //});
+        //
+        //cmd.stdout.on('error', function (err) {
+        //    console.log(err);
+        //});
 
-    });
-
-    cmd.on('error', function (err) {
-        console.log(err);
     });
 
     return deferred.promise;
@@ -180,7 +186,7 @@ function release () {
 
     checkCommand(config)
         .then(checkPrimaryBranch)
-        .then(checkGitStatus)
+        //.then(checkGitStatus)
         .then(fetchRemote)
         .then(checkRemoteStatus)
         .then(bumpVersion)
