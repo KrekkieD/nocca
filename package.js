@@ -132,8 +132,7 @@ function bumpVersion (config) {
 
     var deferred = $q.defer();
 
-    var packageJson = require(__dirname + '/package.json');
-    config.packageJson = packageJson;
+    config.packageJson = require(__dirname + '/package.json');
 
     var cmd = $spawn('npm', ['version', config.versionType]);
 
@@ -178,7 +177,7 @@ function release () {
         .then(checkGitStatus)
         .then(fetchRemote)
         .then(checkRemoteStatus)
-        //.then(bumpVersion)
+        .then(bumpVersion)
         .then(publish)
         .fail(function (err) {
             console.error('ERR: ' + err);
