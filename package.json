@@ -1,6 +1,6 @@
 {
   "name": "nocca",
-  "version": "0.1.1-wip",
+  "version": "0.1.1",
   "description": "NodeJS Mock Server",
   "scripts": {
     "postinstall": "bower install"
