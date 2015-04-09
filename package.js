@@ -127,13 +127,14 @@ function bumpVersion (config) {
 
     cmd.stdout.on('data', function (data) {
 
-        data = $semver.clean(data.toString().replace(/\s+/, ''));
+        data = data.toString().replace(/\s+/, '');
+        var version = $semver.clean(data);
 
-        if ($semver.valid(data) === null) {
-            deferred.reject('Working directory is not in sync with remote');
+        if ($semver.valid(version) === null) {
+            deferred.reject(data);
         }
         else {
-            config.version = data;
+            config.version = version;
             deferred.resolve(config);
         }
 
@@ -145,7 +146,8 @@ function bumpVersion (config) {
 
 function publish (config) {
 
-
+    console.log('Done! Version bumped to ' + config.version);
+    console.log('Package is ready for publishing.');
 
 }
 
@@ -160,6 +162,7 @@ function release () {
         .then(checkGitStatus)
         .then(checkStatus)
         .then(bumpVersion)
+        .then(publish)
         .fail(function (err) {
             console.error('ERR: ' + err);
         });
