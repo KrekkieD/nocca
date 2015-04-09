@@ -93,7 +93,7 @@ function updateRemoteRefs (config) {
 
 }
 
-function checkStatus (config) {
+function checkRemoteStatus (config) {
 
     var deferred = $q.defer();
 
@@ -112,6 +112,15 @@ function checkStatus (config) {
         }
 
     });
+    cmd.stderr.on('data', function (data) {
+        console.log(data);
+    });
+    cmd.on('error', function () {
+        console.log(arguments);
+    });
+    cmd.on('data', function () {
+        console.log(arguments);
+    });
 
     return deferred.promise;
 
@@ -121,6 +130,8 @@ function bumpVersion (config) {
 
     var deferred = $q.defer();
 
+    console.log('bumping version');
+    return config;
     var packageJson = require(__dirname + '/package.json');
     config.packageJson = packageJson;
 
@@ -150,6 +161,8 @@ function publish (config) {
     console.log('Done! Version bumped to ' + config.version);
     console.log('Package is ready for publishing.');
 
+    return true;
+
 }
 
 function release () {
@@ -160,8 +173,8 @@ function release () {
 
     checkCommand(config)
         .then(checkPrimaryBranch)
-        .then(checkGitStatus)
-        .then(checkStatus)
+        //.then(checkGitStatus)
+        .then(checkRemoteStatus)
         .then(bumpVersion)
         .then(publish)
         .fail(function (err) {
