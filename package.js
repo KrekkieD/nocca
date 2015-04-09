@@ -161,6 +161,7 @@ function publish (config) {
 
     console.log('Done! Version bumped to ' + config.version);
     console.log('Package is ready for publishing.');
+    console.log('Don\'t forget to git push --tags');
 
     return true;
 
@@ -174,7 +175,7 @@ function release () {
 
     checkCommand(config)
         .then(checkPrimaryBranch)
-        //.then(checkGitStatus)
+        .then(checkGitStatus)
         .then(fetchRemote)
         .then(checkRemoteStatus)
         //.then(bumpVersion)
