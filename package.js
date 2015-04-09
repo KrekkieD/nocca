@@ -134,6 +134,8 @@ function bumpVersion (config) {
 
     config.packageJson = require(__dirname + '/package.json');
 
+    console.log(config.versionType);
+    return;
     var cmd = $spawn('npm', ['version', config.versionType]);
 
 
