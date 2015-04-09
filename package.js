@@ -84,6 +84,7 @@ function checkStatus (config) {
         data = data.toString().replace(/\s+/, '');
 
         console.log(data);
+		console.log('remote change');
         if (data.indexOf('Already up-to-date') === -1) {
             deferred.reject('Working directory was not up to date');
         }
