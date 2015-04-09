@@ -135,32 +135,25 @@ function bumpVersion (config) {
 
     config.packageJson = require(__dirname + '/package.json');
 
-    var cmd = $exec('npm version ' + config.versionType, function (err, stdout) {
+    var cmd = $exec('npm version ' + config.versionType, function (err, data) {
 
         if (err) {
             console.log(err);
         }
-        console.log(stdout);
-        //
-        //stdout.on('data', function (data) {
-        //
-        //    console.log('data!', data);
-        //    data = data.toString().replace(/\s+/, '');
-        //    var version = $semver.clean(data);
-        //
-        //    if ($semver.valid(version) === null) {
-        //        deferred.reject(data);
-        //    }
-        //    else {
-        //        config.version = version;
-        //        deferred.resolve(config);
-        //    }
-        //
-        //});
-        //
-        //cmd.stdout.on('error', function (err) {
-        //    console.log(err);
-        //});
+        else {
+
+            data = data.toString().replace(/\s+/, '');
+            var version = $semver.clean(data);
+
+            if ($semver.valid(version) === null) {
+                deferred.reject(data);
+            }
+            else {
+                config.version = version;
+                deferred.resolve(config);
+            }
+
+        }
 
     });
 
