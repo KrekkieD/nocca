@@ -93,6 +93,20 @@ function updateRemoteRefs (config) {
 
 }
 
+function fetchRemote (config) {
+
+    var deferred = $q.defer();
+
+    var cmd = $spawn('git', ['fetch']);
+
+    cmd.on('close', function () {
+        deferred.resolve(config);
+    });
+
+    return deferred.promise;
+
+}
+
 function checkRemoteStatus (config) {
 
     var deferred = $q.defer();
@@ -174,6 +188,7 @@ function release () {
     checkCommand(config)
         .then(checkPrimaryBranch)
         //.then(checkGitStatus)
+        .then(fetchRemote)
         .then(checkRemoteStatus)
         .then(bumpVersion)
         .then(publish)
