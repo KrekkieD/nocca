@@ -104,6 +104,7 @@ function checkStatus (config) {
         data = data.toString().replace(/\s+/, '');
 
         if (data !== '') {
+            console.log(data);
             deferred.reject('Working directory is not in sync with remote');
         }
         else {
