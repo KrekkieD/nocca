@@ -67,6 +67,7 @@
     "protractor": "^1.4.0",
     "random-string": "^0.1.1",
     "rimraf": "^2.2.8",
+    "semver": "^4.3.3",
     "supererror": "^0.6.0",
     "webdriver-manager": "^1.0.0"
   },
@@ -92,7 +93,7 @@
     "serve-static": "^1.9.1",
     "url-pattern": "^0.6.0",
     "websocket": "^1.0.18",
-      "wiredep": "^2.0.1"
+    "wiredep": "^2.0.1"
   },
   "contributors": [
     {
