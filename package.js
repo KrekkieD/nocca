@@ -58,21 +58,37 @@ function checkGitStatus () {
 
 }
 
-function checkGitPull () {
+function updateRemoteRefs (config) {
 
-    var deferred = $.defer();
+    var deferred = $q.defer();
 
-    var gitStatus = $spawn('git', ['pull']);
+    var updateRemotes = $spawn('git', ['remote', 'update']);
+
+    updateRemotes.stdout.on('data', function (data) {
+        console.log(data.toString());
+        deferred.resolve(config);
+    });
+
+    return deferred.promise;
+
+}
+
+function checkStatus (config) {
+
+    var deferred = $q.defer();
+
+    var gitStatus = $spawn('git', ['status', '-' + config.primaryBranch]);
 
     gitStatus.stdout.on('data', function (data) {
 
         data = data.toString().replace(/\s+/, '');
 
+        console.log(data);
         if (data.indexOf('Already up-to-date') === -1) {
             deferred.reject('Working directory was not up to date');
         }
         else {
-            deferred.resolve();
+            deferred.resolve(config);
         }
 
     });
@@ -88,8 +104,9 @@ function release () {
     };
 
     checkMaster(config)
-        .then(checkGitStatus)
-        .then(checkGitPull)
+        //.then(checkGitStatus)
+        .then(updateRemoteRefs)
+        .then(checkStatus)
         .fail(function (err) {
             console.error('ERR: ' + err);
         });
