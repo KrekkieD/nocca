@@ -152,6 +152,10 @@ function bumpVersion (config) {
 
     });
 
+    cmd.on('error', function (err) {
+        console.log(err);
+    });
+
     return deferred.promise;
 
 }
