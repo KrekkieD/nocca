@@ -30,9 +30,9 @@ function checkMaster (config) {
 
     var deferred = $q.defer();
 
-    var gitBranch = $spawn('git', ['rev-parse', '--abbrev-ref', 'HEAD']);
+    var cmd = $spawn('git', ['rev-parse', '--abbrev-ref', 'HEAD']);
 
-    gitBranch.stdout.on('data', function (data) {
+    cmd.stdout.on('data', function (data) {
 
         data = data.toString().replace(/\s+/, '');
 
@@ -59,9 +59,9 @@ function checkGitStatus (config) {
 
     var deferred = $q.defer();
 
-    var gitStatus = $spawn('git', ['status']);
+    var cmd = $spawn('git', ['status']);
 
-    gitStatus.stdout.on('data', function (data) {
+    cmd.stdout.on('data', function (data) {
 
         data = data.toString().replace(/\s+/, '');
 
@@ -82,9 +82,9 @@ function updateRemoteRefs (config) {
 
     var deferred = $q.defer();
 
-    var updateRemotes = $spawn('git', ['remote', 'update']);
+    var cmd = $spawn('git', ['remote', 'update']);
 
-    updateRemotes.stdout.on('data', function (data) {
+    cmd.stdout.on('data', function (data) {
         console.log(data.toString());
         deferred.resolve(config);
     });
@@ -97,9 +97,9 @@ function checkStatus (config) {
 
     var deferred = $q.defer();
 
-    var gitStatus = $spawn('git', ['log', 'HEAD..origin/' + config.primaryBranch, '--oneline']);
+    var cmd = $spawn('git', ['log', 'HEAD..origin/' + config.primaryBranch, '--oneline']);
 
-    gitStatus.stdout.on('data', function (data) {
+    cmd.stdout.on('data', function (data) {
 
         data = data.toString().replace(/\s+/, '');
 
@@ -117,6 +117,32 @@ function checkStatus (config) {
 }
 
 function bumpVersion (config) {
+
+    var deferred = $q.defer();
+
+    var packageJson = require(__dirname + '/package.json');
+    config.packageJson = packageJson;
+
+    var cmd = $spawn('npm', ['version', config.versionType]);
+
+    cmd.stdout.on('data', function (data) {
+
+        data = data.toString().replace(/\s+/, '');
+
+        if (data !== '') {
+            deferred.reject('Working directory is not in sync with remote');
+        }
+        else {
+            deferred.resolve(config);
+        }
+
+    });
+
+    return deferred.promise;
+
+}
+
+function commit (config) {
 
 
 
