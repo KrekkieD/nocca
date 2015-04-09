@@ -98,7 +98,11 @@ function checkRemoteStatus (config) {
 
     var cmd = $spawn('git', ['log', 'HEAD..origin/' + config.primaryBranch, '--oneline']);
 
+    var dataReceived = false;
+
     cmd.stdout.on('data', function (data) {
+
+        dataReceived = true;
 
         data = data.toString().replace(/\s+/, '');
 
@@ -107,6 +111,14 @@ function checkRemoteStatus (config) {
             deferred.reject('Working directory is not in sync with remote');
         }
         else {
+            deferred.resolve(config);
+        }
+
+    });
+
+    cmd.on('close', function (code) {
+
+        if (dataReceived === false) {
             deferred.resolve(config);
         }
 
@@ -124,6 +136,7 @@ function bumpVersion (config) {
     config.packageJson = packageJson;
 
     var cmd = $spawn('npm', ['version', config.versionType]);
+
 
     cmd.stdout.on('data', function (data) {
 
