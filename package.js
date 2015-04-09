@@ -126,15 +126,6 @@ function checkRemoteStatus (config) {
         }
 
     });
-    cmd.stderr.on('data', function (data) {
-        console.log(data);
-    });
-    cmd.on('error', function () {
-        console.log(arguments);
-    });
-    cmd.on('data', function () {
-        console.log(arguments);
-    });
 
     return deferred.promise;
 
@@ -144,8 +135,6 @@ function bumpVersion (config) {
 
     var deferred = $q.defer();
 
-    console.log('bumping version');
-    return config;
     var packageJson = require(__dirname + '/package.json');
     config.packageJson = packageJson;
 
@@ -190,7 +179,7 @@ function release () {
         //.then(checkGitStatus)
         .then(fetchRemote)
         .then(checkRemoteStatus)
-        .then(bumpVersion)
+        //.then(bumpVersion)
         .then(publish)
         .fail(function (err) {
             console.error('ERR: ' + err);
