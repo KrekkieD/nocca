@@ -95,7 +95,7 @@
     "websocket": "^1.0.18",
     "wiredep": "^2.0.1",
     "xmldom": "^0.1.19",
-    "xpath": "0.0.9"
+    "xpath.js": "^1.0.5"
   },
   "contributors": [
     {
