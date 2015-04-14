@@ -1,6 +1,6 @@
 {
   "name": "nocca",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "NodeJS Mock Server",
   "scripts": {
     "postinstall": "bower install"
@@ -92,7 +92,7 @@
     "serve-static": "^1.9.1",
     "url-pattern": "^0.6.0",
     "websocket": "^1.0.18",
-      "wiredep": "^2.0.1"
+    "wiredep": "^2.0.1"
   },
   "contributors": [
     {
