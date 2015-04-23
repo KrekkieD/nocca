@@ -17,6 +17,98 @@ Then include it into your source file and you're ready to go:
 var Nocca = require('nocca');
 ```
 
+## Quickstart example
+
+The example below will provide you with the most common configuration
+options.
+
+```javascript
+'use strict';
+
+var Nocca = require('nocca');
+
+new Nocca({
+
+  // (default true) records any returned proxy calls
+  record: true,
+
+  // (default {}) specifies the proxying/forwarding configuration
+  endpoints: {
+
+    // first-part endpoint config
+    // forward requests on /google/* to http://www.google.com/*.
+    // Note that /google/ is removed from the original path.
+    'google': {
+      targetBaseUrl: 'http://www.google.com'
+    }
+
+    // starts-with endpoint config
+    // forward requests on /bing/dong/* to http://www.bing.com/*
+    '/bing/dong/': {
+      targetBaseUrl: 'http://www.bing.com/'
+    }
+
+    // fallback endpoint config
+    // forwards all unmatched requests to http://www.yahoo.com/*
+    '_default': {
+      targetBaseUrl: 'http://www.yahoo.com',
+
+      // disable recording for this endpoint
+      record: false
+    }
+
+  },
+
+  // config for scenario recording and playback
+  scenarios: {
+
+    // (default false) specifies if recorded scenarios should be written to a file
+    writeNewScenarios: true,
+
+    // (default undefined) path to write the scenario to
+    scenarioOutputDir: '/dev/temp',
+
+    // (default []) array of pre-recorded scenarios to play
+    available: [
+      require(__dirname + '/scenarios/scenario_example_1),
+      require(__dirname + '/scenarios/scenario_example_2)
+    ]
+
+  },
+
+  // configures running servers
+  // (default runs all, see lib/defaultSettings.js)
+  servers: {
+
+    // this config example can be used for a cloud foundry environment
+
+    // wrapper server, wraps around other servers to run all on one port
+    wrapperServer: {
+      listen: {
+        // false to accept all hostnames
+        hostname: false,
+        // run on port defined in environment variable or default to 8989
+        port: process.env.VCAP_APP_PORT || 8989
+      }
+    },
+
+    // do not set a listener for these servers
+    gui: {
+      listen: false
+    },
+    proxy: {
+      listen: false
+    },
+    httpApi: {
+      listen: false
+    }
+
+  }
+
+});
+
+```
+
 ## Configuring
 
 Nocca has a default configuration that sets up basically everything you need to start recording, forwarding and replaying HTTP
@@ -431,7 +523,7 @@ The following table shows the possible configuration items Nocca supports, their
 
 ## Request Promise Chains
 
-* Server creates a Request Context for each incoming request
+* Server creates a `requestContext` for each incoming request
 * ChainBuilderFactory sets up a series of promised operations
 * Each step in this chain can assume the existence of certain properties on the request context
 * Each step must record some of its actions in pre-defined properties on the request context
