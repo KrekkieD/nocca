@@ -18,7 +18,8 @@ var Nocca = new $nocca({
     },
     keyGenerator: 'cherryPickingKeygen',
     requestKeyParams: {
-        properties: ['path', 'method'],
+		subject: 'proxyRequest',
+        properties: ['path', 'method', 'host'],
         url: ['pathname'],
         query: ['login', 'password'],
         headers: ['accept', 'content-type', 'soapaction'],
