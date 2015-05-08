@@ -42,6 +42,10 @@
             .state(states.scenarios, {
                 url: '/scenarios',
                 template: '<nocca-pages-scenarios></nocca-pages-scenarios>'
+            })
+            .state(states.configuration, {
+                url: '/configuration',
+                template: '<nocca-pages-configuration></nocca-pages-configuration>'
             });
 
     }

@@ -9,7 +9,8 @@
                 caches: 'nocca.caches',
                 export: 'nocca.export',
                 manage: 'nocca.manage',
-                scenarios: 'nocca.scenarios'
+                scenarios: 'nocca.scenarios',
+                configuration: 'nocca.configuration'
             }
         );
 }());
