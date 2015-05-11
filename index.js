@@ -89,6 +89,10 @@ function Nocca (config) {
     self.scenario = instantiateAndCollectPlugin(self.config.scenario, collectedPlugins);
 
     self.repositories = _.map(self.config.repositories, function(RepositoryConstructor) {
+        if (typeof RepositoryConstructor === 'string') {
+            // it's a plugin!
+            return self.usePlugin(RepositoryConstructor);
+        }
         return instantiateAndCollectPlugin(RepositoryConstructor, collectedPlugins);
     });
 
