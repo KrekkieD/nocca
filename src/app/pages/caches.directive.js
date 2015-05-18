@@ -35,8 +35,8 @@
 
             function refresh () {
 
-                getScenarios($scope);
-                getCacheRepositories($scope);
+                //getScenarios($scope);
+                //getCacheRepositories($scope);
 
             }
 

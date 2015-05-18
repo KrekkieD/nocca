@@ -8,6 +8,9 @@
         // values here
 
         var factory = {
+            getHttpApiHost: getHttpApiHost,
+            getRoutes: getRoutes,
+            // TODO: the following functions are less generic than assumed before, should probably be removed
             getScenario: getScenario,
             getScenarios: getScenarios,
             resetScenario: resetScenario,
@@ -20,7 +23,7 @@
         // factory functions here
         return factory;
 
-        function _getHttpApiHost () {
+        function getHttpApiHost () {
 
             var httpApiUrl = 'http://';
 
@@ -37,10 +40,21 @@
 
         }
 
+        function getRoutes () {
+
+            return $http({
+                url: getHttpApiHost() + '/routes',
+                method: 'GET'
+            }).then(function (response) {
+                return response.data;
+            });
+
+        }
+
         function getScenarios () {
 
             return $http({
-                url: _getHttpApiHost() + '/scenarios',
+                url: getHttpApiHost() + '/scenarios',
                 method: 'GET'
             }).then(function (response) {
                 return response.data;
@@ -51,7 +65,7 @@
         function getScenario (scenarioKey) {
 
             return $http({
-                url: _getHttpApiHost() + '/scenarios/' + scenarioKey,
+                url: getHttpApiHost() + '/scenarios/' + scenarioKey,
                 method: 'GET'
             }).then(function (response) {
                 return response.data;
@@ -62,7 +76,7 @@
         function resetScenario (scenarioKey) {
 
             return $http({
-                url: _getHttpApiHost() + '/scenarios/' + scenarioKey + '/currentPosition',
+                url: getHttpApiHost() + '/scenarios/' + scenarioKey + '/currentPosition',
                 method: 'DELETE'
             }).then(function (response) {
                 return response.data;
@@ -73,7 +87,7 @@
         function toggleScenarioActive (scenarioKey, active) {
 
             return $http({
-                url: _getHttpApiHost() + '/scenarios/' + scenarioKey + '/active',
+                url: getHttpApiHost() + '/scenarios/' + scenarioKey + '/active',
                 method: 'PUT',
                 // force as bool
                 data: JSON.stringify(active ? true : false),
@@ -89,7 +103,7 @@
         function getCacheRepositories () {
 
             return $http({
-                url: _getHttpApiHost() + '/repositories/memory-caches/endpoints',
+                url: getHttpApiHost() + '/repositories/memory-caches/endpoints',
                 method: 'GET'
             }).then(function (response) {
                 return response.data;
@@ -100,7 +114,7 @@
         function clearCacheRepository (endpointKey) {
 
             return $http({
-                url: _getHttpApiHost() + '/repositories/memory-caches/endpoints/' + endpointKey + '/caches',
+                url: getHttpApiHost() + '/repositories/memory-caches/endpoints/' + endpointKey + '/caches',
                 method: 'DELETE'
             }).then(function (response) {
                 return response.data;
@@ -111,7 +125,7 @@
         function clearCacheRepositories () {
 
             return $http({
-                url: _getHttpApiHost() + '/repositories/memory-caches/endpoints',
+                url: getHttpApiHost() + '/repositories/memory-caches/endpoints',
                 method: 'DELETE'
             }).then(function (response) {
                 return response.data;

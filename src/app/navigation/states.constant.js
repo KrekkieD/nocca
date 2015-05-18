@@ -10,6 +10,7 @@
                 export: 'nocca.export',
                 manage: 'nocca.manage',
                 scenarios: 'nocca.scenarios',
+                httpApi: 'nocca.httpApi',
                 configuration: 'nocca.configuration'
             }
         );

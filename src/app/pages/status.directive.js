@@ -28,11 +28,21 @@
             $scope,
             noccaUtilsDownload,
             noccaDataSearchFilter,
-            noccaDataSearchModel
+            noccaDataSearchModel,
+            $filter
         ) {
 
             var rawData;
             $scope.data = {};
+
+            $scope.count = {
+                responses: 0,
+                endpoints: 0,
+                recorded: 0,
+                forwarded: 0,
+                replayed: 0,
+                storyLog: 0
+            };
 
             $scope.searchModel = noccaDataSearchModel;
 
@@ -59,6 +69,14 @@
 
                 // perform filtering
                 $scope.data = noccaDataSearchFilter(angular.extend({}, rawData));
+
+                // update counts
+                $scope.count.responses = $filter('noccaDataObjectLength')($scope.data.responses);
+                $scope.count.endpoints = $filter('noccaDataObjectLength')($scope.data.endpoints);
+                $scope.count.recorded = $filter('noccaDataObjectLength')($scope.data.recorded);
+                $scope.count.forwarded = $filter('noccaDataObjectLength')($scope.data.forwarded);
+                $scope.count.replayed = $filter('noccaDataObjectLength')($scope.data.replayed);
+                $scope.count.storyLog = $filter('noccaDataObjectLength')($scope.data.storyLog);
 
             }
 

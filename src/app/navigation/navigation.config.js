@@ -43,6 +43,10 @@
                 url: '/scenarios',
                 template: '<nocca-pages-scenarios></nocca-pages-scenarios>'
             })
+            .state(states.httpApi, {
+                url: '/http-api',
+                template: '<nocca-pages-http-api></nocca-pages-http-api>'
+            })
             .state(states.configuration, {
                 url: '/configuration',
                 template: '<nocca-pages-configuration></nocca-pages-configuration>'

@@ -1,49 +1,54 @@
-<md-item-content>
+<md-grid-list
+    md-cols-lt-md="1"
+    md-cols-md="4"
+    md-cols-gt-md="6"
+    md-row-height="200px">
 
-    <div class="md-tile-left nocca-response-tile-left">
-        <span class="nocca-timestamp fa fa-clock-o"> {{ response.timestamp | date:'HH:mm:ss.sss' }}</span>
-        <em>{{ response.clientResponse.statusCode}}</em>
-        <em>{{ response.clientRequest.method }}</em>
+    <md-grid-tile md-colspan="1">
+        <div class="nocca-response-tile-left">
+            <span class="nocca-timestamp fa fa-clock-o"> {{ response.timestamp | date:'HH:mm:ss.sss' }}</span>
+            <em>{{ response.clientResponse.statusCode}}</em>
+            <em>{{ response.clientRequest.method }}</em>
 
-        <md-button ng-click="showDialog($event)">
-            View bodies
-        </md-button>
-    </div>
-    <div class="md-tile-content">
-        <h3>
-            {{ response.hash }}
-        </h3>
+            <md-button ng-click="showDialog($event)">
+                View bodies
+            </md-button>
+        </div>
+    </md-grid-tile>
+    <md-grid-tile md-colspan="5" md-colspan-md="3" md-colspan-lt-md="1">
+        <div flex>
+            <h3 class="md-title">
+                {{ response.hash }}
+            </h3>
 
-        <p>
-            <span>
-                <md-tooltip>endpoint definition</md-tooltip>
-                <span class="fa fa-server"></span>
-                {{ response.endpoint.key }}
-            </span>
-        </p>
+            <p class="md-body-1">
+                <span>
+                    <md-tooltip>endpoint definition</md-tooltip>
+                    <span class="fa fa-server"></span>
+                    {{ response.endpoint.key }}
+                </span>
+            </p>
 
-        <div ng-mouseleave="truncateOn()" ng-mouseenter="truncateOff()">
-            <p>
-                <md-tooltip>Generated request key</md-tooltip>
+            <p class="md-caption">
                 <span class="fa fa-key"></span>
-                {{ response.requestKey | characters:truncateLength:true }}
+                {{ response.requestKey }}
+            </p>
+
+            <p class="md-body-1">
+                <span>
+                    <md-tooltip>incoming request</md-tooltip>
+                    <span class="fa fa-sign-in"></span>
+                    {{ response.clientRequest.method }} {{ response.clientRequest.path }}
+                </span>
+            </p>
+            <p ng-show="response.proxiedRequest" class="md-body-1">
+                <span>
+                    <md-tooltip>forwarded request</md-tooltip>
+                    <span class="fa fa-sign-out"></span>
+                    {{ response.proxiedRequest.method }} {{ response.proxiedRequest.protocol + '//' + response.proxiedRequest.host + response.proxiedRequest.path }}
+                </span>
             </p>
         </div>
+    </md-grid-tile>
 
-        <p>
-            <span>
-                <md-tooltip>incoming request</md-tooltip>
-                <span class="fa fa-sign-in"></span>
-                {{ response.clientRequest.method }} {{ response.clientRequest.path }}
-            </span>
-        </p>
-        <p ng-show="response.proxiedRequest">
-            <span>
-                <md-tooltip>forwarded request</md-tooltip>
-                <span class="fa fa-sign-out"></span>
-                {{ response.proxiedRequest.method }} {{ response.proxiedRequest.protocol + '//' + response.proxiedRequest.host + response.proxiedRequest.path }}
-            </span>
-        </p>
-    </div>
-
-</md-item-content>
+</md-grid-list>

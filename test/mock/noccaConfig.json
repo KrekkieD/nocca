@@ -1,89 +1,112 @@
 {
-    "delay": 0,
     "endpoints": {
         "google": {
-            "targetBaseUrl": "http://www.google.com/"
-        },
-        "yahoo": {
-            "targetBaseUrl": "http://www.yahoo.com/"
+            "targetBaseUrl": "http://www.google.com"
         },
         "_default": {
-            "targetBaseUrl": "http://localhost:3004/"
+            "targetBaseUrl": "http://www.bing.com"
         }
     },
-    "repositories": {},
+    "repositories": [
+        "cacheConglomerate",
+        "cacheQueue"
+    ],
     "servers": {
+        "wrapperServer": {
+            "enabled": true,
+            "listen": {
+                "hostname": false,
+                "port": 8989
+            },
+            "wrapper": {
+                "host": "localhost:8989"
+            }
+        },
         "proxy": {
             "enabled": true,
             "listen": {
-                "host": "localhost",
+                "hostname": "localhost",
                 "port": 3003
             },
-            "contextRoot": "/proxy"
+            "wrapper": {
+                "path": "/proxy"
+            }
         },
         "gui": {
             "enabled": true,
             "listen": {
-                "host": "localhost",
+                "hostname": "localhost",
                 "port": 3004
             },
-            "contextRoot": "/gui"
+            "wrapper": {
+                "path": "/gui"
+            }
         },
         "httpApi": {
             "enabled": true,
             "listen": {
-                "host": "localhost",
+                "hostname": "localhost",
                 "port": 3005
             },
-            "contextRoot": "/http-api"
+            "wrapper": {
+                "path": "/http-api"
+            }
         },
         "websocketServer": {
             "enabled": true,
-            "options": {
-                "autoAcceptConnections": true,
-                "httpServer": {
-                    "domain": null,
-                    "_events": {},
-                    "_maxListeners": 10,
-                    "_connections": 0,
-                    "connections": 0,
-                    "_handle": {
-                        "fd": 15,
-                        "writeQueueSize": 0
-                    },
-                    "_usingSlaves": false,
-                    "_slaves": {},
-                    "allowHalfOpen": true,
-                    "httpAllowHalfOpen": false,
-                    "timeout": 120000,
-                    "_connectionKey": "4:0.0.0.0:3005"
-                }
-            },
             "autoAcceptConnections": true,
-            "useHttpApiServer": true,
+            "useWrapperServer": true,
+            "useHttpApiServer": false,
             "listen": {
-                "host": "localhost",
+                "hostname": "localhost",
                 "port": 3005
             },
-            "contextRoot": "/socket"
-        },
-        "wrapperServer": {
-            "enabled": true,
-            "host": "localhost",
-            "port": "8989"
+            "wrapper": {
+                "path": "/socket"
+            }
         }
     },
     "record": true,
     "forward": "MISSING",
+    "keyGenerator": [
+        "cherryPickingKeygen",
+        {
+            "properties": [
+                "path",
+                "method"
+            ],
+            "url": [
+                "pathname"
+            ],
+            "headers": [
+                "accept",
+                "content-type"
+            ]
+        }
+    ],
     "statistics": {
         "mode": "STATISTICS_LOG_MODE_REALTIME",
-        "reporters": {}
-    },
-    "allowEndpointOverrides": {
-        "keyGenerator": true
+        "reporters": []
     },
     "scenarios": {
-        "available": {},
-        "writeNewScenarios": false
-    }
+        "available": [],
+        "writeNewScenarios": true,
+        "scenarioOutputDir": "/dev/temp"
+    },
+    "plugins": [
+        "cherryPickingKeygen",
+        "keyGeneratorFactory",
+        "distributedDelay",
+        "cacheQueue",
+        "cacheConglomerate",
+        "simpleMessageTransformer",
+        "scenarioRepository"
+    ],
+    "delay": [
+        "distributedDelay",
+        {
+            "expectation": 500,
+            "variance": 0.1
+        }
+    ]
 }
