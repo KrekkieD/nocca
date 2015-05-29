@@ -66,6 +66,7 @@
                 var content = $scope.response;
                 $mdDialog.show({
                     controller: function ($scope) {
+						console.log('controller', content);
                         $scope.content = content;
                     },
                     template: '<md-dialog nocca-widgets-request-dialog class="nocca-request-dialog"></md-dialog>',

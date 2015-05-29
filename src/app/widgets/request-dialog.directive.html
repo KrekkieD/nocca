@@ -1,6 +1,6 @@
-<md-content layout="column">
+<md-content layout="column" flex layout-fill>
 
-    <md-tabs md-selected="selectedIndex" flex layout-fill>
+    <md-tabs md-selected="selectedIndex" flex>
         <md-tab>
             <md-tab-label ng-if="!asIcons">Client Request</md-tab-label>
             <md-tab-label ng-if="asIcons">
@@ -8,12 +8,13 @@
                 <span class="fa fa-fw fa-sign-in"></span>
             </md-tab-label>
 
-            <nocca-widgets-request-preview
-                preview="content.clientRequest"
-                request-dialog="requestDialog">
+            <md-tab-body layout="row">
+                <nocca-widgets-request-preview
+                    preview="content.clientRequest"
+                    request-dialog="requestDialog">
 
-            </nocca-widgets-request-preview>
-
+                </nocca-widgets-request-preview>
+            </md-tab-body>
         </md-tab>
         <md-tab>
 
@@ -23,11 +24,14 @@
                 <span class="fa fa-fw fa-sign-out"></span>
             </md-tab-label>
 
-            <nocca-widgets-request-preview
-                preview="content.proxyRequest"
-                request-dialog="requestDialog">
 
-            </nocca-widgets-request-preview>
+            <md-tab-body layout="row">
+                <nocca-widgets-request-preview
+                    preview="content.proxyRequest"
+                    request-dialog="requestDialog">
+
+                </nocca-widgets-request-preview>
+            </md-tab-body>
 
         </md-tab>
         <md-tab>
@@ -38,11 +42,13 @@
                 <span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>
             </md-tab-label>
 
-            <nocca-widgets-request-preview
-                preview="content.proxyResponse"
-                request-dialog="requestDialog">
+            <md-tab-body layout="row">
+                <nocca-widgets-request-preview
+                    preview="content.proxyResponse"
+                    request-dialog="requestDialog">
 
-            </nocca-widgets-request-preview>
+                </nocca-widgets-request-preview>
+            </md-tab-body>
 
         </md-tab>
         <md-tab>
@@ -53,11 +59,13 @@
                 <span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>
             </md-tab-label>
 
-            <nocca-widgets-request-preview
-                preview="content.playbackResponse"
-                request-dialog="requestDialog">
+            <md-tab-body layout="row">
+                <nocca-widgets-request-preview
+                    preview="content.playbackResponse"
+                    request-dialog="requestDialog">
 
-            </nocca-widgets-request-preview>
+                </nocca-widgets-request-preview>
+            </md-tab-body>
 
         </md-tab>
         <md-tab>
@@ -68,11 +76,13 @@
                 <span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span>
             </md-tab-label>
 
-            <nocca-widgets-request-preview
-                preview="content.clientResponse"
-                request-dialog="requestDialog">
+            <md-tab-body layout="row">
+                <nocca-widgets-request-preview
+                    preview="content.clientResponse"
+                    request-dialog="requestDialog">
 
-            </nocca-widgets-request-preview>
+                </nocca-widgets-request-preview>
+            </md-tab-body>
 
         </md-tab>
         <md-tab>
@@ -83,9 +93,11 @@
                 <span class="fa fa-fw fa-puzzle-piece"></span>
             </md-tab-label>
 
-            <md-content class="md-padding">
-                <pre>{{ content | json:4 }}</pre>
-            </md-content>
+            <md-tab-body layout="row">
+                <md-content class="md-padding">
+                    <pre>{{ content | json:4 }}</pre>
+                </md-content>
+            </md-tab-body>
 
         </md-tab>
     </md-tabs>
