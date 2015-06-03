@@ -16,6 +16,14 @@ var Nocca = new $nocca({
             targetBaseUrl: 'http://localhost:3004/'
         }
     },
+    servers: {
+        wrapperServer: {
+            listen: {
+                hostname: false,
+                port: 8989
+            }
+        }
+    },
     keyGenerator: 'cherryPickingKeygen',
     requestKeyParams: {
 		subject: 'proxyRequest',

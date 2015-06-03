@@ -41,8 +41,6 @@
 				websocketServerUrl += ':' + noccaCoreConfig.servers.websocketServer.listen.port;
 			}
 
-			//websocketServerUrl = 'ws://localhost:3005';
-
 			var ws = $websocket.$new(websocketServerUrl);
 
 			ws.$on('$message', function (data) {
