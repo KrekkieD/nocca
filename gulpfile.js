@@ -247,7 +247,7 @@ gulp.task('package', function (done) {
 			'dist-all-css',
 			'dist-bootstrap',
 			'dist-all-modules-with-bootstrap',
-			'dist-vendor',
+			//'dist-vendor',
             'dist-index',
             'dist-cleanup',
 			done);
