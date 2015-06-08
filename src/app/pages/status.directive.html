@@ -86,7 +86,7 @@
 
                 <md-tab-label>All responses ({{ count.responses }})</md-tab-label>
                 <md-tab-body>
-                    <md-content>
+                    <md-content ng-if="selectedTabIndex == 0">
 
                         <div ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true track by hash">
 
@@ -103,7 +103,7 @@
 
                 <md-tab-label>By Endpoints ({{ count.endpoints }})</md-tab-label>
                 <md-tab-body>
-                    <md-content>
+                    <md-content ng-if="selectedTabIndex == 1">
 
                         <section ng-repeat="(endpoint, hashKeys) in data.endpoints track by endpoint">
 
@@ -127,7 +127,7 @@
 
                 <md-tab-label>Recorded ({{ count.recorded }})</md-tab-label>
                 <md-tab-body>
-                    <md-content>
+                    <md-content ng-if="selectedTabIndex == 2">
 
                         <section>
 
@@ -149,7 +149,7 @@
 
                 <md-tab-label>Forwarded ({{ count.forwarded }})</md-tab-label>
                 <md-tab-body>
-                    <md-content>
+                    <md-content ng-if="selectedTabIndex == 3">
 
                         <section>
 
@@ -170,7 +170,7 @@
 
                 <md-tab-label>Replayed ({{ count.replayed }})</md-tab-label>
                 <md-tab-body>
-                    <md-content>
+                    <md-content ng-if="selectedTabIndex == 4">
 
                         <section>
 
@@ -192,7 +192,7 @@
 
                 <md-tab-label>Story ({{ count.storyLog }})</md-tab-label>
                 <md-tab-body>
-                    <md-content>
+                    <md-content ng-if="selectedTabIndex == 5">
                         <md-list>
                             <md-list-item ng-repeat="line in data.storyLog | noccaDataOrderObject:'timestamp':true track by line.id"
                                 class="nocca-story-line"
