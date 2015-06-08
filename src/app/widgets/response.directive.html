@@ -1,4 +1,5 @@
 <md-grid-list
+    class="nocca-response"
     md-cols-lt-md="1"
     md-cols-md="4"
     md-cols-gt-md="6"
@@ -7,7 +8,7 @@
     <md-grid-tile md-colspan="1">
         <div class="nocca-response-tile-left">
             <span class="nocca-timestamp fa fa-clock-o"> {{ response.timestamp | date:'HH:mm:ss.sss' }}</span>
-            <em>{{ response.clientResponse.statusCode}}</em>
+            <em>{{ response.clientResponse.statusCode }}</em>
             <em>{{ response.clientRequest.method }}</em>
 
             <md-button ng-click="showDialog($event)">
