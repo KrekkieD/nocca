@@ -15,6 +15,9 @@ var Nocca = new $nocca({
 		'self': {
 			targetBaseUrl: 'http://localhost:8989/gui/'
 		},
+        'bogi': {
+            targetBaseUrl: 'http://localhost:8988/'
+        },
         '_default': {
             targetBaseUrl: 'http://localhost:3004/'
         }

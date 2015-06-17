@@ -52,6 +52,8 @@
                 query: undefined
             };
 
+            $scope.maxResponses = 50;
+
             $scope.filterData = filterData;
 			$scope.downloadAll = noccaUtilsDownload.createPackageAndSave;
 

@@ -88,12 +88,23 @@
                 <md-tab-body>
                     <md-content ng-if="selectedTabIndex == 0">
 
-                        <div ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true track by hash">
+                        <div ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true | limitTo:maxResponses track by hash">
 
                             <nocca-widgets-response response="response"></nocca-widgets-response>
 
                             <md-divider></md-divider>
                         </div>
+
+                        <div layout="row">
+                            <md-button ng-disabled="count.responses <= maxResponses" ng-click="maxResponses = maxResponses + 50">
+                                show 50 more!
+                            </md-button>
+                            <span flex></span>
+                            <md-button ng-click="maxResponses = undefined">
+                                show all
+                            </md-button>
+                        </div>
+
 
                     </md-content>
                 </md-tab-body>
