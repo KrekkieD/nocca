@@ -11,7 +11,6 @@ module.exports.$cacheEntryRepository = require('./lib/cacheEntryRepository');
 module.exports.$chainBuilderFactory = require('./lib/chainBuilderFactory');
 module.exports.$constants = require('./lib/constants');
 module.exports.$defaultSettings = require('./lib/defaultSettings');
-module.exports.$endpoints = require('./lib/endpoints');
 module.exports.$errors = require('./lib/errors');
 module.exports.$forwarder = require('./lib/forwarder');
 module.exports.$gui = require('./lib/gui');
@@ -91,6 +90,9 @@ function Nocca (config) {
         self.usePlugin(repository);
     });
 
+	// initialize the endpoint selector
+	self.endpointSelector = self.usePlugin(self.config.endpointSelector);
+
     // instantiate servers by looping over them. Nice.
     Object.keys(self.config.servers).forEach(function (server) {
 
@@ -99,9 +101,6 @@ function Nocca (config) {
         }
 
     });
-
-    self.endpointManager = new self.config.endpointManager(self);
-    self.endpointManager.addEndpoints(self.config.endpoints);
 
     // Call init on all created plugins (if they support it)
 	self.pubsub.publish(self.constants.PUBSUB_NOCCA_INITIALIZE_PLUGIN);
