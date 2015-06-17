@@ -12,6 +12,9 @@ var Nocca = new $nocca({
             keyGenerator: 'keyGeneratorFactory',
             keyGeneratorFactoryMethod: 'urlAndHeadersKeyGeneratorBuilder'
         },
+		'self': {
+			targetBaseUrl: 'http://localhost:8989/gui/'
+		},
         '_default': {
             targetBaseUrl: 'http://localhost:3004/'
         }
