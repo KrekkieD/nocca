@@ -29,7 +29,85 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
 
     it ('should start a nocca server', function () {
 
-        nocca = $nocca();
+        nocca = $nocca({
+            endpoints: {
+                '/plugins/simple-message-transformer/diff': {
+                    targetBaseUrl: 'http://localhost:8888/',
+                    httpMessageTransformations: {
+                        CLIENT_RESPONSE: [
+                            'simpleMessageTransformer',
+                            [
+                                {
+                                    search: {
+                                        subject: 'body',
+                                        type: 'regex',
+                                        value: ['\\"[a-z]+Timestamp\\"\\s*:\\s*\"(\\d+)\"', 'g']
+                                    },
+                                    replace: {
+                                        type: 'momentjs',
+                                        options: {
+                                            source: {
+                                                format: 'x'
+                                            },
+                                            patchTimeDifference: true,
+                                            format: 'x'
+                                        }
+                                    }
+                                }
+                            ]
+                        ]
+                    }
+                },
+                '/plugins/simple-message-transformer': {
+                    targetBaseUrl: 'http://localhost:8888/',
+                    httpMessageTransformations: {
+                        CLIENT_RESPONSE: [
+                            'simpleMessageTransformer',
+                            [
+                                {
+                                    search: {
+                                        subject: 'body',
+                                        type: 'regex',
+                                        value: ['<addtimestamp>(\\d+)</addtimestamp>']
+                                    },
+                                    replace: {
+                                        type: 'momentjs',
+                                        options: {
+                                            source: {
+                                                value: ''
+                                            },
+                                            add: {
+                                                days: 1
+                                            },
+                                            format: 'x'
+                                        }
+                                    }
+                                },
+                                {
+                                    search: {
+                                        subject: 'body',
+                                        type: 'regex',
+                                        value: ['<subtracttimestamp>(\\d+)</subtracttimestamp>']
+                                    },
+                                    replace: {
+                                        type: 'momentjs',
+                                        options: {
+                                            source: {
+                                                value: ''
+                                            },
+                                            subtract: {
+                                                days: 1
+                                            },
+                                            format: 'x'
+                                        }
+                                    }
+                                }
+                            ]
+                        ]
+                    }
+                }
+            }
+        });
 
     });
 
@@ -79,6 +157,9 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
     });
 
     // unixtime something
+    xit ('should place a unixtime stamp somwhere', function () {
+
+    });
 
     // diff something
     it ('should perform a request diff, increasing a timestamp by a calculated difference', function (done) {

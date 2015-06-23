@@ -6,7 +6,7 @@ String-based configuration powered message transformer, allows setup through JSO
 
 ```
 var noccaConfig = {
-    // you should add this to a specific endpoint to run the transformation on
+    // you should probably add this to a specific endpoint to run the transformation on
     endpoints: {
         someEndpoint: {
             // this property triggers the transformations
@@ -79,7 +79,13 @@ replace.value = '/5'; // return searchMatch / 5
 
 ### `momentjs`
 
-Uses the `moment` library to manipulate or create dates.
+Uses the `moment` library to manipulate or create dates. 
+
+When multiple replacements are defined in the same transformation, it runs them in this order:
+
+- `patchTimeDifference`
+- `add`
+- `subtract`
 
 #### `replace.options.source` (`object`)
 
@@ -89,6 +95,21 @@ Uses the `moment` library to manipulate or create dates.
     - `string` uses the string to create a new `moment` date.
 - `.format`
     - `string` to define the format of the source (`moment` may choke on auto detection of format)
+
+
+#### `replace.options.patchTimeDifference` (`boolean`)
+
+This patches a timestamp to use the same interval as the original message. Consider the following scenario:
+
+- you record a login cache on June 22nd 15h00 which contains a timestamp in the body that sets the validity of your login to June 22nd 15h30.
+- you play the cache on June 23rd 11h00, but your login fails as your login expired yesterday
+
+What you'd really want is this timestamp to "move" with you. That is, the 30 minute validity should be based on the current
+request time and not as much on the original request time. That is what this does.
+
+It calculates the difference of `the original request timestamp` (June 22nd 15h00) and `the cache body timestamp` 
+(June 22nd 15h30) which is 30 minutes, and adds that difference
+to the `current request timestamp` (June 23rd 11h00) creating a timestamp that is June 23rd 11h30. 
 
 #### `replace.options.add` (`object`)
 
