@@ -1,0 +1,46 @@
+[
+  {
+    "cacheTime": 1434960000000,
+    "playbackTimestamp": 1434960000000,
+    "requestKey": "{\"properties\":{\"path\":\"/\",\"method\":\"POST\"},\"url\":{\"pathname\":\"/\"}}",
+    "endpointKey": "/plugins/simple-message-transformer/diff",
+    "clientRequest": {
+      "type": "REQUEST",
+      "created": 1434960000000,
+      "method": "POST",
+      "path": "/plugins/simple-message-transformer/diff",
+      "headers": {
+        "host": "localhost:8989",
+        "connection": "keep-alive",
+        "transfer-encoding": "chunked"
+      },
+      "body": "{\"currentTimestamp\":\"1434960000000\",\"dayTimestamp\":\"1435046400000\",\"weekTimestamp\":\"1435564800000\",\"monthTimestamp\":\"1437552000000\"}"
+    },
+    "proxyRequest": {
+      "type": "REQUEST",
+      "created": 1434960000000,
+      "method": "POST",
+      "host": "localhost",
+      "protocol": "http:",
+      "port": "8888",
+      "path": "/",
+      "headers": {
+        "Host": "localhost",
+        "Connection": "keep-alive",
+        "Transfer-Encoding": "chunked"
+      },
+      "body": "{\"currentTimestamp\":\"1434960000000\",\"dayTimestamp\":\"1435046400000\",\"weekTimestamp\":\"1435564800000\",\"monthTimestamp\":\"1437552000000\"}"
+    },
+    "playbackResponse": {
+      "type": "RESPONSE",
+      "created": 1434960000000,
+      "statusCode": 200,
+      "headers": {
+        "date": "Mon, 22 Jun 2015 08:56:58 GMT",
+        "connection": "keep-alive",
+        "transfer-encoding": "chunked"
+      },
+      "body": "{\n    \"timestamp\": 1434963418161,\n    \"url\": \"/\",\n    \"method\": \"POST\",\n    \"headers\": {\n        \"host\": \"localhost\",\n        \"connection\": \"keep-alive\",\n        \"transfer-encoding\": \"chunked\"\n    },\n    \"body\": {\n        \"currentTimestamp\": \"1434960000000\",\n        \"dayTimestamp\": \"1435046400000\",\n        \"weekTimestamp\": \"1435564800000\",\n        \"monthTimestamp\": \"1437552000000\"\n    }\n}"
+    }
+  }
+]
