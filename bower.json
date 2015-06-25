@@ -18,10 +18,10 @@
   ],
   "repository": "https://github.com/KrekkieD/nocca.git",
   "dependencies": {
-    "angular": "~1.4.0",
+    "angular": "~1.4.1",
     "ui-router": "~0.2.13",
     "ng-websocket": "~0.2.1",
-    "angular-material": "~0.9.0",
+    "angular-material": "~0.10.0",
     "font-awesome": "~4.3.0",
     "angular-local-storage": "~0.1.5",
     "angular-truncate": "*",
@@ -37,5 +37,8 @@
       "name": "KrekkieD",
       "email": "g.cowan@amnzero.nl"
     }
-  ]
+  ],
+  "resolutions": {
+    "angular": "~1.4.1"
+  }
 }

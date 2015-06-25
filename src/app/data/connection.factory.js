@@ -48,21 +48,23 @@
 				// merge data with factory data
 				Object.keys(data).forEach(function (key) {
 
-					if (Array.isArray(data[key])) {
-						Array.prototype.push.apply(
-							factory.data[key],
-							data[key]
-						);
-					}
-					else if (data[key] instanceof Object) {
-
-						Object.keys(data[key]).forEach(function (dataKey) {
-
-							factory.data[key][dataKey] = data[key][dataKey];
-
-						});
-
-					}
+					factory.data[key] = data[key];
+                    //
+					//if (Array.isArray(data[key])) {
+					//	Array.prototype.push.apply(
+					//		factory.data[key],
+					//		data[key]
+					//	);
+					//}
+					//else if (data[key] instanceof Object) {
+                    //
+					//	Object.keys(data[key]).forEach(function (dataKey) {
+                    //
+					//		factory.data[key][dataKey] = data[key][dataKey];
+                    //
+					//	});
+                    //
+					//}
 
 				});
 
