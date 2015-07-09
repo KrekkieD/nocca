@@ -37,5 +37,8 @@
       "name": "KrekkieD",
       "email": "g.cowan@amnzero.nl"
     }
-  ]
+  ],
+  "resolutions": {
+    "angular": "1.4.2"
+  }
 }
