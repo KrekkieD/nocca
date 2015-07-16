@@ -3,4 +3,4 @@
 .nocca-request-dialog{min-width:75%;min-height:75%}
 .nocca-request-preview-wrap{white-space:pre-wrap}
 .nocca-response .nocca-response-tile-left{text-align:center;padding-right:15px}.nocca-response .nocca-response-tile-left em{display:block;font-style:normal;font-size:150%;font-weight:700}.nocca-response .nocca-response-tile-left .md-button{font-size:80%}.nocca-response p{margin:.5em 0}.nocca-response h3{margin:0}
-.nocca-scenario-tile-left{padding-right:15px;text-align:center}.nocca-scenario-key{font-family:"Courier new",monospace}.nocca-scenario-details{padding:0;margin:0}.nocca-scenario-details dt{min-width:140px}.nocca-scenario-details dd{padding:0;margin:0}
+.nocca-scenario-tile-left{padding-right:15px;text-align:center}.nocca-scenario-details,.nocca-scenario-details dd{padding:0;margin:0}.nocca-scenario-key{font-family:"Courier new",monospace}.nocca-scenario-details dt{min-width:140px}
