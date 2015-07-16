@@ -1,8 +1,8 @@
-<md-content flex layout="column">
+<div layout="column">
 
-    <md-content layout-fill flex>
-        <md-tabs md-selected="selectedIndex" md-dynamic-height>
-            <md-tab layout-fill flex>
+    <md-content layout-fill>
+        <md-tabs md-selected="selectedIndex">
+            <md-tab>
                 <md-tab-label ng-if="!asIcons">Client Request</md-tab-label>
                 <md-tab-label ng-if="asIcons">
                     <md-tooltip>Client Request</md-tooltip>
@@ -11,8 +11,8 @@
 
                 <md-tab-body>
                     <nocca-widgets-request-preview
-                            preview="content.clientRequest"
-                            request-dialog="requestDialog">
+                        preview="content.clientRequest"
+                        request-dialog="requestDialog">
 
                     </nocca-widgets-request-preview>
                 </md-tab-body>
@@ -116,4 +116,4 @@
         </div>
     </div>
 
-</md-content>
+</div>
