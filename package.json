@@ -1,6 +1,6 @@
 {
   "name": "nocca",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "NodeJS Mock Server",
   "scripts": {
     "test": "jasmine-node test/jasmine",
