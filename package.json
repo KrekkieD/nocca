@@ -3,6 +3,8 @@
   "version": "0.4.6",
   "description": "NodeJS Mock Server",
   "scripts": {
+    "preversion": "npm run contributor",
+    "contributor": "node scripts/contributor.js",
     "test": "jasmine-node test/jasmine",
     "postinstall": "bower install"
   },
@@ -19,14 +21,18 @@
   "devDependencies": {
     "browser-sync": "^1.7.1",
     "connect-modrewrite": "^0.7.9",
+    "contributor": "^0.1.25",
+    "debounce": "^1.0.0",
     "del": "^1.1.0",
     "event-stream": "^3.2.2",
     "extend": "^2.0.0",
+    "gitlog": "^2.0.1",
+    "glob-stream": "^5.0.0",
     "globule": "^0.2.0",
     "gulp": "^3.8.10",
-    "gulp-angular-filesort": "^1.0.4",
-    "gulp-angular-templatecache": "^1.4.2",
-    "gulp-concat": "^2.4.1",
+    "gulp-angular-filesort": "^1.1.1",
+    "gulp-angular-templatecache": "^1.7.0",
+    "gulp-concat": "^2.6.0",
     "gulp-connect": "^2.2.0",
     "gulp-connect-multi": "git+https://github.com/torifat/gulp-connect-multi.git",
     "gulp-csslint": "^0.1.5",
@@ -37,7 +43,6 @@
     "gulp-jshint": "^1.9.0",
     "gulp-jshint-file-reporter": "0.0.1",
     "gulp-jshint-html-reporter": "^0.1.2",
-    "gulp-karma": "0.0.4",
     "gulp-minify-html": "^0.1.6",
     "gulp-ng-annotate": "^0.3.5",
     "gulp-plumber": "^0.6.6",
@@ -56,22 +61,17 @@
     "jasmine-node": "^1.14.5",
     "jshint-stylish": "^1.0.0",
     "jshint-summary": "^0.4.0",
-    "karma-angular-filesort": "^0.1.0",
-    "karma-chrome-launcher": "^0.1.5",
-    "karma-coverage": "^0.2.6",
-    "karma-html-reporter": "^0.2.4",
-    "karma-jasmine": "^0.2.3",
-    "karma-junit-reporter": "^0.2.2",
-    "karma-phantomjs-launcher": "^0.1.4",
     "lodash": "^3.1.0",
     "main-bower-files": "^2.4.0",
     "minimist": "^1.1.0",
+    "node-sass": "^3.2.0",
+    "node-watch": "^0.3.4",
     "protractor": "^1.4.0",
     "random-string": "^0.1.1",
     "rimraf": "^2.2.8",
     "semver": "^4.3.3",
     "supererror": "^0.6.0",
-    "up-the-tree": "^0.2.0",
+    "up-the-tree": "^0.3.0",
     "webdriver-manager": "^1.0.0"
   },
   "main": "index.js",
@@ -103,14 +103,12 @@
     "xpath.js": "^1.0.5"
   },
   "contributors": [
-    {
-      "name": "KrekkieD",
-      "email": "g.cowan@amnzero.nl"
-    },
-    {
-      "name": "JH Kuperus",
-      "email": "jhkuperus@yoink.nl"
-    }
+    "Gregory Cowan <g.cowan@amnzero.nl>",
+    "Jan-Hendrik Kuperus <jan-hendrik.kuperus@klm.com>",
+    "Jan-Hendrik Kuperus <jhkuperus@yoink.nl>",
+    "ericjanmalotaux <emalotau@gmail.com>",
+    "r.broekema@klm.com <roland.broekema@klm.com>",
+    "reingroot <welcome@reingroot.nl>"
   ],
   "license": "MIT",
   "bugs": {

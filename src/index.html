@@ -1,31 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <title><%= generator.name.full %></title>
+    <head>
+        <title>Nocca</title>
 
-  <!-- Bower css includes -->
-  <%= inject.bower.css %>
+        <!-- Bower css includes -->
+        <!-- bower:css -->
+        <!-- endbower -->
 
-  <!-- Project css includes -->
-  <%= inject.app.css %>
+        <!-- Project css includes -->
+        <link rel="stylesheet" type="text/stylesheet" href="app.css">
 
-</head>
-<body>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-    <div id="<%= generator.bootstrap.element %>" class="nocca-full-height">
-        <div ui-view class="nocca-full-height"></div>
-    </div>
+    </head>
+    <body>
 
-  <!-- Bower js includes -->
-  <%= inject.bower.js %>
+        <div id="noccaCore" class="nocca-full-height">
+            <div ui-view class="nocca-full-height"></div>
+        </div>
 
-  <!-- Project js includes -->
-  <%= inject.app.js %>
+        <!-- Bower js includes -->
+        <!-- bower:js -->
+        <!-- endbower -->
 
-  <!-- Config and run configuration -->
-  <%= inject.app.jsConfigAndRun %>
+        <!-- Project js includes -->
+        <script src="app.js"></script>
+        <script src="templates.js"></script>
 
-  <!-- Bootstrap script -->
-  <%= inject.app.jsBootstrap %>
-</body>
+    </body>
 </html>
