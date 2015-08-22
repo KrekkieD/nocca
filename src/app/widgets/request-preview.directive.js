@@ -12,7 +12,8 @@
         .directive(
             'noccaWidgetsRequestPreview', RequestPreviewDirective);
 
-    function RequestPreviewDirective() {
+    function RequestPreviewDirective () {
+
         var directive = {
             restrict: 'EA',
             scope: {
@@ -20,7 +21,8 @@
                 requestDialog: '='
             },
             templateUrl: 'request-preview.directive.html',
-            link: link
+            link: link,
+			controller: RequestPreviewController
         };
 
         return directive;
@@ -57,6 +59,12 @@
             }
 
         }
+
+		/* @ngInject */
+		function RequestPreviewController ($scope, noccaPreferences) {
+
+			$scope.preferences = noccaPreferences;
+		}
 
     }
 }());

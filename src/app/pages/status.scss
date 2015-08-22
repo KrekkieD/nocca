@@ -36,3 +36,14 @@
     }
 
 }
+
+.nocca-status-settings {
+	dd {
+		padding-left: 0;
+		margin-left: 0;
+	}
+	.md-button {
+		width: inherit;
+		min-width: 0;
+	}
+}

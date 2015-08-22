@@ -1,0 +1,241 @@
+<div layout="column">
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span class="fa fa-fw fa-tag"></span> {{ sequence.id }} Sequence Dialog
+        </div>
+    </md-toolbar>
+
+    <div>
+        <md-tabs md-selected="selectedIndex">
+            <md-tab>
+                <!--<md-tab-label ng-if="!asIcons">Sequence info</md-tab-label>-->
+                <md-tab-label>
+                    <md-tooltip>Sequence info</md-tooltip>
+                    <span class="fa fa-fw fa-tag"></span>
+                </md-tab-label>
+
+                <md-tab-body>
+
+                    <div>
+
+                        <div class="md-padding" layout="row" layout-align="start start">
+
+                            <div layout="column" class="md-padding">
+
+                                <md-button ng-click="requestDialog.star = !requestDialog.star"
+                                    ng-class="{'md-accent': requestDialog.star}">
+
+                                    <md-tooltip md-direction="right">Mark as favorite</md-tooltip>
+                                    <span class="fa fa-fw" ng-class="{
+                                        'fa-star': requestDialog.star,
+                                        'fa-star-o': !requestDialog.star
+                                    }"></span>
+                                </md-button>
+
+                            </div>
+                            <div flex>
+                                <md-content class="md-padding">
+
+                                    <p class="md-body-1">
+                                        <span class="fa fa-fw fa-tag"></span> {{ sequence.id }} <br>
+                                        <span class="fa fa-fw fa-clock-o"></span> {{ sequence.timestamp | date:'HH:mm:ss.sss' }}
+                                    </p>
+                                    <p class="md-body-1">
+                                        <span class="fa fa-fw fa-server"></span> {{ sequence.endpoint }} <br>
+                                        <span class="fa fa-fw fa-key"></span> {{ sequence.requestKey }} <br>
+                                    </p>
+                                    <p class="md-body-1">
+                                        <span class="fa fa-fw fa-sign-in"></span> {{ sequence.clientRequest.method }} {{ sequence.clientRequest.path }} <br>
+                                        <span class="fa fa-fw fa-sign-out"></span> {{ sequence.proxyRequest.method }} {{ sequence.proxyRequest.protocol + '//' + sequence.proxyRequest.host + sequence.proxyRequest.path }} <br>
+                                        <span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span> Status {{ sequence.clientResponse.statusCode }} <br>
+                                    </p>
+                                    <p class="md-body-1">
+                                        <span ng-class="{'fa-circle': sequence.recorded}" class="fa fa-fw"></span>
+                                        <span ng-class="{'fa-sign-out': sequence.forwarded}" class="fa fa-fw"></span>
+                                        <span ng-class="{'fa-play': sequence.replayed}" class="fa fa-fw"></span>
+                                        <span ng-class="{'fa-question': sequence.missed}" class="fa fa-fw"></span>
+                                    </p>
+
+                                </md-content>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </md-tab-body>
+            </md-tab>
+            <md-tab>
+                <!--<md-tab-label ng-if="!asIcons">Sequence info</md-tab-label>-->
+                <md-tab-label>
+                    <md-tooltip>Sequence info</md-tooltip>
+                    <span class="fa fa-fw fa-tag"></span>
+                </md-tab-label>
+
+                <md-tab-body>
+
+                    <div>
+
+                        <div class="md-padding" layout="row" layout-align="start start">
+
+                            <div layout="column" class="md-padding">
+
+                                <md-button ng-click="requestDialog.star = !requestDialog.star"
+                                    ng-class="{'md-accent': requestDialog.star}">
+
+                                    <md-tooltip md-direction="right">Mark as favorite</md-tooltip>
+                                    <span class="fa fa-fw" ng-class="{
+                                        'fa-star': requestDialog.star,
+                                        'fa-star-o': !requestDialog.star
+                                    }"></span>
+                                </md-button>
+
+                            </div>
+                            <div flex>
+                                <md-content class="md-padding">
+
+                                    <p class="md-body-1">
+                                        <span class="fa fa-fw fa-tag"></span> {{ sequence.id }} <br>
+                                        <span class="fa fa-fw fa-clock-o"></span> {{ sequence.timestamp | date:'HH:mm:ss.sss' }}
+                                    </p>
+                                    <p class="md-body-1">
+                                        <span class="fa fa-fw fa-server"></span> {{ sequence.endpoint }} <br>
+                                        <span class="fa fa-fw fa-key"></span> {{ sequence.requestKey }} <br>
+                                    </p>
+                                    <p class="md-body-1">
+                                        <span class="fa fa-fw fa-sign-in"></span> {{ sequence.clientRequest.method }} {{ sequence.clientRequest.path }} <br>
+                                        <span class="fa fa-fw fa-sign-out"></span> {{ sequence.proxyRequest.method }} {{ sequence.proxyRequest.protocol + '//' + sequence.proxyRequest.host + sequence.proxyRequest.path }} <br>
+                                        <span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span> Status {{ sequence.clientResponse.statusCode }} <br>
+                                    </p>
+                                    <p class="md-body-1">
+                                        <span ng-class="{'fa-circle': sequence.recorded}" class="fa fa-fw"></span>
+                                        <span ng-class="{'fa-sign-out': sequence.forwarded}" class="fa fa-fw"></span>
+                                        <span ng-class="{'fa-play': sequence.replayed}" class="fa fa-fw"></span>
+                                        <span ng-class="{'fa-question': sequence.missed}" class="fa fa-fw"></span>
+                                    </p>
+
+                                </md-content>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </md-tab-body>
+            </md-tab>
+            <!--<md-tab>-->
+                <!--<md-tab-label ng-if="!asIcons">Client Request</md-tab-label>-->
+                <!--<md-tab-label ng-if="asIcons">-->
+                    <!--<md-tooltip>Client Request</md-tooltip>-->
+                    <!--<span class="fa fa-fw fa-sign-in"></span>-->
+                <!--</md-tab-label>-->
+
+                <!--<md-tab-body>-->
+                    <!--<nocca-widgets-request-preview-->
+                        <!--preview="sequence.clientRequest"-->
+                        <!--request-dialog="requestDialog">-->
+
+                    <!--</nocca-widgets-request-preview>-->
+                <!--</md-tab-body>-->
+            <!--</md-tab>-->
+            <!--<md-tab>-->
+
+                <!--<md-tab-label ng-if="!asIcons">Proxy Request</md-tab-label>-->
+                <!--<md-tab-label ng-if="asIcons">-->
+                    <!--<md-tooltip>Proxy Request</md-tooltip>-->
+                    <!--<span class="fa fa-fw fa-sign-out"></span>-->
+                <!--</md-tab-label>-->
+
+
+                <!--<md-tab-body>-->
+                    <!--<nocca-widgets-request-preview-->
+                        <!--preview="sequence.proxyRequest"-->
+                        <!--request-dialog="requestDialog">-->
+
+                    <!--</nocca-widgets-request-preview>-->
+                <!--</md-tab-body>-->
+
+            <!--</md-tab>-->
+            <!--<md-tab>-->
+
+                <!--<md-tab-label ng-if="!asIcons">Proxy Response</md-tab-label>-->
+                <!--<md-tab-label ng-if="asIcons">-->
+                    <!--<md-tooltip>Proxy Response</md-tooltip>-->
+                    <!--<span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>-->
+                <!--</md-tab-label>-->
+
+                <!--<md-tab-body>-->
+                    <!--<nocca-widgets-request-preview-->
+                        <!--preview="sequence.proxyResponse"-->
+                        <!--request-dialog="requestDialog">-->
+
+                    <!--</nocca-widgets-request-preview>-->
+                <!--</md-tab-body>-->
+
+            <!--</md-tab>-->
+            <!--<md-tab>-->
+
+                <!--<md-tab-label ng-if="!asIcons">Playback Response</md-tab-label>-->
+                <!--<md-tab-label ng-if="asIcons">-->
+                    <!--<md-tooltip>Playback Response</md-tooltip>-->
+                    <!--<span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>-->
+                <!--</md-tab-label>-->
+
+                <!--<md-tab-body>-->
+                    <!--<nocca-widgets-request-preview-->
+                        <!--preview="sequence.playbackResponse"-->
+                        <!--request-dialog="requestDialog">-->
+
+                    <!--</nocca-widgets-request-preview>-->
+                <!--</md-tab-body>-->
+
+            <!--</md-tab>-->
+            <!--<md-tab>-->
+
+                <!--<md-tab-label ng-if="!asIcons">Client Response</md-tab-label>-->
+                <!--<md-tab-label ng-if="asIcons">-->
+                    <!--<md-tooltip>Client Response</md-tooltip>-->
+                    <!--<span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span>-->
+                <!--</md-tab-label>-->
+
+                <!--<md-tab-body>-->
+                    <!--<nocca-widgets-request-preview-->
+                        <!--preview="sequence.clientResponse"-->
+                        <!--request-dialog="requestDialog">-->
+
+                    <!--</nocca-widgets-request-preview>-->
+                <!--</md-tab-body>-->
+
+            <!--</md-tab>-->
+            <!--<md-tab>-->
+
+                <!--<md-tab-label ng-if="!asIcons">full raw</md-tab-label>-->
+                <!--<md-tab-label ng-if="asIcons">-->
+                    <!--<md-tooltip>full raw</md-tooltip>-->
+                    <!--<span class="fa fa-fw fa-puzzle-piece"></span>-->
+                <!--</md-tab-label>-->
+
+                <!--<md-tab-body>-->
+                    <!--<md-content class="md-padding">-->
+                        <!--<pre>{{ sequence | json:4 }}</pre>-->
+                    <!--</md-content>-->
+                <!--</md-tab-body>-->
+
+            <!--</md-tab>-->
+        </md-tabs>
+
+    </div>
+    <div class="md-padding">
+
+        <md-divider></md-divider>
+
+        <div layout="row">
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary">
+                close
+            </md-button>
+        </div>
+    </div>
+
+</div>

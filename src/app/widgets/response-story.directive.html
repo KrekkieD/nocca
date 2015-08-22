@@ -1,0 +1,24 @@
+<md-list>
+    <md-list-item ng-repeat="line in data.storyLog | noccaDataOrderObject:'timestamp':true track by line.id"
+        class="nocca-story-line"
+        ng-if="data.responses[line.requestKeyHash]">
+
+        <md-item-content>
+
+            <div class="md-tile-left">
+                <span class="nocca-timestamp fa fa-clock-o">
+                {{ line.timestamp | date:'HH:mm:ss.sss' }}
+                </span>
+            </div>
+            <div class="md-tile-content">
+                <span ng-class="{'fa-circle': line.rec}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-sign-out': line.fwd}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-play': line.rpl}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-question': line.miss}" class="fa fa-fw"></span>
+
+                <span>{{ line.line }}</span>
+            </div>
+        </md-item-content>
+    </md-list-item>
+
+</md-list>

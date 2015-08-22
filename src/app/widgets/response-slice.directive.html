@@ -1,0 +1,39 @@
+<div ng-repeat="sequence in group.sequences | orderBy:'timestamp':true | limitTo: maxResponses track by sequence.id">
+
+    <div layout="row" layout-align="start center" layout-margin>
+        <md-button ng-click="showDialog($event)" aria-label="view bodies" flex>
+            <span>
+                {{ sequence.id }}
+
+                <span class="fa fa-fw"></span>
+
+                <span ng-class="{'fa-circle': sequence.recorded}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-sign-out': sequence.forwarded}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-play': sequence.replayed}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-question': sequence.missed}" class="fa fa-fw"></span>
+
+                <span class="fa fa-fw"></span>
+
+                <span class="fa fa-fw fa-clock-o"></span>
+                {{ sequence.timestamp | date:'HH:mm:ss.sss' }}
+
+                <span class="fa fa-fw"></span>
+
+                {{ sequence.clientRequest.method }}
+
+                <span class="fa fa-fw"></span>
+
+                {{ srcData.responses[sequence.clientResponseId].message.statusCode }}
+
+                <span class="fa fa-fw"></span>
+
+                <span class="fa fa-server"></span>
+                {{ sequence.endpoint }}
+                {{ sequence.clientRequest.path }}
+
+            </span>
+        </md-button>
+
+    </div>
+
+</div>

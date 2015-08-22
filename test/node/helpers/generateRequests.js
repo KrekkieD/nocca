@@ -40,11 +40,13 @@ function defaultCall (requestConfig) {
 
 function lottaBogi (lotta) {
 
+	var deferred = $q.defer();
+
     if (lotta > 0) {
 
         var lottaLeft = lotta - 1;
 
-        defaultCall({
+        var promise = defaultCall({
             path: '/proxy/bogi/ding/' + lotta
         }).then(function () {
 
@@ -54,8 +56,17 @@ function lottaBogi (lotta) {
                 lottaBogi(lottaLeft);
             }
 
+
         });
 
+		if (lottaLeft === 0) {
+			promise.then(function () {
+				deferred.resolve();
+			});
+		}
+
     }
+
+	return deferred.promise;
 
 }

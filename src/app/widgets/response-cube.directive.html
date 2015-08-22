@@ -1,0 +1,41 @@
+<md-grid-list
+    class="nocca-response-cube"
+    md-cols-lt-md="1"
+    md-cols-md="4"
+    md-cols-gt-md="8"
+    md-gutter="12px"
+    md-row-height="120px">
+
+    <md-grid-tile
+        class="nocca-response-cube-tile"
+        md-colspan="1"
+        ng-repeat="sequence in group.sequences | orderBy:'timestamp':true | limitTo: maxResponses track by sequence.id">
+
+        <div layout="column" layout-align="center center">
+            <div>
+                <span class="fa fa-clock-o"></span> {{ sequence.timestamp | date:'HH:mm:ss.sss' }}
+            </div>
+            <div>
+                <md-chips>
+                    <md-chip>{{ sequence.clientRequest.method }}</md-chip>
+                </md-chips>
+                {{ srcData.responses[sequence.clientResponseId].message.statusCode }}
+            </div>
+            <div>
+                <span class="fa fa-server"></span>
+                {{ sequence.endpoint }}
+            </div>
+            <div>
+                <span ng-class="{'fa-circle': sequence.recorded}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-sign-out': sequence.forwarded}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-play': sequence.replayed}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-question': sequence.missed}" class="fa fa-fw"></span>
+            </div>
+            <md-button ng-click="showDialog($event)">
+                View bodies
+            </md-button>
+        </div>
+
+    </md-grid-tile>
+
+</md-grid-list>

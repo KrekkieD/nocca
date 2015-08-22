@@ -1,0 +1,71 @@
+<md-grid-list
+    md-cols-lt-md="1"
+    md-cols-md="4"
+    md-cols-gt-md="6"
+    md-row-height="160px">
+
+    <md-grid-tile
+        md-colspan="1"
+        ng-repeat-start="sequence in group.sequences | orderBy:'timestamp':true | limitTo: maxResponses track by sequence.id">
+
+        <div class="nocca-response-tile-left">
+            <span class="nocca-timestamp fa fa-clock-o"> {{ sequence.timestamp | date:'HH:mm:ss.sss' }}</span>
+            <em>{{ srcData.responses[sequence.clientResponseId].message.statusCode }}</em>
+            <em>{{ sequence.clientRequest.method }}</em>
+
+            <div style="font-size: 80%;">
+                <span ng-class="{'fa-circle': sequence.recorded}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-sign-out': sequence.forwarded}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-play': sequence.replayed}" class="fa fa-fw"></span>
+                <span ng-class="{'fa-question': sequence.missed}" class="fa fa-fw"></span>
+            </div>
+
+            <md-button ng-click="showDialog($event, sequence)">
+                View bodies
+            </md-button>
+        </div>
+
+    </md-grid-tile>
+    <md-grid-tile
+        md-colspan="5"
+        md-colspan-md="3"
+        md-colspan-lt-md="1"
+        ng-repeat-end>
+
+        <div flex>
+            <h3 class="md-title">
+                {{ sequence.id }}
+            </h3>
+
+            <p class="md-body-1">
+                <span>
+                    <md-tooltip>endpoint definition</md-tooltip>
+                    <span class="fa fa-server"></span>
+                    {{ sequence.endpoint }}
+                </span>
+            </p>
+
+            <p class="md-caption">
+                <span class="fa fa-key"></span>
+                {{ sequence.requestKey }}
+            </p>
+
+            <p class="md-body-1">
+                <span>
+                    <md-tooltip>incoming request</md-tooltip>
+                    <span class="fa fa-sign-in"></span>
+                    {{ sequence.clientRequest.method }} {{ sequence.clientRequest.path }}
+                </span>
+            </p>
+            <p ng-show="sequence.proxyRequest" class="md-body-1">
+                <span>
+                    <md-tooltip>forwarded request</md-tooltip>
+                    <span class="fa fa-sign-out"></span>
+                    {{ sequence.proxyRequest.method }} {{ sequence.proxyRequest.protocol + '//' + sequence.proxyRequest.host + sequence.proxyRequest.path }}
+                </span>
+            </p>
+        </div>
+
+    </md-grid-tile>
+
+</md-grid-list>

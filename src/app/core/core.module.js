@@ -9,13 +9,15 @@
         'ngMaterial',
         'LocalStorageModule',
         'truncate',
+		'angularStats',
 
         'nocca.navigation',
         'nocca.pages',
         'nocca.data',
         'nocca.widgets',
         'nocca.utils',
-        'nocca.api'
+        'nocca.api',
+		'nocca.preferences'
     ]);
 
 }());

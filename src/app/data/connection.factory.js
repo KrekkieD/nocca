@@ -10,7 +10,9 @@
         $rootScope
     ) {
 
-        var factory = {
+		var debounceTimeout;
+
+		var factory = {
 			lastUpdate: 0,
 			data: {
 				responses: {},
@@ -70,11 +72,20 @@
 
 				factory.lastUpdate = new Date().getTime();
 
-				$rootScope.$apply();
+				debounce(function () {
+					$rootScope.$apply();
+				});
 
 			});
 
         }
+
+		function debounce (fn) {
+
+			clearTimeout(debounceTimeout);
+			debounceTimeout = setTimeout(fn, 200);
+
+		}
 
     }
 

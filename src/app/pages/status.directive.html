@@ -4,273 +4,347 @@
         <md-content class="md-padding" layout="row">
             <h2 flex>Status</h2>
             <div>
-                <md-input-container>
-                    <label><span class="fa fa-filter"></span> Filter</label>
-                    <input type="text"
-                        ng-model="searchModel.model.query"
-                        ng-change="filterData()"
-                        ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}">
+                <!--<md-input-container>-->
+                    <!--<label><span class="fa fa-filter"></span> Filter</label>-->
+                    <!--<input type="text"-->
+                        <!--ng-model="searchModel.model.query"-->
+                        <!--ng-change="filterData()"-->
+                        <!--ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}">-->
 
-                    <div ng-messages="searchModel.search">
-                        <div ng-message="active">Found {{ searchModel.search.count }} responses</div>
-                    </div>
-                </md-input-container>
-                <div ng-show="searchModel.model.query" class="nocca-status-filter">
+                    <!--<div ng-messages="searchModel.search">-->
+                        <!--<div ng-message="active">Found {{ searchModel.search.count }} responses</div>-->
+                    <!--</div>-->
+                <!--</md-input-container>-->
+                <!--<div ng-show="searchModel.model.query" class="nocca-status-filter">-->
 
-                    <div>
-                        <md-button ng-click="searchModel.toggleField('clientRequest'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.clientRequest }">
+                    <!--<div>-->
+                        <!--<md-button ng-click="searchModel.toggleField('clientRequest'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.clientRequest }">-->
 
-                            <span class="fa fa-fw fa-sign-in"></span>
-                        </md-button>
-                        <md-button ng-click="searchModel.toggleField('proxyRequest'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.proxyRequest }">
+                            <!--<span class="fa fa-fw fa-sign-in"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button ng-click="searchModel.toggleField('proxyRequest'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.proxyRequest }">-->
 
-                            <span class="fa fa-fw fa-sign-out"></span>
-                        </md-button>
-                        <md-button ng-click="searchModel.toggleField('proxyResponse'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.proxyResponse }">
+                            <!--<span class="fa fa-fw fa-sign-out"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button ng-click="searchModel.toggleField('proxyResponse'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.proxyResponse }">-->
 
-                            <span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>
-                        </md-button>
-                        <md-button ng-click="searchModel.toggleField('playbackResponse'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.playbackResponse }">
+                            <!--<span class="fa fa-fw fa-sign-in fa-flip-horizontal"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button ng-click="searchModel.toggleField('playbackResponse'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.playbackResponse }">-->
 
-                            <span class="fa fa-fw fa-play-circle-o"></span>
-                        </md-button>
-                        <md-button ng-click="searchModel.toggleField('clientResponse'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.clientResponse }">
+                            <!--<span class="fa fa-fw fa-play-circle-o"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button ng-click="searchModel.toggleField('clientResponse'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.clientResponse }">-->
 
-                            <span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span>
-                        </md-button>
-                        | search where
-                    </div>
-                    <md-divider></md-divider>
-                    <div>
-                        <md-button ng-click="searchModel.toggleField('endpointKey'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.endpointKey }">
+                            <!--<span class="fa fa-fw fa-sign-out fa-flip-horizontal"></span>-->
+                        <!--</md-button>-->
+                        <!--| search where-->
+                    <!--</div>-->
+                    <!--<md-divider></md-divider>-->
+                    <!--<div>-->
+                        <!--<md-button ng-click="searchModel.toggleField('endpointKey'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.endpointKey }">-->
 
-                            <span class="fa fa-fw fa-server"></span>
-                        </md-button>
-                        <md-button ng-click="searchModel.toggleField('requestKey'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.requestKey }">
+                            <!--<span class="fa fa-fw fa-server"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button ng-click="searchModel.toggleField('requestKey'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.requestKey }">-->
 
-                            <span class="fa fa-fw fa-key"></span>
-                        </md-button>
-                        <md-button ng-click="searchModel.toggleField('headers'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.headers }">
+                            <!--<span class="fa fa-fw fa-key"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button ng-click="searchModel.toggleField('headers'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.headers }">-->
 
-                            <span class="fa fa-fw fa-file-code-o"></span>
-                        </md-button>
-                        <md-button ng-click="searchModel.toggleField('body'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.body }">
+                            <!--<span class="fa fa-fw fa-file-code-o"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button ng-click="searchModel.toggleField('body'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.body }">-->
 
-                            <span class="fa fa-fw fa-user"></span>
-                        </md-button>
-                        <md-button ng-click="searchModel.toggleField('path'); filterData()"
-                            ng-class="{'md-primary': searchModel.model.path }">
+                            <!--<span class="fa fa-fw fa-user"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button ng-click="searchModel.toggleField('path'); filterData()"-->
+                            <!--aria-label="search field"-->
+                            <!--ng-class="{'md-primary': searchModel.model.path }">-->
 
-                            <span class="fa fa-fw fa-link"></span>
-                        </md-button>
-                        | search what
-                    </div>
+                            <!--<span class="fa fa-fw fa-link"></span>-->
+                        <!--</md-button>-->
+                        <!--| search what-->
+                    <!--</div>-->
 
-                </div>
+                <!--</div>-->
+            </div>
+
+        </md-content>
+
+        <md-content class="md-padding nocca-status-settings">
+
+            <dl layout="row" layout-align="start center">
+                <dt>Display</dt>
+                <dd layout="row">
+
+                    <md-button ng-repeat="mode in displayModes"
+                        aria-label="Set display mode"
+                        class="fa fa-fw fa-{{ mode }}"
+                        ng-click="setDisplayMode(mode)"
+                        ng-class="{'md-accent': selectedDisplayMode == mode}">
+
+                    </md-button>
+
+                </dd>
+                <dt>Grouping</dt>
+                <dd layout="row">
+
+                    <md-button ng-repeat="mode in groupingModes"
+                        aria-label="Set grouping mode"
+                        class="fa fa-fw fa-{{ mode }}"
+                        ng-click="setGroupingMode(mode)"
+                        ng-class="{'md-accent': selectedGroupingMode == mode}">
+
+                    </md-button>
+
+                </dd>
+                <dt>Filter</dt>
+                <dd layout="row">
+
+                    <md-button ng-repeat="mode in sequenceFilters"
+                        aria-label="Set sequence filters"
+                        class="fa fa-fw fa-{{ mode }}"
+                        ng-click="setSequenceFilter(mode)"
+                        ng-class="{'md-accent': selectedSequenceFilters.indexOf(mode) > -1}">
+
+                    </md-button>
+
+                </dd>
+            </dl>
+
+            <div angular-stats
+                watch-count=".watch-count"
+                digest-length=".digest-length"
+                on-watch-count-update="onWatchCountUpdate(watchCount)"
+                on-digest-length-update="onDigestLengthUpdate(digestLength)">
+
+                watch count: <span class="watch-count"></span><br>
+                digest cycle length: <span class="digest-length"></span>
             </div>
 
         </md-content>
 
 
-        <div>
-            <md-select placeholder="Sorting" ng-model="sorting" multiple>
-                <md-option value="sequenceId" selected>Sort by Request Time</md-option>
-                <md-option value="endpoint">Sort by Endpoint Key</md-option>
-                <md-option value="requestKey">Sort by Request Key</md-option>
-            </md-select>
+        <md-content class="nocca-response">
 
-            <md-fab-speed-dial md-direction="right" class="md-fling">
-                <md-fab-trigger>
-                    <md-button aria-label="menu" class="md-fab md-warn">
-                        <md-icon md-svg-src="img/icons/menu.svg"></md-icon>
+            <section ng-repeat="group in data">
+
+                <md-subheader ng-show="!!group.name">{{ group.name }}</md-subheader>
+
+                <nocca-widgets-response-bar ng-if="selectedDisplayMode == 'th-list'"></nocca-widgets-response-bar>
+                <nocca-widgets-response-slice ng-if="selectedDisplayMode == 'list'"></nocca-widgets-response-slice>
+                <nocca-widgets-response-block ng-if="selectedDisplayMode == 'th-large'"></nocca-widgets-response-block>
+                <nocca-widgets-response-cube ng-if="selectedDisplayMode == 'th'"></nocca-widgets-response-cube>
+                <nocca-widgets-response-story ng-if="selectedDisplayMode == 'comment'"></nocca-widgets-response-story>
+
+                <div layout="row" ng-show="group.sequences.length > maxResponses">
+                    <md-button
+                        ng-click="maxResponses = maxResponses + 50"
+                        aria-label="Show more">
+                        show 50 more!
                     </md-button>
-                </md-fab-trigger>
-                <md-fab-actions>
-                    <md-button aria-label="twitter" class="md-fab md-raised md-mini">
-                        <md-icon><span class="fa fa-fw fa-play"></span></md-icon>
+                    <span flex></span>
+                    <md-button ng-click="maxResponses = undefined" aria-label="Show all">
+                        show all
                     </md-button>
-                    <md-button aria-label="facebook" class="md-fab md-raised md-mini">
-                        <md-icon md-svg-src="img/icons/facebook.svg"></md-icon>
-                    </md-button>
-                    <md-button aria-label="Google hangout" class="md-fab md-raised md-mini">
-                        <md-icon md-svg-src="img/icons/hangout.svg"></md-icon>
-                    </md-button>
-                </md-fab-actions>
-            </md-fab-speed-dial>
-        </div>
+                </div>
+            </section>
 
-        <md-tabs md-dynamic-height md-selected="selectedTabIndex" flex>
-            <md-tab>
-
-                <md-tab-label>All responses ({{ count.responses }})</md-tab-label>
-                <md-tab-body>
-                    <md-content ng-if="selectedTabIndex == 0">
-
-                        <div ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true | limitTo:maxResponses track by hash">
-
-                            <nocca-widgets-response response="response"></nocca-widgets-response>
-
-                            <md-divider></md-divider>
-                        </div>
-
-                        <div layout="row">
-                            <md-button ng-disabled="count.responses <= maxResponses" ng-click="maxResponses = maxResponses + 50">
-                                show 50 more!
-                            </md-button>
-                            <span flex></span>
-                            <md-button ng-click="maxResponses = undefined">
-                                show all
-                            </md-button>
-                        </div>
+        </md-content>
 
 
-                    </md-content>
-                </md-tab-body>
+        <!--<md-grid-list-->
+            <!--md-cols-lt-md="1"-->
+            <!--md-cols-md="4"-->
+            <!--md-cols-gt-md="6"-->
+            <!--md-row-height="200px">-->
 
-            </md-tab>
-            <md-tab ng-disabled="!count.endpoints">
 
-                <md-tab-label>By Endpoints ({{ count.endpoints }})</md-tab-label>
-                <md-tab-body>
-                    <md-content ng-if="selectedTabIndex == 1">
 
-                        <section ng-repeat="(endpoint, hashKeys) in data.endpoints track by endpoint">
+        <!--</md-grid-list>-->
 
-                            <md-subheader class="md-primary">{{ endpoint }}</md-subheader>
+        <!--<md-tabs md-dynamic-height md-selected="selectedTabIndex" flex>-->
+            <!--<md-tab>-->
 
-                            <div ng-repeat="hashKey in hashKeys | noccaDataUnique track by hashKey"
-                                ng-if="data.responses[hashKey]">
+                <!--<md-tab-label>All responses ({{ count.responses }})</md-tab-label>-->
+                <!--<md-tab-body>-->
+                    <!--<md-content ng-if="selectedTabIndex == 0">-->
 
-                                <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
+                        <!--<div ng-repeat="(hash, response) in data.responses | noccaDataOrderObject:'timestamp':true | limitTo:maxResponses track by hash">-->
 
-                                <md-divider></md-divider>
-                            </div>
+                            <!--<nocca-widgets-response response="response"></nocca-widgets-response>-->
 
-                        </section>
+                            <!--<md-divider></md-divider>-->
+                        <!--</div>-->
 
-                    </md-content>
-                </md-tab-body>
+                        <!--<div layout="row">-->
+                            <!--<md-button ng-disabled="count.responses <= maxResponses" ng-click="maxResponses = maxResponses + 50">-->
+                                <!--show 50 more!-->
+                            <!--</md-button>-->
+                            <!--<span flex></span>-->
+                            <!--<md-button ng-click="maxResponses = undefined">-->
+                                <!--show all-->
+                            <!--</md-button>-->
+                        <!--</div>-->
 
-            </md-tab>
-            <md-tab ng-disabled="!count.recorded">
 
-                <md-tab-label>Recorded ({{ count.recorded }})</md-tab-label>
-                <md-tab-body>
-                    <md-content ng-if="selectedTabIndex == 2">
+                    <!--</md-content>-->
+                <!--</md-tab-body>-->
 
-                        <section>
+            <!--</md-tab>-->
+            <!--<md-tab ng-disabled="!count.endpoints">-->
 
-                            <div ng-repeat="hashKey in data.recorded track by $index" ng-if="data.responses[hashKey]">
+                <!--<md-tab-label>By Endpoints ({{ count.endpoints }})</md-tab-label>-->
+                <!--<md-tab-body>-->
+                    <!--<md-content ng-if="selectedTabIndex == 1">-->
 
-                                <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
+                        <!--<section ng-repeat="(endpoint, hashKeys) in data.endpoints track by endpoint">-->
 
-                                <md-divider></md-divider>
-                            </div>
+                            <!--<md-subheader class="md-primary">{{ endpoint }}</md-subheader>-->
 
-                        </section>
+                            <!--<div ng-repeat="hashKey in hashKeys | noccaDataUnique track by hashKey"-->
+                                <!--ng-if="data.responses[hashKey]">-->
 
-                    </md-content>
-                </md-tab-body>
+                                <!--<nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>-->
 
-            </md-tab>
+                                <!--<md-divider></md-divider>-->
+                            <!--</div>-->
 
-            <md-tab ng-disabled="!count.forwarded">
+                        <!--</section>-->
 
-                <md-tab-label>Forwarded ({{ count.forwarded }})</md-tab-label>
-                <md-tab-body>
-                    <md-content ng-if="selectedTabIndex == 3">
+                    <!--</md-content>-->
+                <!--</md-tab-body>-->
 
-                        <section>
+            <!--</md-tab>-->
+            <!--<md-tab ng-disabled="!count.recorded">-->
 
-                            <div ng-repeat="hashKey in data.forwarded track by $index" ng-if="data.responses[hashKey]">
+                <!--<md-tab-label>Recorded ({{ count.recorded }})</md-tab-label>-->
+                <!--<md-tab-body>-->
+                    <!--<md-content ng-if="selectedTabIndex == 2">-->
 
-                                <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
+                        <!--<section>-->
 
-                                <md-divider></md-divider>
-                            </div>
+                            <!--<div ng-repeat="hashKey in data.recorded track by $index" ng-if="data.responses[hashKey]">-->
 
-                        </section>
+                                <!--<nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>-->
 
-                    </md-content>
-                </md-tab-body>
-            </md-tab>
+                                <!--<md-divider></md-divider>-->
+                            <!--</div>-->
 
-            <md-tab ng-disabled="!count.replayed">
+                        <!--</section>-->
 
-                <md-tab-label>Replayed ({{ count.replayed }})</md-tab-label>
-                <md-tab-body>
-                    <md-content ng-if="selectedTabIndex == 4">
+                    <!--</md-content>-->
+                <!--</md-tab-body>-->
 
-                        <section>
+            <!--</md-tab>-->
 
-                            <div ng-repeat="hashKey in data.replayed track by $index" ng-if="data.responses[hashKey]">
+            <!--<md-tab ng-disabled="!count.forwarded">-->
 
-                                <nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>
+                <!--<md-tab-label>Forwarded ({{ count.forwarded }})</md-tab-label>-->
+                <!--<md-tab-body>-->
+                    <!--<md-content ng-if="selectedTabIndex == 3">-->
 
-                                <md-divider></md-divider>
-                            </div>
+                        <!--<section>-->
 
-                        </section>
+                            <!--<div ng-repeat="hashKey in data.forwarded track by $index" ng-if="data.responses[hashKey]">-->
 
-                    </md-content>
-                </md-tab-body>
+                                <!--<nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>-->
 
-            </md-tab>
+                                <!--<md-divider></md-divider>-->
+                            <!--</div>-->
 
-            <md-tab>
+                        <!--</section>-->
 
-                <md-tab-label>Story ({{ count.storyLog }})</md-tab-label>
-                <md-tab-body>
-                    <md-content ng-if="selectedTabIndex == 5">
-                        <md-list>
-                            <md-list-item ng-repeat="line in data.storyLog | noccaDataOrderObject:'timestamp':true track by line.id"
-                                class="nocca-story-line"
-                                ng-if="data.responses[line.requestKeyHash]">
+                    <!--</md-content>-->
+                <!--</md-tab-body>-->
+            <!--</md-tab>-->
 
-                                <md-item-content>
+            <!--<md-tab ng-disabled="!count.replayed">-->
 
-                                    <div class="md-tile-left">
-                                        <span class="nocca-timestamp fa fa-clock-o">
-                                            {{ line.timestamp | date:'HH:mm:ss.sss' }}
-                                        </span>
-                                    </div>
-                                    <div class="md-tile-content">
-                                        <span ng-class="{'fa-circle': line.rec}" class="fa fa-fw"></span>
-                                        <span ng-class="{'fa-sign-out': line.fwd}" class="fa fa-fw"></span>
-                                        <span ng-class="{'fa-play': line.rpl}" class="fa fa-fw"></span>
-                                        <span ng-class="{'fa-question': line.miss}" class="fa fa-fw"></span>
+                <!--<md-tab-label>Replayed ({{ count.replayed }})</md-tab-label>-->
+                <!--<md-tab-body>-->
+                    <!--<md-content ng-if="selectedTabIndex == 4">-->
 
-                                        <span>{{ line.line }}</span>
-                                    </div>
-                                </md-item-content>
-                            </md-list-item>
+                        <!--<section>-->
 
-                        </md-list>
-                    </md-content>
-                </md-tab-body>
-            </md-tab>
+                            <!--<div ng-repeat="hashKey in data.replayed track by $index" ng-if="data.responses[hashKey]">-->
 
-        </md-tabs>
+                                <!--<nocca-widgets-response response="data.responses[hashKey]"></nocca-widgets-response>-->
+
+                                <!--<md-divider></md-divider>-->
+                            <!--</div>-->
+
+                        <!--</section>-->
+
+                    <!--</md-content>-->
+                <!--</md-tab-body>-->
+
+            <!--</md-tab>-->
+
+            <!--<md-tab>-->
+
+                <!--<md-tab-label>Story ({{ count.storyLog }})</md-tab-label>-->
+                <!--<md-tab-body>-->
+                    <!--<md-content ng-if="selectedTabIndex == 5">-->
+                        <!--<md-list>-->
+                            <!--<md-list-item ng-repeat="line in data.storyLog | noccaDataOrderObject:'timestamp':true track by line.id"-->
+                                <!--class="nocca-story-line"-->
+                                <!--ng-if="data.responses[line.requestKeyHash]">-->
+
+                                <!--<md-item-content>-->
+
+                                    <!--<div class="md-tile-left">-->
+                                        <!--<span class="nocca-timestamp fa fa-clock-o">-->
+                                            <!--{{ line.timestamp | date:'HH:mm:ss.sss' }}-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="md-tile-content">-->
+                                        <!--<span ng-class="{'fa-circle': line.rec}" class="fa fa-fw"></span>-->
+                                        <!--<span ng-class="{'fa-sign-out': line.fwd}" class="fa fa-fw"></span>-->
+                                        <!--<span ng-class="{'fa-play': line.rpl}" class="fa fa-fw"></span>-->
+                                        <!--<span ng-class="{'fa-question': line.miss}" class="fa fa-fw"></span>-->
+
+                                        <!--<span>{{ line.line }}</span>-->
+                                    <!--</div>-->
+                                <!--</md-item-content>-->
+                            <!--</md-list-item>-->
+
+                        <!--</md-list>-->
+                    <!--</md-content>-->
+                <!--</md-tab-body>-->
+            <!--</md-tab>-->
+
+        <!--</md-tabs>-->
 
         <md-content layout="row" class="md-padding">
 
             <span flex></span>
-            <md-button ng-click="showRaw = !showRaw">
+            <md-button ng-click="showRaw = !showRaw" aria-label="show raw socket data">
                 <span class="fa" ng-class="{'fa-eye': showRaw, 'fa-eye-slash': !showRaw}"></span>
                 raw data
             </md-button>
         </md-content>
 
-        <pre ng-if="showRaw">{{ data | json:4 }}</pre>
+        <pre ng-if="showRaw">{{ srcData | json:4 }}</pre>
 
     </md-content>
 </div>
