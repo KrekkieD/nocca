@@ -1,3 +1,7 @@
+.nocca-request-preview-wrap {
+    white-space: pre-wrap;
+}
+
 .nocca-request-dialog {
     min-width: 75%;
     min-height: 75%;
@@ -55,10 +59,6 @@ body, html, .nocca-full-height {
 .nocca-story-line .md-tile-content {
     padding-bottom: 5px;
     padding-top: 5px;
-}
-
-.nocca-request-preview-wrap {
-    white-space: pre-wrap;
 }
 
 .nocca-response .nocca-response-tile-left {

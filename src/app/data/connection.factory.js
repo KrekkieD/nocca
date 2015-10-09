@@ -31,14 +31,8 @@ function noccaDataConnection (
 
         var websocketServerUrl = 'ws://';
 
-        if (noccaCoreConfig.servers.wrapperServer.enabled) {
-            websocketServerUrl += noccaCoreConfig.servers.wrapperServer.wrapper.host || document.location.host;
-            websocketServerUrl += noccaCoreConfig.servers.websocketServer.wrapper.path;
-        }
-        else {
-            websocketServerUrl += noccaCoreConfig.servers.websocketServer.listen.hostname || document.location.hostname;
-            websocketServerUrl += ':' + noccaCoreConfig.servers.websocketServer.listen.port;
-        }
+        websocketServerUrl += document.location.host;
+        websocketServerUrl += '';
 
         var ws = $websocket.$new(websocketServerUrl);
 

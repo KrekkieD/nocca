@@ -36,3 +36,4 @@ test/coverage
 .tmp
 bower_components
 target
+reports

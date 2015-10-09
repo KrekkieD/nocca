@@ -7,7 +7,6 @@ var $templateCache = require('./build/template-cache');
 var $browserify = require('./build/browserify');
 var $sass = require('./build/sass');
 
-var $upTheTree = require('up-the-tree');
 var $q = require('q');
 var $globby = require('globby');
 var $rimraf = require('rimraf');

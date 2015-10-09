@@ -4,6 +4,7 @@ var _ = require('lodash');
 
 var $extend = require('extend');
 var $pubsub = require('node-pubsub');
+var $bunyan = require('bunyan');
 
 module.exports = Nocca;
 
@@ -13,16 +14,13 @@ module.exports.$constants = require('./lib/constants');
 module.exports.$defaultSettings = require('./lib/defaultSettings');
 module.exports.$errors = require('./lib/errors');
 module.exports.$forwarder = require('./lib/forwarder');
-module.exports.$gui = require('./lib/gui');
 module.exports.$logger = require('./lib/logger');
 module.exports.$patchScenarios = require('./lib/patchScenarios');
 module.exports.$recorder = require('./lib/recorder');
 module.exports.$requestExtractor = require('./lib/requestExtractor');
 module.exports.$responder = require('./lib/responder');
-module.exports.$proxy = require('./lib/proxy');
 module.exports.$stats = require('./lib/stats');
 module.exports.$utils = require('./lib/utils');
-module.exports.$websocketServer = require('./lib/websocketServer');
 module.exports.throwError = throwNoccaError;
 
 
@@ -36,6 +34,8 @@ function Nocca (config) {
     var $pluginLoader = require('./lib/pluginLoader');
     var $utils = require('./lib/utils');
     var $playback = require('./lib/playback');
+    var $wrapperServer = require('./lib/wrapperServer');
+
 
     // map this to self so there are no this-scope issues
     var self = this;
@@ -93,14 +93,7 @@ function Nocca (config) {
 	// initialize the endpoint selector
 	self.endpointSelector = self.usePlugin(self.config.endpointSelector);
 
-    // instantiate servers by looping over them. Nice.
-    Object.keys(self.config.servers).forEach(function (server) {
-
-        if (self.config.servers[server].enabled === true) {
-            self[server] = new self.config.servers[server].instance(self);
-        }
-
-    });
+    self.wrapperServer = new $wrapperServer(self);
 
     // Call init on all created plugins (if they support it)
 	self.pubsub.publish(self.constants.PUBSUB_NOCCA_INITIALIZE_PLUGIN);

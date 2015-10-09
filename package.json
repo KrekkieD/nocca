@@ -58,6 +58,7 @@
     "chalk": "^1.0.0",
     "change-case": "^2.2.0",
     "connect": "^3.3.4",
+    "express": "^4.13.3",
     "extend": "^2.0.0",
     "lodash": "^3.3.0",
     "mkdirp": "^0.5.0",
@@ -68,6 +69,7 @@
     "url-pattern": "^0.6.0",
     "websocket": "^1.0.18",
     "wiredep": "^2.0.1",
+    "ws": "^0.8.0",
     "xmldom": "^0.1.19",
     "xpath.js": "^1.0.5"
   },

@@ -27,14 +27,8 @@ function noccaApi ($http, noccaCoreConfig) {
 
         var httpApiUrl = 'http://';
 
-        if (noccaCoreConfig.servers.wrapperServer.enabled) {
-            httpApiUrl += noccaCoreConfig.servers.wrapperServer.wrapper.host || document.location.host;
-            httpApiUrl += noccaCoreConfig.servers.httpApi.wrapper.path;
-        }
-        else {
-            httpApiUrl += noccaCoreConfig.servers.httpApi.listen.hostname || document.location.hostname;
-            httpApiUrl += ':' + noccaCoreConfig.servers.httpApi.listen.port;
-        }
+        httpApiUrl += document.location.host;
+        httpApiUrl += '/http-api';
 
         return httpApiUrl;
 
@@ -262,14 +256,8 @@ function noccaDataConnection (
 
         var websocketServerUrl = 'ws://';
 
-        if (noccaCoreConfig.servers.wrapperServer.enabled) {
-            websocketServerUrl += noccaCoreConfig.servers.wrapperServer.wrapper.host || document.location.host;
-            websocketServerUrl += noccaCoreConfig.servers.websocketServer.wrapper.path;
-        }
-        else {
-            websocketServerUrl += noccaCoreConfig.servers.websocketServer.listen.hostname || document.location.hostname;
-            websocketServerUrl += ':' + noccaCoreConfig.servers.websocketServer.listen.port;
-        }
+        websocketServerUrl += document.location.host;
+        websocketServerUrl += '';
 
         var ws = $websocket.$new(websocketServerUrl);
 

@@ -226,7 +226,7 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
     it ('should stop the server', function () {
 
         server.close();
-        nocca.wrapperServer.server.close();
+        nocca.wrapperServer.router.close();
 
     });
 
