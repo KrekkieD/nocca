@@ -1,0 +1,438 @@
+{
+    "totalCount": 18,
+    "totalErrorCount": 30,
+    "successCount": 2,
+    "failureCount": 16,
+    "errorCount": 0,
+    "files": {
+        "src/app/navigation/side-nav.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/caches.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 1,
+            "errors": [
+                {
+                    "line": 56,
+                    "column": 6,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/pages/caches.directive.html",
+                    "message": "line ending does not match format: crlf"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/pages/canvas.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 1,
+            "errors": [
+                {
+                    "line": 24,
+                    "column": 6,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/pages/canvas.directive.html",
+                    "message": "line ending does not match format: crlf"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/pages/configuration.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 1,
+            "errors": [
+                {
+                    "line": 11,
+                    "column": 6,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/pages/configuration.directive.html",
+                    "message": "line ending does not match format: crlf"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/pages/export.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 1,
+            "errors": [
+                {
+                    "line": 20,
+                    "column": 13,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/pages/export.directive.html",
+                    "message": "line ending does not match format: crlf"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/pages/http-api.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 2,
+            "errors": [
+                {
+                    "line": 44,
+                    "column": 6,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/pages/http-api.directive.html",
+                    "message": "line ending does not match format: crlf"
+                },
+                {
+                    "line": 16,
+                    "column": 21,
+                    "code": "E020",
+                    "data": {},
+                    "rule": "label-req-for",
+                    "filename": "./src/app/pages/http-api.directive.html",
+                    "message": "label does not have a `for` attribute or a labeable child"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/pages/scenarios.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 3,
+            "errors": [
+                {
+                    "line": 72,
+                    "column": 6,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/pages/scenarios.directive.html",
+                    "message": "line ending does not match format: crlf"
+                },
+                {
+                    "line": 22,
+                    "column": 17,
+                    "code": "E020",
+                    "data": {},
+                    "rule": "label-req-for",
+                    "filename": "./src/app/pages/scenarios.directive.html",
+                    "message": "label does not have a `for` attribute or a labeable child"
+                },
+                {
+                    "line": 33,
+                    "column": 17,
+                    "code": "E020",
+                    "data": {},
+                    "rule": "label-req-for",
+                    "filename": "./src/app/pages/scenarios.directive.html",
+                    "message": "label does not have a `for` attribute or a labeable child"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/pages/status.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 2,
+            "errors": [
+                {
+                    "line": 249,
+                    "column": 6,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/pages/status.directive.html",
+                    "message": "line ending does not match format: crlf"
+                },
+                {
+                    "line": 8,
+                    "column": 21,
+                    "code": "E020",
+                    "data": {},
+                    "rule": "label-req-for",
+                    "filename": "./src/app/pages/status.directive.html",
+                    "message": "label does not have a `for` attribute or a labeable child"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/utils/download-dialog.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 2,
+            "errors": [
+                {
+                    "line": 12,
+                    "column": 6,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/utils/download-dialog.directive.html",
+                    "message": "line ending does not match format: crlf"
+                },
+                {
+                    "line": 4,
+                    "column": 13,
+                    "code": "E020",
+                    "data": {},
+                    "rule": "label-req-for",
+                    "filename": "./src/app/utils/download-dialog.directive.html",
+                    "message": "label does not have a `for` attribute or a labeable child"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/widgets/cache-repository.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 1,
+            "errors": [
+                {
+                    "line": 24,
+                    "column": 18,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/widgets/cache-repository.directive.html",
+                    "message": "line ending does not match format: crlf"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/widgets/request-dialog.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/request-preview.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 6,
+            "errors": [
+                {
+                    "line": 85,
+                    "column": 13,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/widgets/request-preview.directive.html",
+                    "message": "line ending does not match format: crlf"
+                },
+                {
+                    "line": 11,
+                    "column": 49,
+                    "code": "E004",
+                    "data": {},
+                    "rule": "attr-no-unsafe-char",
+                    "filename": "./src/app/widgets/request-preview.directive.html",
+                    "message": "attribute values must not include unsafe characters"
+                },
+                {
+                    "line": 20,
+                    "column": 49,
+                    "code": "E004",
+                    "data": {},
+                    "rule": "attr-no-unsafe-char",
+                    "filename": "./src/app/widgets/request-preview.directive.html",
+                    "message": "attribute values must not include unsafe characters"
+                },
+                {
+                    "line": 44,
+                    "column": 49,
+                    "code": "E004",
+                    "data": {},
+                    "rule": "attr-no-unsafe-char",
+                    "filename": "./src/app/widgets/request-preview.directive.html",
+                    "message": "attribute values must not include unsafe characters"
+                },
+                {
+                    "line": 53,
+                    "column": 49,
+                    "code": "E004",
+                    "data": {},
+                    "rule": "attr-no-unsafe-char",
+                    "filename": "./src/app/widgets/request-preview.directive.html",
+                    "message": "attribute values must not include unsafe characters"
+                },
+                {
+                    "line": 63,
+                    "column": 49,
+                    "code": "E004",
+                    "data": {},
+                    "rule": "attr-no-unsafe-char",
+                    "filename": "./src/app/widgets/request-preview.directive.html",
+                    "message": "attribute values must not include unsafe characters"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/widgets/response.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 1,
+            "errors": [
+                {
+                    "line": 55,
+                    "column": 15,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/widgets/response.directive.html",
+                    "message": "line ending does not match format: crlf"
+                }
+            ],
+            "passed": false
+        },
+        "src/app/widgets/scenario.directive.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 1,
+            "errors": [
+                {
+                    "line": 46,
+                    "column": 18,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./src/app/widgets/scenario.directive.html",
+                    "message": "line ending does not match format: crlf"
+                }
+            ],
+            "passed": false
+        },
+        "src/index.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 2,
+            "errors": [
+                {
+                    "line": 2,
+                    "column": 1,
+                    "code": "E025",
+                    "data": {},
+                    "rule": "html-req-lang",
+                    "filename": "./src/index.html",
+                    "message": "html element should specify the language of the page"
+                },
+                {
+                    "line": 19,
+                    "column": 17,
+                    "code": "E011",
+                    "data": {
+                        "format": "dash",
+                        "id": "noccaCore"
+                    },
+                    "rule": "id-style",
+                    "filename": "./src/index.html",
+                    "message": "value must match the format: dash"
+                }
+            ],
+            "passed": false
+        },
+        "target/index.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 2,
+            "errors": [
+                {
+                    "line": 2,
+                    "column": 1,
+                    "code": "E025",
+                    "data": {},
+                    "rule": "html-req-lang",
+                    "filename": "./target/index.html",
+                    "message": "html element should specify the language of the page"
+                },
+                {
+                    "line": 19,
+                    "column": 17,
+                    "code": "E011",
+                    "data": {
+                        "format": "dash",
+                        "id": "noccaCore"
+                    },
+                    "rule": "id-style",
+                    "filename": "./target/index.html",
+                    "message": "value must match the format: dash"
+                }
+            ],
+            "passed": false
+        },
+        "ui-old/index.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 2,
+            "errors": [
+                {
+                    "line": 36,
+                    "column": 7,
+                    "code": "E015",
+                    "data": {
+                        "format": "crlf"
+                    },
+                    "rule": "line-end-style",
+                    "filename": "./ui-old/index.html",
+                    "message": "line ending does not match format: crlf"
+                },
+                {
+                    "line": 2,
+                    "column": 1,
+                    "code": "E025",
+                    "data": {},
+                    "rule": "html-req-lang",
+                    "filename": "./ui-old/index.html",
+                    "message": "html element should specify the language of the page"
+                }
+            ],
+            "passed": false
+        },
+        "ui/index.html": {
+            "htmllintConfig": "embedded",
+            "errorCount": 2,
+            "errors": [
+                {
+                    "line": 2,
+                    "column": 1,
+                    "code": "E025",
+                    "data": {},
+                    "rule": "html-req-lang",
+                    "filename": "./ui/index.html",
+                    "message": "html element should specify the language of the page"
+                },
+                {
+                    "line": 21,
+                    "column": 17,
+                    "code": "E011",
+                    "data": {
+                        "format": "dash",
+                        "id": "noccaCore"
+                    },
+                    "rule": "id-style",
+                    "filename": "./ui/index.html",
+                    "message": "value must match the format: dash"
+                }
+            ],
+            "passed": false
+        }
+    }
+}

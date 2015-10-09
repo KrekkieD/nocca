@@ -1,40 +1,37 @@
-(function() {
-    'use strict';
+'use strict';
 
-    angular.module('nocca.core')
-        .factory('noccaCoreConfig', noccaCoreConfig);
+require('./module')
+    .factory('noccaCoreConfig', noccaCoreConfig);
 
-    function noccaCoreConfig ($http) {
-        // values here
+function noccaCoreConfig ($http) {
+    // values here
 
-		var promise;
+    var promise;
 
-        var factory = {
-            getConfig: getConfig
-        };
+    var factory = {
+        getConfig: getConfig
+    };
 
-        // factory functions here
-        return factory;
+    // factory functions here
+    return factory;
 
-		function getConfig () {
+    function getConfig () {
 
-			if (!promise) {
+        if (!promise) {
 
-				promise = $http({
-					method: 'get',
-					url: 'noccaConfig.json'
-				}).then(function (response) {
+            promise = $http({
+                method: 'get',
+                url: 'noccaConfig.json'
+            }).then(function (response) {
 
-					angular.extend(factory, response.data);
-					return response.data;
-				});
+                angular.extend(factory, response.data);
+                return response.data;
+            });
 
-			}
+        }
 
-			return promise;
-
-		}
+        return promise;
 
     }
 
-}());
+}

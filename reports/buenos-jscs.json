@@ -1,0 +1,1069 @@
+{
+    "jscsConfig": "embedded",
+    "totalCount": 132,
+    "totalErrorCount": 50,
+    "successCount": 131,
+    "failureCount": 1,
+    "files": {
+        "examples/endpoints.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "examples/recording.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "examples/reporter.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "examples/wrapperServer.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "gulpfile.js": {
+            "errorCount": 50,
+            "errors": [
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "disallowMultipleVarDecl",
+                    "message": "Multiple var declaration",
+                    "line": 10,
+                    "column": 0
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 61,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 62,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 63,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 64,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 65,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 66,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 67,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 68,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 69,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 77,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 78,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 79,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 80,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 81,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 82,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 83,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 84,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 85,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 86,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 87,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 88,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 89,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 90,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 91,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 92,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 93,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 97,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 98,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 12 characters",
+                    "line": 99,
+                    "column": 12,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 12 characters",
+                    "line": 100,
+                    "column": 12,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 101,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 102,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 111,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 112,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 113,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 114,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 115,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 116,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 117,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 118,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 119,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 120,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 121,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 122,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 123,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 124,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 8 characters",
+                    "line": 125,
+                    "column": 8,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 126,
+                    "column": 4,
+                    "fixed": true
+                },
+                {
+                    "filename": "d:\\dev\\checkout\\nocca\\gulpfile.js",
+                    "rule": "validateIndentation",
+                    "message": "Expected indentation of 4 characters",
+                    "line": 127,
+                    "column": 4,
+                    "fixed": true
+                }
+            ],
+            "passed": false
+        },
+        "index.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "karma.conf.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/cacheEntryRepository.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/chainBuilderFactory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/constants.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/defaultSettings.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/errors.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/forwarder.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/gui.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/httpApi.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/httpMessageFactory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/logger.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/patchScenarios.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/playback.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/pluginLoader.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/cacheConglomerate.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/cacheExtractor.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/cacheQueue.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/cherryPickingKeygen.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/distributedDelay.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/endpointSelector.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/keyGeneratorFactory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/reKeyCaches.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/scenarioRepository.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/scenarioRepository/scenario.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/scenarioRepository/scenarioRecorder.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/plugins/simpleMessageTransformer.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/proxy.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/recorder.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/requestContextFactory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/requestExtractor.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/responder.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/stats.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/testConfig.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/utils.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/websocketServer.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "lib/wrapperServer.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "package.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "protractor.conf.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "scripts/build.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "scripts/contributors.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "scripts/lint.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "scripts/watch.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/api/api.factory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/api/api.module.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/api/tests/api.factory.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/core/config.factory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/core/core.config.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/core/core.module.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/core/tests/config.factory.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/core/tests/core.config.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/connection.factory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/data.module.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/object-length.filter.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/orderObject.filter.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/search-model.factory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/search.filter.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/tests/connection.factory.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/tests/options.value.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/tests/search-model.factory.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/data/unique.filter.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/navigation/navigation.config.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/navigation/navigation.module.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/navigation/side-nav.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/navigation/states.constant.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/navigation/tests/navigation.config.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/navigation/tests/side-nav.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/navigation/tests/states.constant.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/caches.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/canvas.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/configuration.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/export.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/http-api.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/pages.config.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/pages.module.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/scenarios.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/status.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/tests/caches.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/tests/canvas.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/tests/configuration.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/tests/export.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/tests/http-api.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/tests/pages.config.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/tests/scenarios.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/pages/tests/status.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/utils/download-dialog.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/utils/download.factory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/utils/save-as.factory.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/utils/tests/download-dialog.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/utils/tests/download.factory.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/utils/tests/save-as.factory.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/utils/utils.module.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/cache-repository.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/request-dialog.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/request-preview.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/response.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/scenario.directive.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/tests/cache-repository.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/tests/request-dialog.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/tests/request-preview.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/tests/response.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/tests/scenario.directive.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/app/widgets/widgets.module.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "src/bootstrap.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "target/app.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "target/templates.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/jasmine/plugins/simpleMessageTransformer.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/jasmine/plugins/simpleMessageTransformer/math.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/jasmine/plugins/simpleMessageTransformer/moment.spec.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/noccas/default.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/duplicatePlugins.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/helpers/generateRequests.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/helpers/serveBogi.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/hitProxy.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/patchScenarios.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/plugins.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/scenarioTest.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/scenario_login.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/scenarios/scenario_google.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/servers.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/simpleProxy.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/node/test_v2.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "test/servers/default.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "ui-old/bootstrap.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "ui-old/minified.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "ui/app.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        },
+        "ui/templates.js": {
+            "errorCount": 0,
+            "errors": [],
+            "passed": true
+        }
+    }
+}

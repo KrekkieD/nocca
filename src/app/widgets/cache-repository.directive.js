@@ -1,44 +1,34 @@
-(function() {
-    'use strict';
+'use strict';
 
-    /* app/widgets/cache-repository.directive.js */
+require('./module')
+    .directive('noccaWidgetsCacheRepository', CacheRepositoryDirective);
 
-    /**
-     * @desc
-     * @example <div nocca-widgets-cache-repository></div>
-     */
-    angular
-        .module('nocca.widgets')
-        .directive(
-            'noccaWidgetsCacheRepository', CacheRepositoryDirective);
+function CacheRepositoryDirective() {
+    var directive = {
+        restrict: 'EA',
+        require: '^noccaPagesCaches',
+        templateUrl: 'cache-repository.directive.html',
+        scope: {
+            endpointKey: '=',
+            caches: '='
+        },
+        link: link,
+        controller: CacheRepositoryDirectiveController,
+        controllerAs: 'vm'
+    };
 
-    function CacheRepositoryDirective() {
-        var directive = {
-            restrict: 'EA',
-            require: '^noccaPagesCaches',
-            templateUrl: 'cache-repository.directive.html',
-            scope: {
-                endpointKey: '=',
-                caches: '='
-            },
-            link: link,
-            controller: CacheRepositoryDirectiveController,
-            controllerAs: 'vm'
-        };
+    return directive;
 
-        return directive;
+    function link (scope, elem, attrs, noccaPagesCaches) {
 
-        function link (scope, elem, attrs, noccaPagesCaches) {
+        scope.refresh = noccaPagesCaches.refresh;
+        scope.clearCacheRepositories = noccaPagesCaches.clearCacheRepositories;
+        scope.clearCacheRepository = noccaPagesCaches.clearCacheRepository;
 
-            scope.refresh = noccaPagesCaches.refresh;
-            scope.clearCacheRepositories = noccaPagesCaches.clearCacheRepositories;
-            scope.clearCacheRepository = noccaPagesCaches.clearCacheRepository;
-
-        }
-
-        /* @ngInject */
-        function CacheRepositoryDirectiveController () {
-
-        }
     }
-}());
+
+    /* @ngInject */
+    function CacheRepositoryDirectiveController () {
+
+    }
+}

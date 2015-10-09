@@ -1,30 +1,27 @@
-(function() {
-    'use strict';
+'use strict';
 
-    angular.module('nocca.data')
-        .filter('noccaDataOrderObject', noccaDataOrderObject);
+require('./module')
+    .filter('noccaDataOrderObject', noccaDataOrderObject);
 
-    function noccaDataOrderObject () {
+function noccaDataOrderObject () {
 
-        return function (items, field, reverse) {
+    return function (items, field, reverse) {
 
-            var filtered = [];
-            angular.forEach(items, function (item) {
-                filtered.push(item);
-            });
+        var filtered = [];
+        angular.forEach(items, function (item) {
+            filtered.push(item);
+        });
 
-            filtered.sort(function (a, b) {
-                return (a[field] > b[field] ? 1 : -1);
-            });
+        filtered.sort(function (a, b) {
+            return (a[field] > b[field] ? 1 : -1);
+        });
 
-            if (reverse) {
-                filtered.reverse();
-            }
+        if (reverse) {
+            filtered.reverse();
+        }
 
-            return filtered;
+        return filtered;
 
-        };
+    };
 
-    }
-
-}());
+}

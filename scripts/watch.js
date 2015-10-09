@@ -14,21 +14,21 @@ var fullBuild = $debounce(function () {
 }, 500);
 
 var createAppPackage = $debounce(function () {
-    $build.createAppPackage()
+    $build.browserify()
         .then(function () {
             console.log('New app package created');
         });
 }, 250);
 
 var createTemplateCache = $debounce(function () {
-    $build.createTemplateCache()
+    $build.templateCache()
         .then(function () {
             console.log('New template cache created');
         });
 }, 250);
 
 var createCssFile = $debounce(function () {
-    $build.createCssFile()
+    $build.sass()
         .then(function () {
             console.log('New CSS package created');
         });

@@ -1,87 +1,77 @@
-(function() {
-    'use strict';
+'use strict';
 
-    /* app/pages/status.directive.js */
+require('./module')
+    .directive('noccaPagesStatus', StatusDirective);
 
-    /**
-     * @desc
-     * @example <div nocca-pages-status></div>
-     */
-    angular
-        .module('nocca.pages')
-        .directive(
-            'noccaPagesStatus', StatusDirective);
+function StatusDirective () {
+    var directive = {
+        restrict: 'EA',
+        templateUrl: 'status.directive.html',
+        controller: StatusDirectiveController,
+        controllerAs: 'vm'
+    };
 
-    function StatusDirective() {
-        var directive = {
-            restrict: 'EA',
-            templateUrl: 'status.directive.html',
-            controller: StatusDirectiveController,
-            controllerAs: 'vm'
+    return directive;
+
+    /* @ngInject */
+    function StatusDirectiveController (
+        noccaDataConnection,
+        $scope,
+        noccaUtilsDownload,
+        noccaDataSearchFilter,
+        noccaDataSearchModel,
+        $filter
+    ) {
+
+        var rawData;
+        $scope.data = {};
+
+        $scope.count = {
+            responses: 0,
+            endpoints: 0,
+            recorded: 0,
+            forwarded: 0,
+            replayed: 0,
+            storyLog: 0
         };
 
-        return directive;
+        $scope.searchModel = noccaDataSearchModel;
 
-        /* @ngInject */
-        function StatusDirectiveController (
-            noccaDataConnection,
-            $scope,
-            noccaUtilsDownload,
-            noccaDataSearchFilter,
-            noccaDataSearchModel,
-            $filter
-        ) {
+        $scope.filter = {
+            size: 0,
+            on: false,
+            query: undefined
+        };
 
-            var rawData;
-            $scope.data = {};
+        $scope.maxResponses = 50;
 
-            $scope.count = {
-                responses: 0,
-                endpoints: 0,
-                recorded: 0,
-                forwarded: 0,
-                replayed: 0,
-                storyLog: 0
-            };
+        $scope.filterData = filterData;
+        $scope.downloadAll = noccaUtilsDownload.createPackageAndSave;
 
-            $scope.searchModel = noccaDataSearchModel;
+        $scope.$watch(function () {
+            return noccaDataConnection.lastUpdate;
+        }, function () {
 
-            $scope.filter = {
-                size: 0,
-                on: false,
-                query: undefined
-            };
+            rawData = noccaDataConnection.data;
 
-            $scope.maxResponses = 50;
+            filterData();
 
-            $scope.filterData = filterData;
-			$scope.downloadAll = noccaUtilsDownload.createPackageAndSave;
+        });
 
-            $scope.$watch(function () {
-                return noccaDataConnection.lastUpdate;
-            }, function () {
+        function filterData () {
 
-                rawData = noccaDataConnection.data;
+            // perform filtering
+            $scope.data = noccaDataSearchFilter(angular.extend({}, rawData));
 
-                filterData();
-
-            });
-
-            function filterData () {
-
-                // perform filtering
-                $scope.data = noccaDataSearchFilter(angular.extend({}, rawData));
-
-                // update counts
-                $scope.count.responses = $filter('noccaDataObjectLength')($scope.data.responses);
-                $scope.count.endpoints = $filter('noccaDataObjectLength')($scope.data.endpoints);
-                $scope.count.recorded = $filter('noccaDataObjectLength')($scope.data.recorded);
-                $scope.count.forwarded = $filter('noccaDataObjectLength')($scope.data.forwarded);
-                $scope.count.replayed = $filter('noccaDataObjectLength')($scope.data.replayed);
-                $scope.count.storyLog = $filter('noccaDataObjectLength')($scope.data.storyLog);
-
-            }
+            // update counts
+            $scope.count.responses = $filter('noccaDataObjectLength')($scope.data.responses);
+            $scope.count.endpoints = $filter('noccaDataObjectLength')($scope.data.endpoints);
+            $scope.count.recorded = $filter('noccaDataObjectLength')($scope.data.recorded);
+            $scope.count.forwarded = $filter('noccaDataObjectLength')($scope.data.forwarded);
+            $scope.count.replayed = $filter('noccaDataObjectLength')($scope.data.replayed);
+            $scope.count.storyLog = $filter('noccaDataObjectLength')($scope.data.storyLog);
 
         }
+
     }
-}());
+}

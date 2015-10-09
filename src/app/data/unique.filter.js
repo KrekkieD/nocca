@@ -1,35 +1,32 @@
-(function() {
-    'use strict';
+'use strict';
 
-    angular.module('nocca.data')
-        .filter('noccaDataUnique', noccaDataUnique);
+require('./module')
+    .filter('noccaDataUnique', noccaDataUnique);
 
-    function noccaDataUnique () {
+function noccaDataUnique () {
 
-        return function (arr, field) {
+    return function (arr, field) {
 
-            var trackingObject = {};
-            var returnArray = [];
+        var trackingObject = {};
+        var returnArray = [];
 
-            for (var i = 0, iMax = arr.length; i < iMax; i += 1) {
+        for (var i = 0, iMax = arr.length; i < iMax; i += 1) {
 
-                var matchValue = arr[i];
+            var matchValue = arr[i];
 
-                if (typeof arr[i] === 'object') {
-                    matchValue = arr[i][field];
-                }
-
-                if (typeof trackingObject[matchValue] === 'undefined') {
-                    returnArray.push(arr[i]);
-                }
-
-                trackingObject[matchValue] = arr[i];
-
+            if (typeof arr[i] === 'object') {
+                matchValue = arr[i][field];
             }
 
-            return returnArray;
-        };
+            if (typeof trackingObject[matchValue] === 'undefined') {
+                returnArray.push(arr[i]);
+            }
 
-    }
+            trackingObject[matchValue] = arr[i];
 
-}());
+        }
+
+        return returnArray;
+    };
+
+}

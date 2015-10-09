@@ -1,34 +1,25 @@
-(function() {
-    'use strict';
+'use strict';
 
-    /* app/pages/export.directive.js */
+require('./module')
+    .directive('noccaPagesExport', ExportDirective);
 
-    /**
-     * @desc
-     * @example <div nocca-pages-export></div>
-     */
-    angular
-        .module('nocca.pages')
-        .directive(
-            'noccaPagesExport', ExportDirective);
+function ExportDirective() {
 
-    function ExportDirective() {
-        var directive = {
-            restrict: 'EA',
-            templateUrl: 'export.directive.html',
-            controller: ExportDirectiveController
-        };
+    var directive = {
+        restrict: 'EA',
+        templateUrl: 'export.directive.html',
+        controller: ExportDirectiveController
+    };
 
-        return directive;
+    return directive;
 
-        /* @ngInject */
-        function ExportDirectiveController (
-            noccaDataConnection,
-            $scope
-        ) {
+    /* @ngInject */
+    function ExportDirectiveController (
+        noccaDataConnection,
+        $scope
+    ) {
 
-            $scope.data = noccaDataConnection.data;
+        $scope.data = noccaDataConnection.data;
 
-        }
     }
-}());
+}

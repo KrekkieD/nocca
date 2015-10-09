@@ -1,131 +1,127 @@
-(function() {
-    'use strict';
+'use strict';
 
-    angular
-        .module('nocca.pages')
-        .directive(
-            'noccaPagesScenarios', ScenariosDirective);
+require('./module')
+    .directive('noccaPagesScenarios', ScenariosDirective);
 
-    function ScenariosDirective() {
+function ScenariosDirective() {
 
-        var directive = {
-            restrict: 'EA',
-            templateUrl: 'scenarios.directive.html',
-            controller: ScenariosDirectiveController
-        };
+    var directive = {
+        restrict: 'EA',
+        templateUrl: 'scenarios.directive.html',
+        controller: ScenariosDirectiveController
+    };
 
-        return directive;
+    return directive;
 
-        /* @ngInject */
-        function ScenariosDirectiveController (
-            $scope,
-            $http,
-            $mdToast,
-			noccaApi,
-			noccaCoreConfig
-        ) {
+    /* @ngInject */
+    function ScenariosDirectiveController (
+        $scope,
+        $http,
+        $mdToast,
+        noccaApi,
+        noccaCoreConfig
+    ) {
 
-            $scope.startRecording = startRecording;
-            $scope.stopRecording = stopRecording;
-            $scope.cancelRecording = cancelRecording;
+        $scope.startRecording = startRecording;
+        $scope.stopRecording = stopRecording;
+        $scope.cancelRecording = cancelRecording;
 
-            $scope.scenarioModel = {};
+        $scope.scenarioModel = {};
 
-            refreshStatus();
+        refreshStatus();
 
-            function refreshStatus () {
+        function refreshStatus () {
 
-				$http({
-					method: 'get',
-					url: noccaApi.getHttpApiHost() + '/scenarios/recorder'
-				}).then(function (response) {
-					$scope.recorder = response.data;
-				}, function () {
-					$scope.recorder = undefined;
-				});
+            $http({
+                method: 'get',
+                url: noccaApi.getHttpApiHost() + '/scenarios/recorder'
+            }).then(function (response) {
+                $scope.recorder = response.data;
+            }, function () {
+                $scope.recorder = undefined;
+            });
 
-            }
+        }
 
-            function showToastWithMessage (msg) {
+        function showToastWithMessage (msg) {
 
-                $mdToast.show($mdToast.simple()
-                    .content(msg)
-                    .position('top right'));
+            $mdToast.show($mdToast.simple()
+                .content(msg)
+                .position('top right'));
 
-            }
+        }
 
-            function startRecording () {
+        function startRecording () {
 
-				var payload = angular.extend({}, $scope.scenarioModel);
-				payload.startRecording = true;
+            var payload = angular.extend({}, $scope.scenarioModel);
+            payload.startRecording = true;
 
-				$http({
-					method: 'put',
-					url: noccaApi.getHttpApiHost() + '/scenarios/recorder',
-					data: payload
-				}).then(function (response) {
+            $http({
+                method: 'put',
+                url: noccaApi.getHttpApiHost() + '/scenarios/recorder',
+                data: payload
+            }).then(function (response) {
 
-					showToastWithMessage('Recording started successfully');
+                showToastWithMessage('Recording started successfully');
 
-					refreshStatus();
-				}, function (response) {
+                refreshStatus();
+            }, function (response) {
 
-					showToastWithMessage('Could not start recording: ' + response.data);
+                showToastWithMessage('Could not start recording: ' + response.data);
 
-					refreshStatus();
+                refreshStatus();
 
-				});
+            });
 
-            }
+        }
 
-            function stopRecording () {
+        function stopRecording () {
 
-				var payload = angular.extend({}, $scope.scenarioModel);
-				payload.stopRecording = true;
+            var payload = angular.extend({}, $scope.scenarioModel);
+            payload.stopRecording = true;
 
-				$http({
-					method: 'put',
-					url: noccaApi.getHttpApiHost() + '/scenarios/recorder',
-					data: payload
-				}).then(function (response) {
+            $http({
+                method: 'put',
+                url: noccaApi.getHttpApiHost() + '/scenarios/recorder',
+                data: payload
+            }).then(function (response) {
 
-					showToastWithMessage('Recording stopped and saved');
+                showToastWithMessage('Recording stopped and saved');
 
-					refreshStatus();
-				}, function (response) {
+                refreshStatus();
+            }, function (response) {
 
-					showToastWithMessage('Could not stop recording: ' + response.data);
+                showToastWithMessage('Could not stop recording: ' + response.data);
 
-					refreshStatus();
+                refreshStatus();
 
-				});
+            });
 
-            }
+        }
 
-            function cancelRecording () {
+        function cancelRecording () {
 
-				var payload = angular.extend({}, $scope.scenarioModel);
-				payload.cancelRecording = true;
+            var payload = angular.extend({}, $scope.scenarioModel);
+            payload.cancelRecording = true;
 
-				$http({
-					method: 'delete',
-					url: noccaApi.getHttpApiHost() + '/scenarios/recorder'
-				}).then(function (response) {
+            $http({
+                method: 'delete',
+                url: noccaApi.getHttpApiHost() + '/scenarios/recorder'
+            }).then(function (response) {
 
-					showToastWithMessage('Recording cancelled');
+                showToastWithMessage('Recording cancelled');
 
-					refreshStatus();
-				}, function (response) {
+                refreshStatus();
+            }, function (response) {
 
-					showToastWithMessage('Could not cancel recording: ' + response.data);
+                showToastWithMessage('Could not cancel recording: ' + response.data);
 
-					refreshStatus();
+                refreshStatus();
 
-				});
-
-            }
+            });
 
         }
 
     }
-}());
+
+}

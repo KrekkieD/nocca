@@ -1,11 +1,8 @@
-(function() {
-    'use strict';
+'use strict';
 
-    angular.module('nocca.pages')
-        .config(config);
+require('./module')
+    .config(config);
 
-    function config() {
+function config() {
 
-    }
-
-}());
+}

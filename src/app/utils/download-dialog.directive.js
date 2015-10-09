@@ -1,53 +1,43 @@
-(function() {
-    'use strict';
+'use strict';
 
-    /* app/utils/download.directive.js */
+require('./module')
+    .directive('noccaUtilsDownloadDialog', DownloadDialogDirective);
 
-    /**
-     * @desc
-     * @example <div nocca-utils-download></div>
-     */
-    angular
-        .module('nocca.utils')
-        .directive(
-            'noccaUtilsDownloadDialog', DownloadDialogDirective);
+function DownloadDialogDirective () {
 
-    function DownloadDialogDirective () {
+    var directive = {
+        restrict: 'EA',
+        templateUrl: 'download-dialog.directive.html',
+        controller: DownloadDialogDirectiveController
+    };
 
-        var directive = {
-            restrict: 'EA',
-            templateUrl: 'download-dialog.directive.html',
-            controller: DownloadDialogDirectiveController
-        };
+    return directive;
 
-        return directive;
+    /* @ngInject */
+    function DownloadDialogDirectiveController (
+        $scope,
+        $mdDialog,
+        localStorageService
+    ) {
 
-        /* @ngInject */
-        function DownloadDialogDirectiveController (
+        localStorageService.bind(
             $scope,
-            $mdDialog,
-            localStorageService
-        ) {
-
-            localStorageService.bind(
-                $scope,
-                'download',
-                {
-                    filename: 'caches.json'
-                }
-            );
-
-            $scope.save = save;
-            $scope.cancel = cancel;
-
-            function save () {
-                $mdDialog.hide(localStorageService.get('download').filename);
+            'download',
+            {
+                filename: 'caches.json'
             }
+        );
 
-            function cancel () {
-                $mdDialog.hide(false);
-            }
+        $scope.save = save;
+        $scope.cancel = cancel;
 
+        function save () {
+            $mdDialog.hide(localStorageService.get('download').filename);
         }
+
+        function cancel () {
+            $mdDialog.hide(false);
+        }
+
     }
-}());
+}

@@ -3,6 +3,64 @@
     min-height: 75%;
 }
 
+body, html, .nocca-full-height {
+    height: 100%;
+    min-height: 100%;
+}
+
+.nocca-side-nav .nocca-nav-link {
+    color: #333;
+    display: inline-block;
+    transition: all 0.1s ease-in-out;
+}
+
+.nocca-side-nav .nocca-nav-block:hover {
+    cursor: pointer;
+}
+
+.nocca-side-nav .nocca-nav-block:hover .nocca-nav-link {
+    padding-left: 5px;
+}
+
+.nocca-status-filter .md-button {
+    min-width: 0px;
+}
+
+.nocca-timestamp {
+    opacity: .7;
+    font-size: 12px;
+}
+
+.nocca-story-line {
+    -webkit-transition: 0.5s linear all;
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+    -webkit-transition-delay: 6s;
+    /* Chrome, Safari, Opera */
+    transition-delay: 6s;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.nocca-story-line.ng-enter.ng-enter-active {
+    color: black;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+}
+
+.nocca-story-line:hover .md-tile-content {
+    color: black;
+}
+
+.nocca-story-line .md-tile-content {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.nocca-request-preview-wrap {
+    white-space: pre-wrap;
+}
+
 .nocca-response .nocca-response-tile-left {
     text-align: center;
     padding-right: 15px;
@@ -48,62 +106,4 @@
 .nocca-scenario-details dd {
     padding: 0;
     margin: 0;
-}
-
-body, html, .nocca-full-height {
-    height: 100%;
-    min-height: 100%;
-}
-
-.nocca-side-nav .nocca-nav-link {
-    color: #333;
-    display: inline-block;
-    transition: all 0.1s ease-in-out;
-}
-
-.nocca-side-nav .nocca-nav-block:hover {
-    cursor: pointer;
-}
-
-.nocca-side-nav .nocca-nav-block:hover .nocca-nav-link {
-    padding-left: 5px;
-}
-
-.nocca-request-preview-wrap {
-    white-space: pre-wrap;
-}
-
-.nocca-status-filter .md-button {
-    min-width: 0px;
-}
-
-.nocca-timestamp {
-    opacity: .7;
-    font-size: 12px;
-}
-
-.nocca-story-line {
-    -webkit-transition: 0.5s linear all;
-    -moz-transition: 0.5s linear all;
-    -o-transition: 0.5s linear all;
-    transition: 0.5s linear all;
-    -webkit-transition-delay: 6s;
-    /* Chrome, Safari, Opera */
-    transition-delay: 6s;
-    color: rgba(0, 0, 0, 0.5);
-}
-
-.nocca-story-line.ng-enter.ng-enter-active {
-    color: black;
-    -webkit-transition-delay: 0s;
-    transition-delay: 0s;
-}
-
-.nocca-story-line:hover .md-tile-content {
-    color: black;
-}
-
-.nocca-story-line .md-tile-content {
-    padding-bottom: 5px;
-    padding-top: 5px;
 }
