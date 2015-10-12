@@ -1,6 +1,7 @@
 'use strict';
 
 var $upTheTree = require('up-the-tree');
+var $colors = require('colors');
 var $nocca = require($upTheTree());
 
 var $http = require('http');
@@ -14,6 +15,9 @@ var nocca = new $nocca({
         '/googly/ding': {
             targetBaseUrl: 'https://www.google.co.uk/co.uk'
         },
+        '/googly/ding/dazzle': {
+            targetBaseUrl: 'https://www.google.co.uk/co.uk'
+        },
         _default: {
             targetBaseUrl: 'https://www.google.nl/nl'
         }
@@ -23,6 +27,7 @@ var nocca = new $nocca({
 var exampleRequests = [
     'http://localhost:8989/proxy/google/ding',
     'http://localhost:8989/proxy/googly/ding/dong',
+    'http://localhost:8989/proxy/googly/ding/dazzle/doo',
     'http://localhost:8989/proxy/goggle/ding'
 ];
 
@@ -39,7 +44,7 @@ exampleRequests.forEach(function (url) {
             setTimeout(function () {
 
                 console.log('');
-                console.log('Request', url, 'received:');
+                console.log('Request', $colors.green(url), 'received:');
                 console.log(Buffer.concat(buffer).toString().split('</style>').pop());
 
             }, 500);

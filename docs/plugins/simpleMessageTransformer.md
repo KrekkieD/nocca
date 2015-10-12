@@ -4,7 +4,7 @@ String-based configuration powered message transformer, allows setup through JSO
 
 ## Usage:
 
-```
+```javascript
 var noccaConfig = {
     // you should probably add this to a specific endpoint to run the transformation on
     endpoints: {

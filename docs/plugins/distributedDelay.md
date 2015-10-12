@@ -12,7 +12,7 @@ taken for a proxy server to respond:
 
 ## Usage
 
-```
+```javascript
 var noccaConfig = {
 
     responseDelay: ['distributedDelay', {
