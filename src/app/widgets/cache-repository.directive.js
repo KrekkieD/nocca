@@ -3,7 +3,8 @@
 require('./module')
     .directive('noccaWidgetsCacheRepository', CacheRepositoryDirective);
 
-function CacheRepositoryDirective() {
+function CacheRepositoryDirective () {
+
     var directive = {
         restrict: 'EA',
         require: '^noccaPagesCaches',

@@ -2,7 +2,7 @@
 
 module.exports = Caches;
 
-function Caches (Nocca) {
+function Caches () {
 
     var self = this;
 

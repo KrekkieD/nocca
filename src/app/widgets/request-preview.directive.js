@@ -3,7 +3,8 @@
 require('./module')
     .directive('noccaWidgetsRequestPreview', RequestPreviewDirective);
 
-function RequestPreviewDirective() {
+function RequestPreviewDirective () {
+
     var directive = {
         restrict: 'EA',
         scope: {
@@ -27,6 +28,7 @@ function RequestPreviewDirective() {
                 if (key.toLowerCase() === 'content-type') {
 
                     if (headers[key].indexOf('xml') > -1 ||
+
                         // not entirely sure if html is gonna play
                         headers[key].indexOf('html') > -1) {
 

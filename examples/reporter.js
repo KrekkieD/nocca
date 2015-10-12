@@ -19,9 +19,9 @@ function reporter (Nocca) {
 }
 
 new Nocca({
-   statistics: {
-       reporters: [
-           reporter
-       ]
-   }
+    statistics: {
+        reporters: [
+            reporter
+        ]
+    }
 });

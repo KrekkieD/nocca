@@ -3,7 +3,7 @@
 require('./module')
     .directive('noccaPagesScenarios', ScenariosDirective);
 
-function ScenariosDirective() {
+function ScenariosDirective () {
 
     var directive = {
         restrict: 'EA',

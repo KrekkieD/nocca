@@ -1,8 +1,7 @@
 'use strict';
 
 require('./module')
-    .directive(
-        'noccaWidgetsRequestDialog', RequestDialogDirective);
+    .directive('noccaWidgetsRequestDialog', RequestDialogDirective);
 
 function RequestDialogDirective () {
 
@@ -24,9 +23,9 @@ function RequestDialogDirective () {
 
         console.log('directive', $scope.content);
 
-        $scope.$watch(function() {
+        $scope.$watch(function () {
             return !$mdMedia('gt-md');
-        }, function(asIcons) {
+        }, function (asIcons) {
             $scope.asIcons = asIcons;
         });
 
@@ -42,7 +41,7 @@ function RequestDialogDirective () {
         );
 
 
-        $scope.close = function() {
+        $scope.close = function () {
             $mdDialog.hide();
         };
 

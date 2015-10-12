@@ -36,7 +36,14 @@ function lint () {
 
 function _jscs () {
 
-    return $buenosJscs().promise;
+    return $buenosJscs({
+        src: [
+            './**/*.js',
+            '!./**/node_modules/**/*',
+            '!./**/bower_components/**/*',
+            '!./ui/**/*'
+        ]
+    }).promise;
 
 }
 
@@ -54,6 +61,15 @@ function _htmllint () {
 
 function _codetags () {
 
-    return $buenosCodetags().promise;
+    return $buenosCodetags({
+        src: [
+            './**/*.*',
+            '!./**/node_modules/**/*',
+            '!./**/reports/**/*',
+            '!./**/target/**/*',
+            '!./**/bower_components/**/*',
+            '!./ui/**/*'
+        ]
+    }).promise;
 
 }

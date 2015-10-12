@@ -4,7 +4,7 @@ require('./module')
     .directive(
         'noccaNavigationSideNav', SideNavDirective);
 
-function SideNavDirective() {
+function SideNavDirective () {
     var directive = {
         restrict: 'EA',
         replace: true,

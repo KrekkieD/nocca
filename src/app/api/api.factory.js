@@ -9,6 +9,7 @@ function noccaApi ($http, noccaCoreConfig) {
     var factory = {
         getHttpApiHost: getHttpApiHost,
         getRoutes: getRoutes,
+
         // TODO: the following functions are less generic than assumed before, should probably be removed
         getScenario: getScenario,
         getScenarios: getScenarios,
@@ -82,6 +83,7 @@ function noccaApi ($http, noccaCoreConfig) {
         return $http({
             url: getHttpApiHost() + '/scenarios/' + scenarioKey + '/active',
             method: 'PUT',
+
             // force as bool
             data: JSON.stringify(active ? true : false),
             headers: {

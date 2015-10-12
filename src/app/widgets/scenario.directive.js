@@ -3,7 +3,8 @@
 require('./module')
     .directive('noccaWidgetsScenario', ScenarioDirective);
 
-function ScenarioDirective() {
+function ScenarioDirective () {
+
     var directive = {
         restrict: 'EA',
         require: '^noccaPagesCaches',

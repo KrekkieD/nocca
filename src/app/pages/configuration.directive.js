@@ -3,7 +3,8 @@
 require('./module')
     .directive('noccaPagesConfiguration', ConfigurationDirective);
 
-function ConfigurationDirective() {
+function ConfigurationDirective () {
+
     var directive = {
         restrict: 'EA',
         templateUrl: 'configuration.directive.html',

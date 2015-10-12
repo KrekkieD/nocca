@@ -3,18 +3,18 @@
 var $nocca = require('../../index');
 
 var Nocca = new $nocca({
-	endpoints: {
-		'google': {
-			targetBaseUrl: 'http://www.google.com/',
+    endpoints: {
+        google: {
+            targetBaseUrl: 'http://www.google.com/',
             keyGenerator: $nocca.$keys.urlOnlyKeyGeneratorBuilder()
         },
-		'yahoo': {
-			targetBaseUrl: 'http://www.yahoo.com/'
-		},
-		'_default': {
-			targetBaseUrl: 'http://localhost:3004/'
-		}
-	},
+        yahoo: {
+            targetBaseUrl: 'http://www.yahoo.com/'
+        },
+        _default: {
+            targetBaseUrl: 'http://localhost:3004/'
+        }
+    },
     scenarios: {
         available: [
             require(__dirname + '/scenarios/scenario_google')

@@ -74,13 +74,13 @@ function Nocca (config) {
         self.usePlugin(repository);
     });
 
-	// initialize the endpoint selector
-	self.endpointSelector = self.usePlugin(self.config.endpointSelector);
+    // initialize the endpoint selector
+    self.endpointSelector = self.usePlugin(self.config.endpointSelector);
 
     self.wrapperServer = new $wrapperServer(self);
 
     // Call init on all created plugins (if they support it)
-	self.pubsub.publish(self.constants.PUBSUB_NOCCA_INITIALIZE_PLUGIN);
+    self.pubsub.publish(self.constants.PUBSUB_NOCCA_INITIALIZE_PLUGIN);
 
     // and mark ourselves as initialized
     self.initialized = true;

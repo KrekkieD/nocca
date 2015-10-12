@@ -3,6 +3,6 @@
 require('./module')
     .config(config);
 
-function config() {
+function config () {
 
 }

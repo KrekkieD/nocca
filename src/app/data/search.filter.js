@@ -119,7 +119,7 @@ function noccaDataSearch (noccaDataSearchModel) {
 
                 return JSON.stringify(matchString);
 
-            }
+            };
 
         }
 

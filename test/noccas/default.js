@@ -13,11 +13,14 @@ function createNocca (config) {
 
     return new $nocca($extend({}, {
         record: true,
-        keyGenerator: ['cherryPickingKeygen', {
-            properties: ['path', 'method'],
-            url: ['pathname'],
-            headers: ['accept', 'content-type']
-        }],
+        keyGenerator: [
+            'cherryPickingKeygen',
+            {
+                properties: ['path', 'method'],
+                url: ['pathname'],
+                headers: ['accept', 'content-type']
+            }
+        ],
         servers: {
             wrapperServer: {
                 listen: {

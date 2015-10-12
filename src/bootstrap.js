@@ -1,13 +1,13 @@
 (function () {
 
-	'use strict';
+    'use strict';
 
-	angular.element(document)
-		.ready(function () {
-			angular.bootstrap(document.getElementById(
-				'noccaCore'), [
-				'nocca.core'
-			]);
-		});
+    angular.element(document)
+        .ready(function () {
+            angular.bootstrap(document.getElementById(
+                'noccaCore'), [
+                'nocca.core'
+            ]);
+        });
 
 }());

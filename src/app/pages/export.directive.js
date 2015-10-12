@@ -3,7 +3,7 @@
 require('./module')
     .directive('noccaPagesExport', ExportDirective);
 
-function ExportDirective() {
+function ExportDirective () {
 
     var directive = {
         restrict: 'EA',

@@ -6,7 +6,7 @@ var $nocca = require($upTheTree());
 var $http = require('http');
 var $url = require('url');
 
-var nocca = new $nocca({
+new $nocca({
     // global settings
     record: true,
     forward: true,

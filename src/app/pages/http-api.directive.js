@@ -3,7 +3,8 @@
 require('./module')
     .directive('noccaPagesHttpApi', HttpApiDirective);
 
-function HttpApiDirective() {
+function HttpApiDirective () {
+
     var directive = {
         restrict: 'EA',
         templateUrl: 'http-api.directive.html',

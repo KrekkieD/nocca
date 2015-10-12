@@ -7,7 +7,7 @@ var $nocca = require($upTheTree());
 var $http = require('http');
 var $url = require('url');
 
-var nocca = new $nocca({
+new $nocca({
     endpoints: {
         google: {
             targetBaseUrl: 'https://www.google.com/com'

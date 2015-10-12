@@ -21,13 +21,13 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
 
 
     // it should start server
-    it ('should start the dummy server', function (done) {
+    it('should start the dummy server', function (done) {
 
         server = $server(done);
 
     });
 
-    it ('should start a nocca server', function () {
+    it('should start a nocca server', function () {
 
         nocca = $nocca({
             endpoints: {
@@ -112,7 +112,7 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
     });
 
     // add some time
-    it ('should perform a request and add some time to a response timestamp', function (done) {
+    it('should perform a request and add some time to a response timestamp', function (done) {
 
         var timestamp = $moment();
         var timestampString = '<addtimestamp>' + timestamp.format('x') + '</addtimestamp>';
@@ -135,7 +135,7 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
 
 
     // subtract some time
-    it ('should perform a request and subtract some time', function (done) {
+    it('should perform a request and subtract some time', function (done) {
 
         var timestamp = $moment();
         var timestampString = '<subtracttimestamp>' + timestamp.format('x') + '</subtracttimestamp>';
@@ -157,12 +157,12 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
     });
 
     // unixtime something
-    xit ('should place a unixtime stamp somwhere', function () {
+    xit('should place a unixtime stamp somwhere', function () {
 
     });
 
     // diff something
-    it ('should perform a request diff, increasing a timestamp by a calculated difference', function (done) {
+    it('should perform a request diff, increasing a timestamp by a calculated difference', function (done) {
 
 
         // this request is used to create the cache, request is not used in test.
@@ -176,7 +176,7 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
         });
 
 
-        //first fill Nocca with a cached response
+        // first fill Nocca with a cached response
         $server.addCaches($fs.readFileSync(__dirname + '/resources/diffCache.scenario.json'))
             .then(function () {
 
@@ -223,7 +223,7 @@ describe('plugins/simpleMessageTransformer MOMENT', function () {
     });
 
     // it should stop the server
-    it ('should stop the server', function () {
+    it('should stop the server', function () {
 
         server.close();
         nocca.wrapperServer.router.close();
