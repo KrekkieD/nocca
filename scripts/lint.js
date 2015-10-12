@@ -49,7 +49,15 @@ function _jscs () {
 
 function _jshint () {
 
-    return $buenosJshint().promise;
+    return $buenosJshint({
+        src: [
+            './**/*.js',
+            '!./**/node_modules/**/*',
+            '!./**/bower_components/**/*',
+            '!./**/*.spec.js',
+            '!./ui/**/*'
+        ]
+    }).promise;
 
 }
 

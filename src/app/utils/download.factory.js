@@ -5,8 +5,7 @@ require('./module')
 
 function noccaUtilsDownload (
     $http,
-    $mdDialog,
-    localStorageService
+    $mdDialog
 ) {
 
     var factory = {
@@ -59,13 +58,13 @@ function noccaUtilsDownload (
 
     }
 
-    function performSave (saveConfig) {
+    function performSave (/* saveConfig */) {
 
-        new Blob([
-            JSON.stringify(saveConfig.data, null, 4)
-        ], {
-            type: saveConfig.type + ';charset=utf-8;'
-        });
+        // new Blob([
+        //     JSON.stringify(saveConfig.data, null, 4)
+        // ], {
+        //     type: saveConfig.type + ';charset=utf-8;'
+        // });
 
     }
 

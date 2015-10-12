@@ -53,7 +53,7 @@ function ResponseDirective () {
 
         }
 
-        function showDialog (e, type) {
+        function showDialog (e) {
 
             var content = $scope.response;
             $mdDialog.show({

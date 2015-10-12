@@ -22,6 +22,8 @@ function CachesDirective () {
         $scope.repositories = {};
 
         this.refresh = refresh;
+        this.getScenarios = getScenarios;
+        this.getCacheRepositories = getCacheRepositories;
         this.resetScenario = resetScenario;
         this.enableScenario = enableScenario;
         this.disableScenario = disableScenario;
@@ -59,7 +61,7 @@ function CachesDirective () {
         function resetScenario (scenarioKey) {
 
             return noccaApi.resetScenario(scenarioKey)
-                .then(function (step) {
+                .then(function () {
                     return getScenario(scenarioKey);
                 });
 
@@ -68,7 +70,7 @@ function CachesDirective () {
         function enableScenario (scenarioKey) {
 
             return noccaApi.toggleScenarioActive(scenarioKey, true)
-                .then(function (activeState) {
+                .then(function () {
                     return getScenario(scenarioKey);
                 });
 
@@ -77,7 +79,7 @@ function CachesDirective () {
         function disableScenario (scenarioKey) {
 
             return noccaApi.toggleScenarioActive(scenarioKey, false)
-                .then(function (activeState) {
+                .then(function () {
                     return getScenario(scenarioKey);
                 });
 

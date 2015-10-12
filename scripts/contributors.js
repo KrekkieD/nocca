@@ -98,7 +98,7 @@ $gitlog(options, function (error, commits) {
         var outputContributors = [];
 
         // format array
-        contributorsArray.forEach(function (contributor, key) {
+        contributorsArray.forEach(function (contributor) {
             packageJsonContributors.push(contributor.contributorName);
             outputContributors.push(contributor.statusTotal + ' changes in ' + contributor.commits + ' commits by user ' + contributor.contributorName);
         });
@@ -113,6 +113,11 @@ $gitlog(options, function (error, commits) {
 
             // write it
             $fs.writeFile($upTheTree.resolve(), JSON.stringify(packageJson, null, 2), function (err) {
+
+                if (err) {
+                    throw err;
+                }
+
                 console.log('Contributors added to package.json, sorted by effort:\n');
                 console.log(outputContributors.join('\n'));
                 console.log('\n' + JSON.stringify({ contributors: packageJson.contributors }, null, 2));

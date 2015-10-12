@@ -18,8 +18,7 @@ function ScenariosDirective () {
         $scope,
         $http,
         $mdToast,
-        noccaApi,
-        noccaCoreConfig
+        noccaApi
     ) {
 
         $scope.startRecording = startRecording;
@@ -60,7 +59,7 @@ function ScenariosDirective () {
                 method: 'put',
                 url: noccaApi.getHttpApiHost() + '/scenarios/recorder',
                 data: payload
-            }).then(function (response) {
+            }).then(function () {
 
                 showToastWithMessage('Recording started successfully');
 
@@ -84,7 +83,7 @@ function ScenariosDirective () {
                 method: 'put',
                 url: noccaApi.getHttpApiHost() + '/scenarios/recorder',
                 data: payload
-            }).then(function (response) {
+            }).then(function () {
 
                 showToastWithMessage('Recording stopped and saved');
 
@@ -107,7 +106,7 @@ function ScenariosDirective () {
             $http({
                 method: 'delete',
                 url: noccaApi.getHttpApiHost() + '/scenarios/recorder'
-            }).then(function (response) {
+            }).then(function () {
 
                 showToastWithMessage('Recording cancelled');
 

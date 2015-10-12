@@ -1,3 +1,5 @@
+/* global vkbeautify */
+
 'use strict';
 
 require('./module')

@@ -93,25 +93,39 @@ function noccaDataSearch (noccaDataSearchModel) {
                 var matchString = [];
 
                 // process active fields that are not responseObj bound
-                if (typeof relevantFieldsArray.endpointKey !== 'undefined') {
-                    response.endpoint && response.endpoint.key && matchString.push(response.endpoint.key);
+                if (typeof relevantFieldsArray.endpointKey !== 'undefined' &&
+                    response.endpoint &&
+                    response.endpoint.key) {
+
+                    matchString.push(response.endpoint.key);
+
                 }
-                if (typeof relevantFieldsArray.requestKey !== 'undefined') {
-                    response.requestKey && matchString.push(response.requestKey);
+
+                if (typeof relevantFieldsArray.requestKey !== 'undefined' &&
+                    response.requestKey) {
+
+                    matchString.push(response.requestKey);
+
                 }
 
                 relevantResponseArray.forEach(function (responseObjKey) {
                     if (response[responseObjKey]) {
 
                         // process active fields that are responseObj bound
-                        if (typeof relevantFieldsArray.headers !== 'undefined') {
-                            response[responseObjKey].headers && matchString.push(response[responseObjKey].headers);
+                        if (typeof relevantFieldsArray.headers !== 'undefined' &&
+                            response[responseObjKey].headers) {
+
+                            matchString.push(response[responseObjKey].headers);
                         }
-                        if (typeof relevantFieldsArray.body !== 'undefined') {
-                            response[responseObjKey].body && matchString.push(response[responseObjKey].body);
+                        if (typeof relevantFieldsArray.body !== 'undefined' &&
+                            response[responseObjKey].body) {
+
+                            matchString.push(response[responseObjKey].body);
                         }
-                        if (typeof relevantFieldsArray.path !== 'undefined') {
-                            response[responseObjKey].path && matchString.push(response[responseObjKey].path);
+                        if (typeof relevantFieldsArray.path !== 'undefined' &&
+                            response[responseObjKey].path) {
+
+                            matchString.push(response[responseObjKey].path);
                         }
 
                     }

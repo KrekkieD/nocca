@@ -2,7 +2,7 @@
 
 var $nocca = require('../../index');
 
-var Nocca = new $nocca({
+new $nocca({
     endpoints: {
         google: {
             targetBaseUrl: 'http://www.google.com/',

@@ -3,7 +3,7 @@
 require('./module')
     .factory('noccaApi', noccaApi);
 
-function noccaApi ($http, noccaCoreConfig) {
+function noccaApi ($http) {
     // values here
 
     var factory = {

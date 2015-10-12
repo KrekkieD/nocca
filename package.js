@@ -135,7 +135,7 @@ function checkRemoteStatus (config) {
 
     });
 
-    cmd.on('close', function (code) {
+    cmd.on('close', function () {
 
         if (dataReceived === false) {
             deferred.resolve(config);
