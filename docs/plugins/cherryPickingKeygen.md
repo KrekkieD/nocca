@@ -6,6 +6,8 @@ The cherry picking keygen will pick all the 'cherries' that you define into an o
 
 The subject of the picking is a prepared forwarding message to the matching endpoint url. For example, an endpoint that would forward to google.com would get `google.com` returned as `host` property.
 
+**Note:** If you change the request key generator config this may result in your existing caches no longer hitting. 
+
 ## Usage
 
 It can be configured for all endpoints or per endpoint:
@@ -27,31 +29,53 @@ var nocca = new $nocca({
 
 An array of properties picked from the `httpMessage` object. Can be:
 
-- `'method'`
-- `'host'`
-- `'protocol'`
-- `'port'`
-- `'path'`
-- `'headers'`
-- `'body'`
+```javascript
+var $nocca = require('nocca');
+var nocca = new $nocca({
+    keyGenerator: ['cherryPickingKeygen', {
+        properties: ['method', 'host', 'protocol', 'port', 'path', 'headers', 'body']
+    }]
+});
+```
 
 ### url
 
 An array of properties picked from the request url path:
 
-- `'search'`
-- `'query'`
-- `'pathname'`
-- `'path'`
-- `'href'`
+```javascript
+var $nocca = require('nocca');
+var nocca = new $nocca({
+    keyGenerator: ['cherryPickingKeygen', {
+        url: ['search', 'query', 'pathname', 'path', 'href']
+    }]
+});
+```
 
 ### query
 
 An array of the query param names that should be extracted from the request.
 
+```javascript
+var $nocca = require('nocca');
+var nocca = new $nocca({
+    keyGenerator: ['cherryPickingKeygen', {
+        query: ['your', 'query', 'param']
+    }]
+});
+```
+
 ### headers
 
 An array of the header names that should be extracted from the request.
+
+```javascript
+var $nocca = require('nocca');
+var nocca = new $nocca({
+    keyGenerator: ['cherryPickingKeygen', {
+        headers: ['accept', 'content-type']
+    }]
+});
+```
 
 ### fixed
 
