@@ -47,23 +47,13 @@ function Nocca (config) {
     self.pluginLoader = new $pluginLoader(self);
     self.usePlugin = usePlugin;
 
-    self.throwError = throwNoccaError;
-
     self.getConfig = $utils.extractConfig;
 
 
     // load all plugins from config so they can be used when parsing config
-    if (self.config.plugins && Array.isArray(self.config.plugins)) {
-        self.pluginLoader.registerPlugins(self.config.plugins);
-    }
-
+    self.pluginLoader.registerPlugins();
 
     self.playback = new $playback(self);
-
-
-    //   C O N F I G U R A B L E   S T U F F   B E L O W
-
-
     self.errorHandler = new $errors(self);
     self.requestContextFactory = new $requestContextFactory(self);
     self.httpMessageFactory = new $httpMessageFactory(self);
@@ -73,6 +63,11 @@ function Nocca (config) {
     self.recorder = new $recorder(self);
     self.responder = new $responder(self);
     self.statsLogger = new $stats(self);
+
+    //   C O N F I G U R A B L E   S T U F F   B E L O W
+
+
+
 
     // initialize repositories up front
     self.config.repositories.forEach(function (repository) {
@@ -90,11 +85,6 @@ function Nocca (config) {
     // and mark ourselves as initialized
     self.initialized = true;
 
-    // run all stat reporters so they can subscribe to events. Send in the instance as arg.
-    self.config.statistics.reporters.forEach(function (reporter) {
-        reporter(self);
-    });
-
     function usePlugin (pluginId) {
 
         if (!Array.isArray(pluginId)) {
@@ -104,10 +94,4 @@ function Nocca (config) {
 
     }
 
-}
-
-function throwNoccaError(message, errorCode) {
-    var e = new Error(message);
-    e.name = errorCode;
-    throw e;
 }

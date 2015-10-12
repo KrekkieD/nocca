@@ -1,0 +1,44 @@
+digraph {
+
+    ranksep=1
+
+    req [label="Incoming request"]
+
+    endpoint [label="Select endpoint"]
+    requestKey [label="Generate request key"]
+    matchCache [label="Search for matching cache"]
+    forward [label="Forward to endpoint"]
+
+    createForwardResponse [label="Response from forwarded request"]
+    createCacheResponse [label="Response from cache"]
+    noEndpointResponse [label="Respond: no endpoint",color="red",fontcolor="red"]
+    noCacheResponse [label="Respond: no cache",color="red",fontcolor="red"]
+
+    record [label="Record response"]
+    respond [label="Respond to request"]
+
+    req -> endpoint
+    endpoint -> noEndpointResponse [color="red"]
+    endpoint -> requestKey [label="endpoint"]
+
+    requestKey -> matchCache [label="forward=false ||\n forward=missing"]
+
+    matchCache -> noCacheResponse [headlabel="not found &&\n forward=false",color="red",fontcolor="red"]
+
+    matchCache -> createCacheResponse [label="found"]
+    createCacheResponse -> record [label="record=true"]
+    createCacheResponse -> respond [label="record=false"]
+
+    matchCache -> forward [taillabel="not found &&\n forward=missing"]
+
+
+
+    requestKey -> forward [label="forward=true\r"]
+    forward -> createForwardResponse [label="response"]
+    createForwardResponse -> record [label="record=true"]
+    createForwardResponse -> respond [label="record=false"]
+
+
+    record -> respond
+
+}

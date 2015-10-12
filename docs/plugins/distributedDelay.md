@@ -15,7 +15,7 @@ taken for a proxy server to respond:
 ```
 var noccaConfig = {
 
-    delay: ['distributedDelay', {
+    responseDelay: ['distributedDelay', {
     
         // the target delay in milliseconds
         expectation: 100,
