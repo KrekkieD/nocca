@@ -31,17 +31,13 @@ function Nocca (config) {
 
     self.initialized = false;
 
-    // store merged config
     self.config = $extend(true, {}, $defaultSettings, config);
 
-    // add constants for ease of reference
     self.constants = $constants;
 
-    // NOTE: pubsub is NOT configurable
     self.pubsub = $pubsub;
 
     self.logger = new $bunyanLogger(self, self.config.logger);
-
 
     self.pluginLoader = new $pluginLoader(self);
     self.usePlugin = usePlugin;
@@ -62,10 +58,7 @@ function Nocca (config) {
     self.recorder = new $recorder(self);
     self.responder = new $responder(self);
     self.statsLogger = new $stats(self);
-
-    //   C O N F I G U R A B L E   S T U F F   B E L O W
-
-
+    self.wrapperServer = new $wrapperServer(self);
 
 
     // initialize repositories up front
@@ -73,12 +66,12 @@ function Nocca (config) {
         self.usePlugin(repository);
     });
 
-    // initialize the endpoint selector
-    self.endpointSelector = self.usePlugin(self.config.endpointSelector);
 
-    self.wrapperServer = new $wrapperServer(self);
+    self.logger.info('---');
+    self.logger.info('>> Nocca v' + require(__dirname + '/package.json').version + ' initialized');
+    self.logger.info('---');
 
-    // Call init on all created plugins (if they support it)
+    // inform all pubsub listeners that Nocca is initialized
     self.pubsub.publish(self.constants.PUBSUB_NOCCA_INITIALIZE_PLUGIN);
 
     // and mark ourselves as initialized
@@ -89,6 +82,9 @@ function Nocca (config) {
         if (!Array.isArray(pluginId)) {
             pluginId = [pluginId];
         }
+
+        self.logger.debug('Using plugin ' + pluginId[0]);
+
         return self.pluginLoader.instantiatePlugin.apply(null, pluginId);
 
     }
