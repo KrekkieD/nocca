@@ -3,7 +3,8 @@
   "version": "1.0.0-alpha",
   "description": "NodeJS Mock Server",
   "scripts": {
-    "preversion": "npm run contributor",
+    "preversion": "npm run contributor && npm run gitversion",
+    "gitversion": "node scripts/version.js",
     "contributor": "node scripts/contributors.js",
     "test": "jasmine-node test/jasmine",
     "postinstall": "bower install",
