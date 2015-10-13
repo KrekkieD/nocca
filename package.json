@@ -4,7 +4,7 @@
   "description": "NodeJS Mock Server",
   "scripts": {
     "preversion": "npm run contributor",
-    "contributor": "node scripts/contributor.js",
+    "contributor": "node scripts/contributors.js",
     "test": "jasmine-node test/jasmine",
     "postinstall": "bower install",
     "lint": "node scripts/lint.js",
