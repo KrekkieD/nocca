@@ -3,12 +3,16 @@
 var $upTheTree = require('up-the-tree');
 var $colors = require('colors');
 var $nocca = require($upTheTree());
+var $q = require('q');
 
 var $http = require('http');
 var $url = require('url');
 
 new $nocca({
-    endpoints: {
+    logger: {
+        level: 'fatal'
+    },
+    endpointSelector: ['endpointSelector', {
         google: {
             targetBaseUrl: 'https://www.google.com/com'
         },
@@ -21,7 +25,7 @@ new $nocca({
         _default: {
             targetBaseUrl: 'https://www.google.nl/nl'
         }
-    }
+    }]
 });
 
 var exampleRequests = [
@@ -31,7 +35,13 @@ var exampleRequests = [
     'http://localhost:8989/proxy/goggle/ding'
 ];
 
+var deferreds = [];
+
 exampleRequests.forEach(function (url) {
+
+    var deferred = $q.defer();
+
+    deferreds.push(deferred.promise);
 
     var req = $http.request($url.parse(url), function (res) {
 
@@ -47,6 +57,8 @@ exampleRequests.forEach(function (url) {
                 console.log('Request', $colors.green(url), 'received:');
                 console.log(Buffer.concat(buffer).toString().split('</style>').pop());
 
+                deferred.resolve();
+
             }, 500);
 
         });
@@ -56,3 +68,8 @@ exampleRequests.forEach(function (url) {
     req.end();
 
 });
+
+$q.allSettled(deferreds)
+    .then(function () {
+        process.exit();
+    });

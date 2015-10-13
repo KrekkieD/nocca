@@ -7,6 +7,8 @@ Node mock server
 
 Use Nocca to serve mocks instead of hitting actual backend servers. Useful for load testing, end-to-end testing, edge-case validations and when you're developing against an unfinished or under-development backend.
 
+Nocca provides a GUI with realtime updates to see what Nocca is serving to your application. There is an HTTP API to control the Nocca server.
+
 ## Installing
 
 Nocca can be installed and used as a NodeJS module. Simply run the following command:
@@ -14,8 +16,6 @@ Nocca can be installed and used as a NodeJS module. Simply run the following com
 ```bash
 $ npm install --save-dev nocca
 ```
-
-## Running
 
 ```javascript
 var $nocca = require('nocca');
@@ -32,13 +32,24 @@ Nocca will start a number of servers:
 - proxy server (responsible for handling your mock requests): `localhost:8989/proxy`
 - websocket (feeds the GUI with realtime data): `localhost:8989/socket`
 
-## Configuring your instance
+## Implementation
 
-For Nocca to work for your application you will need to add application specific configuration properties.
+Implementing Nocca consists of two steps:
 
-### Server settings
+1. Setting up your application to talk to Nocca instead of the original services
+2. Set up Nocca to respond as desired
 
-Where do you want the Nocca server to run?
+### Application setup
+
+Generally the webservices / endpoints that your application calls should be configurable. When running your application through Nocca your application should send the requests to the Nocca proxy server instead. It is then up to Nocca to either serve a cache or forward the request to the original endpoint.
+
+### Nocca setup
+
+For Nocca to work for your application you will need to set application specific configuration properties to your Nocca instance.
+
+#### Server settings
+
+Where you want the Nocca server to run.
 
 ```javascript
 var $nocca = require('nocca');
@@ -51,16 +62,16 @@ Provide a port number, or an array of arguments: `[portNumber, hostname, backlog
 
 By default it will use the Cloud Foundry port if set, or fall back to `8989`.
 
-### Endpoints
+#### Endpoints
 
-A Nocca endpoint is a configuration object that is used to handle an incoming request on the Nocca proxy server (`localhost:8989/proxy/*` by default). The object may contain the endpoint URL of the target server, information on how to create a requestKey, set recording/forwarding flags, etc. 
+A Nocca endpoint is a configuration object that is used to handle an incoming request on the Nocca proxy server (`localhost:8989/proxy/*` by default). The object should contain the endpoint URL of the target server, and may contain information on how to create a requestKey, set record/playback/forward flags, etc. 
 
-By default Nocca is configured to use the `endpointSelector` plugin. This plugin uses the `options.endpoints` property to determine which endpoint should be used. Lets work with an example:
+By default Nocca is configured to use the `endpointSelector` plugin and takes a configuration object. Lets work with an example:
 
 ```javascript
 var $nocca = require('nocca');
 var nocca = new $nocca({
-    endpoints: {
+    endpointSelector: ['endpointSelector', {
         google: {
             targetBaseUrl: 'https://www.google.com/com'
         },
@@ -73,32 +84,32 @@ var nocca = new $nocca({
         _default: {
             targetBaseUrl: 'https://www.google.nl/nl'
         }
-    }
+    }]
 });
 ```
 
-#### Specifying endpoints
+##### Selecting an endpoint
 
-The endpoint key is used as matcher in the `endpointSelector`. An endpoint is selected based on the incoming request path:
+The keys in the configuration object are used as matcher in the `endpointSelector`. An endpoint is selected based on the incoming request path:
 
 1. First path part after `/proxy/`:
     - `http://localhost:8989/proxy/google/something` `->` `google`
-    - Adds `/something` to `targetBaseUrl`
+    - Adds remaining path `/something` to `targetBaseUrl`
 2. Starts with path:
     - `http://localhost:8989/proxy/googly/ding/dong` `->` `'/googly/ding'`
-    - Adds `/dong` to `targetBaseUrl`
+    - Adds remaining path `/dong` to `targetBaseUrl`
     - The longest matches endpoint key (`.length`) will be selected:
         - `http://localhost:8989/proxy/googly/ding/dazzle/doo` `->` `'/googly/ding/dazzle'`
         - Adds `/doo` to `targetBaseUrl`
-3. Default
+3. Default when no match was made:
     - `http://localhost:8989/proxy/goggle/ding` `->` `'_default'`
-    - Adds `/goggle/ding` to `targetBaseUrl`
+    - Adds full path `/goggle/ding` to `targetBaseUrl`
 
 The `targetBaseUrl` property defines the url that would serve the response. It is to forward the request to, when forwarding is enabled.
 
 View or run `./examples/docs/config-endpoints.js` for an example of this configuration.
 
-#### Overriding configuration for a specific endpoint
+##### Overriding configuration for a specific endpoint
 
 Each endpoint can set config properties for incoming requests on that endpoint. This is useful for properties like `keyGenerator`, `record`, `forward` and `responseDelay`.
 
@@ -109,7 +120,7 @@ var nocca = new $nocca({
     record: true,
     forward: true,
 
-    endpoints: {
+    endpointSelector: ['endpointSelector', {
         google: {
             targetBaseUrl: 'https://www.google.com/com'
         },
@@ -123,7 +134,7 @@ var nocca = new $nocca({
             record: false,
             targetBaseUrl: 'https://www.google.nl/nl'
         }
-    }
+    }]
 });
 ```
 
@@ -132,8 +143,7 @@ var nocca = new $nocca({
 
 View or run `./examples/docs/overriding-endpoint-config.js` for an example of this configuration.
 
-
-### Recording
+#### Recording
 
 To record you need to use a `cacheRepository`. See the Cache Repositories chapter for more information.
 
@@ -148,7 +158,7 @@ var nocca = new $nocca({
 
 When `true` the response message (both when it's served from a cache and when it's returned from the endpoint server) will be recorded in all registered cache repositories. When `false` it won't be.
 
-### Playback
+#### Playback
 
 To replay a cache response you need to use a `cacheRepository`. See the Cache Repositories chapter for more information.
 
@@ -165,7 +175,7 @@ When `true` the configured cache repositories will be queried in order of config
 
 When `false` the cache repositories will not be queried at all.
 
-### Forwarding
+#### Forwarding
 
 To forward or prevent forwarding an incoming request to an endpoint server, you need to set the `forward` property.
 
@@ -184,7 +194,7 @@ When `false` the request will never be forwarded.
 
 When `'missing'` the request will only be forwarded when no cache response was found using the `playback` property.
 
-### Cache Repositories
+#### Cache Repositories
 
 A response recorded or served by Nocca is called a `cache`. Each cache has a `requestKey` that identifies the cache and allows a cache to be selected as a response. More on request keys in a chapter below.
 
@@ -193,7 +203,7 @@ By default Nocca comes with two of these:
 - `cacheConglomerate`
 - `cacheQueue`
 
-#### The cache conglomerate
+##### The cache conglomerate
 
 Useful for: fixed responses, static sources, load test responses
 
@@ -203,7 +213,7 @@ Useful for: fixed responses, static sources, load test responses
 - As request keys are unique, the order of the caches does not matter.
 - The cacheConglomerate will not run out of caches as caches are not removed from the list.
 
-##### HTTP API
+###### HTTP API
 
 You can use the HTTP API to control the repository:
 
@@ -218,7 +228,7 @@ You can use the HTTP API to control the repository:
 - `GET:/httpApi/plugins/cacheConglomerate/recorded-caches`
     - Get the current list of recorded caches
 
-#### The cache queue
+##### The cache queue
 
 Useful for: repeated requests with different responses, end to end scenarios (i.e. get profile request, change profile request, get profile request). 
 
@@ -228,7 +238,7 @@ Useful for: repeated requests with different responses, end to end scenarios (i.
 - The order of the caches determines the order in which they are served: it will serve the first cache that matches the request key. 
 - The cacheQueue can run out of caches to serve.
 
-##### HTTP API
+###### HTTP API
 
 You can use the HTTP API to control the repository:
 
@@ -241,25 +251,25 @@ You can use the HTTP API to control the repository:
 - `GET:/httpApi/plugins/cacheQueue/recorded-caches`
     - Get the current list of recorded caches
 
-### Request keys
+#### Request keys
 
 A request key is generated by a `keyGenerator`. Nocca is preconfigured with the `cherryPickingKeygen`. 
 
 See its dedicated [documentation file](docs/plugins/cherryPickingKeygen.md).
 
-### Delaying responses
+#### Delaying responses
 
 To delay a response you need a `responseDelay` plugin. Nocca is preconfigured with the `distributedDelay` module.
 
 See its dedicated [documentation file](docs/plugins/distributedDelay.md).
 
-### Transforming requests and responses
+#### Transforming requests and responses
 
 To transform the contents of a request or response you need a `messageTransformer`. This can be useful to patch timestamps in a cache. Nocca includes a `simpleMessageTransformer` module. 
 
 See its dedicated [documentation file](docs/plugins/simpleMessageTransformer.md).
 
-### Log settings
+#### Log settings
 
 Nocca is configured with a Bunyan logger that logs to your console. You can change the application name and log level. The level of logging should be one of: `fatal`, `error`, `warn`, `info`, `debug`, `trace`. The logger will log that level and higher (i.e. 'info' would also log 'error' events, but not 'debug' events).
 
