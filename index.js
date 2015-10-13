@@ -7,7 +7,7 @@ var $bunyanLogger = require('./lib/bunyanLogger');
 var $chainBuilderFactory = require('./lib/chainBuilderFactory');
 var $constants = require('./lib/constants');
 var $defaultSettings = require('./lib/defaultSettings');
-var $errors = require('./lib/errors');
+var $errorHandler = require('./lib/errorHandler');
 var $forwarder = require('./lib/forwarder');
 var $httpMessageFactory = require('./lib/httpMessageFactory');
 var $playback = require('./lib/playback');
@@ -53,7 +53,7 @@ function Nocca (config) {
     self.pluginLoader.registerPlugins();
 
     self.playback = new $playback(self);
-    self.errorHandler = new $errors(self);
+    self.errorHandler = new $errorHandler(self);
     self.requestContextFactory = new $requestContextFactory(self);
     self.httpMessageFactory = new $httpMessageFactory(self);
     self.requestChainer = new $chainBuilderFactory(self);
