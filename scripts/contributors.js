@@ -6,8 +6,6 @@ var $upTheTree = require('up-the-tree');
 var $gitlog = require('gitlog');
 
 
-throw $upTheTree.resolve();
-
 function dynamicSort (property) {
 
     var sortOrder = 1;
