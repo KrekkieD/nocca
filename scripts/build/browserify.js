@@ -33,6 +33,8 @@ function browserify () {
         '!./**/*.spec.js'
     ]).then(function (files) {
 
+        files.sort();
+
         var b = $browserify({
             standalone: 'yes'
         });

@@ -28,6 +28,8 @@ function templateCache () {
         './src/app/**/*.html'
     ]).then(function (files) {
 
+        files.sort();
+        
         var injectables = {};
 
         var deferreds = [];

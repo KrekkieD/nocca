@@ -19,6 +19,8 @@ function sass () {
     return $globby(glob)
         .then(function (files) {
 
+            files.sort();
+
             var cssChunks = [];
 
             var deferreds = [];
