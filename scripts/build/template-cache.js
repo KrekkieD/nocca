@@ -42,7 +42,7 @@ function templateCache () {
             var templateUrl = $path.basename(file);
 
             injectables[templateUrl] = undefined;
-            
+
             $fs.readFile(file, function (err, result) {
                 if (err) {
                     deferred.reject(err);
