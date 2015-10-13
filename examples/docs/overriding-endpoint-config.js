@@ -8,29 +8,30 @@ var $http = require('http');
 var $url = require('url');
 
 new $nocca({
+    logger: { level: 'fatal' },
 
-    logger: {
-        level: 'fatal'
-    },
     // global settings
     record: true,
     forward: true,
 
-    endpointSelector: ['endpointSelector', {
-        google: {
-            targetBaseUrl: 'https://www.google.com/com'
-        },
-        '/googly/ding': {
-            // disable forwarding for this endpoint
-            forward: false,
-            targetBaseUrl: 'https://www.google.co.uk/co.uk'
-        },
-        _default: {
-            // disable recording for this endpoint
-            record: false,
-            targetBaseUrl: 'https://www.google.nl/nl'
+    endpointSelector: [
+        'endpointSelector',
+        {
+            google: {
+                targetBaseUrl: 'https://www.google.com/com'
+            },
+            '/googly/ding': {
+                // disable forwarding for this endpoint
+                forward: false,
+                targetBaseUrl: 'https://www.google.co.uk/co.uk'
+            },
+            _default: {
+                // disable recording for this endpoint
+                record: false,
+                targetBaseUrl: 'https://www.google.nl/nl'
+            }
         }
-    }]
+    ]
 });
 
 var exampleRequests = [

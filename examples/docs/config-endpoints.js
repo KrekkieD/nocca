@@ -9,23 +9,25 @@ var $http = require('http');
 var $url = require('url');
 
 new $nocca({
-    logger: {
-        level: 'fatal'
-    },
-    endpointSelector: ['endpointSelector', {
-        google: {
-            targetBaseUrl: 'https://www.google.com/com'
-        },
-        '/googly/ding': {
-            targetBaseUrl: 'https://www.google.co.uk/co.uk'
-        },
-        '/googly/ding/dazzle': {
-            targetBaseUrl: 'https://www.google.co.uk/co.uk'
-        },
-        _default: {
-            targetBaseUrl: 'https://www.google.nl/nl'
+    logger: { level: 'fatal' },
+
+    endpointSelector: [
+        'endpointSelector',
+        {
+            google: {
+                targetBaseUrl: 'https://www.google.com/com'
+            },
+            '/googly/ding': {
+                targetBaseUrl: 'https://www.google.co.uk/co.uk'
+            },
+            '/googly/ding/dazzle': {
+                targetBaseUrl: 'https://www.google.co.uk/co.uk'
+            },
+            _default: {
+                targetBaseUrl: 'https://www.google.nl/nl'
+            }
         }
-    }]
+    ]
 });
 
 var exampleRequests = [

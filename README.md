@@ -28,7 +28,7 @@ This will start the Nocca server on the port (and hostname) specified in the con
 Nocca will start a number of servers:
 
 - GUI (web application): `localhost:8989/gui`
-- REST API (allows controlling the instance): `localhost:8989/httpApi`
+- REST API (allows controlling the instance): `localhost:8989/http-api`
 - proxy server (responsible for handling your mock requests): `localhost:8989/proxy`
 - websocket (feeds the GUI with realtime data): `localhost:8989/socket`
 
@@ -217,15 +217,15 @@ Useful for: fixed responses, static sources, load test responses
 
 You can use the HTTP API to control the repository:
 
-- `GET:/httpApi/plugins/cacheConglomerate/caches`
+- `GET:/http-api/plugins/cacheConglomerate/caches`
     - Retrieve the current list of stored caches
-- `DELETE:/httpApi/plugins/cacheConglomerate/caches`
+- `DELETE:/http-api/plugins/cacheConglomerate/caches`
     - Empty the current list of stored caches
-- `POST:/httpApi/plugins/cacheConglomerate/caches`
+- `POST:/http-api/plugins/cacheConglomerate/caches`
     - Add provided list of caches to the current list of stored caches
-- `PUT:/httpApi/plugins/cacheConglomerate/caches`
+- `PUT:/http-api/plugins/cacheConglomerate/caches`
     - Replace the current list of stored caches with provided list
-- `GET:/httpApi/plugins/cacheConglomerate/recorded-caches`
+- `GET:/http-api/plugins/cacheConglomerate/recorded-caches`
     - Get the current list of recorded caches
 
 ##### The cache queue
@@ -242,13 +242,13 @@ Useful for: repeated requests with different responses, end to end scenarios (i.
 
 You can use the HTTP API to control the repository:
 
-- `GET:/httpApi/plugins/cacheQueue/caches`
+- `GET:/http-api/plugins/cacheQueue/caches`
     - Retrieve the current list of stored caches
-- `DELETE:/httpApi/plugins/cacheQueue/caches`
+- `DELETE:/http-api/plugins/cacheQueue/caches`
     - Empty the current list of stored caches
-- `PUT:/httpApi/plugins/cacheQueue/caches`
+- `PUT:/http-api/plugins/cacheQueue/caches`
     - Replace the current list of stored caches with provided list
-- `GET:/httpApi/plugins/cacheQueue/recorded-caches`
+- `GET:/http-api/plugins/cacheQueue/recorded-caches`
     - Get the current list of recorded caches
 
 #### Request keys

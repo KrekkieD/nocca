@@ -20,27 +20,7 @@ function createNocca (config) {
                 url: ['pathname'],
                 headers: ['accept', 'content-type']
             }
-        ],
-        servers: {
-            wrapperServer: {
-                listen: {
-                    hostname: false,
-                    port: process.env.VCAP_APP_PORT || 8989
-                }
-            },
-            gui: {
-                listen: false
-            },
-            proxy: {
-                listen: false
-            },
-            httpApi: {
-                listen: false
-            }
-        },
-        endpoints: {
-
-        }
+        ]
     }, config));
 
 }

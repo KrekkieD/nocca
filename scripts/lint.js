@@ -63,7 +63,13 @@ function _jshint () {
 
 function _htmllint () {
 
-    return $buenosHtmllint().promise;
+    return $buenosHtmllint({
+        src: [
+            './**/*.html',
+            '!./**/node_modules/**/*',
+            '!./**/bower_components/**/*'
+        ]
+    }).promise;
 
 }
 
