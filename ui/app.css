@@ -1,29 +1,10 @@
-.nocca-request-preview-wrap {
-    white-space: pre-wrap;
-}
-
 .nocca-request-dialog {
     min-width: 75%;
     min-height: 75%;
 }
 
-body, html, .nocca-full-height {
-    height: 100%;
-    min-height: 100%;
-}
-
-.nocca-side-nav .nocca-nav-link {
-    color: #333;
-    display: inline-block;
-    transition: all 0.1s ease-in-out;
-}
-
-.nocca-side-nav .nocca-nav-block:hover {
-    cursor: pointer;
-}
-
-.nocca-side-nav .nocca-nav-block:hover .nocca-nav-link {
-    padding-left: 5px;
+.nocca-request-preview-wrap {
+    white-space: pre-wrap;
 }
 
 .nocca-status-filter .md-button {
@@ -61,28 +42,23 @@ body, html, .nocca-full-height {
     padding-top: 5px;
 }
 
-.nocca-response .nocca-response-tile-left {
-    text-align: center;
-    padding-right: 15px;
+body, html, .nocca-full-height {
+    height: 100%;
+    min-height: 100%;
 }
 
-.nocca-response .nocca-response-tile-left em {
-    display: block;
-    font-style: normal;
-    font-size: 150%;
-    font-weight: bold;
+.nocca-side-nav .nocca-nav-link {
+    color: #333;
+    display: inline-block;
+    transition: all 0.1s ease-in-out;
 }
 
-.nocca-response .nocca-response-tile-left .md-button {
-    font-size: 80%;
+.nocca-side-nav .nocca-nav-block:hover {
+    cursor: pointer;
 }
 
-.nocca-response p {
-    margin: .5em 0;
-}
-
-.nocca-response h3 {
-    margin: 0;
+.nocca-side-nav .nocca-nav-block:hover .nocca-nav-link {
+    padding-left: 5px;
 }
 
 .nocca-scenario-tile-left {
@@ -105,5 +81,29 @@ body, html, .nocca-full-height {
 
 .nocca-scenario-details dd {
     padding: 0;
+    margin: 0;
+}
+
+.nocca-response .nocca-response-tile-left {
+    text-align: center;
+    padding-right: 15px;
+}
+
+.nocca-response .nocca-response-tile-left em {
+    display: block;
+    font-style: normal;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.nocca-response .nocca-response-tile-left .md-button {
+    font-size: 80%;
+}
+
+.nocca-response p {
+    margin: .5em 0;
+}
+
+.nocca-response h3 {
     margin: 0;
 }
