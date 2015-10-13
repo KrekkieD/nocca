@@ -21,10 +21,12 @@ function sass () {
 
             files.sort();
 
-            var cssChunks = [];
+            var cssChunks = {};
 
             var deferreds = [];
             files.forEach(function (file) {
+
+                cssChunks[file] = undefined;
 
                 var deferred = $q.defer();
                 deferreds.push(deferred.promise);
@@ -40,7 +42,7 @@ function sass () {
                         throw err;
                     }
 
-                    cssChunks.push(result.css.toString());
+                    cssChunks[file] = result.css.toString();
                     deferred.resolve();
 
                 });
@@ -50,7 +52,13 @@ function sass () {
             return $q.allSettled(deferreds)
                 .then(function () {
 
-                    return $q.nfcall($fs.writeFile, './ui/app.css', cssChunks.join('\n'));
+                    var parts = [];
+
+                    Object.keys(cssChunks).forEach(function (file) {
+                        parts.push(cssChunks[file]);
+                    });
+
+                    return $q.nfcall($fs.writeFile, './ui/app.css', parts.join('\n'));
 
                 });
 

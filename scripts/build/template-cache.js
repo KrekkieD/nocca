@@ -29,7 +29,7 @@ function templateCache () {
     ]).then(function (files) {
 
         files.sort();
-        
+
         var injectables = {};
 
         var deferreds = [];
@@ -41,6 +41,8 @@ function templateCache () {
 
             var templateUrl = $path.basename(file);
 
+            injectables[templateUrl] = undefined;
+            
             $fs.readFile(file, function (err, result) {
                 if (err) {
                     deferred.reject(err);
