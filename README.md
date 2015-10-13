@@ -58,7 +58,7 @@ var nocca = new $nocca({
 });
 ```
 
-Provide a port number, or an array of arguments: `[portNumber, hostname, backlog]`. The array will be applied to the [`server.listen`](https://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback) function. Nocca will provide the callback argument.
+Provide a port number, or an array of arguments: `[portNumber, hostname, backlog]`. The array will be applied to the Node.js [`server.listen`](https://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback) function. Nocca will provide the callback argument.
 
 By default it will use the Cloud Foundry port if set, or fall back to `8989`.
 

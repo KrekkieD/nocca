@@ -4,22 +4,21 @@ var $extend = require('extend');
 var $pubsub = require('node-pubsub');
 
 var $bunyanLogger = require('./lib/bunyanLogger');
-var $utils = require('./lib/utils');
+var $chainBuilderFactory = require('./lib/chainBuilderFactory');
 var $constants = require('./lib/constants');
 var $defaultSettings = require('./lib/defaultSettings');
-var $pluginLoader = require('./lib/pluginLoader');
-var $playback = require('./lib/playback');
-var $wrapperServer = require('./lib/wrapperServer');
-
-var $forwarder = require('./lib/forwarder');
-var $recorder = require('./lib/recorder');
-var $responder = require('./lib/responder');
 var $errors = require('./lib/errors');
-var $requestContextFactory = require('./lib/requestContextFactory');
+var $forwarder = require('./lib/forwarder');
 var $httpMessageFactory = require('./lib/httpMessageFactory');
-var $chainBuilderFactory = require('./lib/chainBuilderFactory');
+var $playback = require('./lib/playback');
+var $pluginLoader = require('./lib/pluginLoader');
+var $recorder = require('./lib/recorder');
+var $requestContextFactory = require('./lib/requestContextFactory');
 var $requestExtractor = require('./lib/requestExtractor');
+var $responder = require('./lib/responder');
 var $stats = require('./lib/stats');
+var $utils = require('./lib/utils');
+var $wrapperServer = require('./lib/wrapperServer');
 
 
 module.exports = Nocca;
