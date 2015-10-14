@@ -1,0 +1,55 @@
+@startuml
+digraph xxx {
+
+    ranksep=.8
+
+    subgraph cluster_main {
+
+        color=invis
+
+        req [label="Incoming request"]
+
+        endpoint [label="Select endpoint"]
+        requestKey [label="Generate request key"]
+
+        playbackResponse [label="Get playback response"]
+        proxyResponse [label="Get proxy response"]
+
+        record [label="Record response"]
+        respond [label="Respond to request"]
+
+        withProxy [label="With proxy response"]
+        withCache [label="With cache response"]
+        withError [label="With error response"]
+    }
+
+    subgraph cluster_side {
+
+        color=invis
+
+        matchCache [label="Search for matching cache"]
+        createForwardResponse [label="Response from forwarded request"]
+        storeCache [label="Store in cache repositories"]
+
+
+
+        matchCache -> createForwardResponse -> storeCache [color=invis]
+    }
+
+    req -> endpoint -> requestKey -> playbackResponse -> proxyResponse -> record -> respond
+    requestKey -> matchCache [color=invis,weight=30]
+
+    playbackResponse -> matchCache [taillabel="playback=true",labeldistance=15,tailport=ne,headport=nw]
+    matchCache -> playbackResponse [taillabel="set cache response",labeldistance=15,tailport=sw,headport=se]
+
+    proxyResponse -> createForwardResponse [taillabel="forward=true",labeldistance=15,tailport=ne,headport=nw]
+    createForwardResponse-> proxyResponse [taillabel="set proxy response",labeldistance=15,tailport=sw,headport=se]
+
+    record -> storeCache [label="record=true"]
+
+    respond -> withProxy [headlabel="if proxy response"]
+    respond -> withCache [headlabel="else if cache response"]
+    respond -> withError [headlabel="else"]
+
+}
+@enduml
