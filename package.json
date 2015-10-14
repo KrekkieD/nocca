@@ -1,6 +1,6 @@
 {
   "name": "nocca",
-  "version": "1.0.0-RC-2",
+  "version": "1.0.0",
   "description": "NodeJS Mock Server",
   "scripts": {
     "preversion": "npm run lint && npm run contributor && npm run gitversion",
