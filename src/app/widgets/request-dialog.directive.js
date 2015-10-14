@@ -21,8 +21,6 @@ function RequestDialogDirective () {
         localStorageService
     ) {
 
-        console.log('directive', $scope.content);
-
         $scope.$watch(function () {
             return !$mdMedia('gt-md');
         }, function (asIcons) {
