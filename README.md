@@ -66,22 +66,31 @@ By default it will use the Cloud Foundry port if set, or fall back to `8989`.
 
 A Nocca endpoint is a configuration object that is used to handle an incoming request on the Nocca proxy server (`localhost:8989/proxy/*` by default). The object should contain the endpoint URL of the target server, and may contain information on how to create a requestKey, set record/playback/forward flags, etc. 
 
-By default Nocca is configured to use the `endpointSelector` plugin and takes a configuration object. Lets work with an example:
+By default Nocca is configured to use the `endpointSelector` plugin which takes a configuration object. This configuration object defines endpoints as follows:
+
+```javascript
+<key>: {
+    targetBaseUrl: <url>,
+    // additional settings
+}
+```
+
+Lets work with an example:
 
 ```javascript
 var $nocca = require('nocca');
 var nocca = new $nocca({
     endpointSelector: ['endpointSelector', {
-        google: {
+        google: { // 1
             targetBaseUrl: 'https://www.google.com/com'
         },
-        '/googly/ding': {
+        '/googly/ding': { // 2
             targetBaseUrl: 'https://www.google.co.uk/co.uk'
         },
-        '/googly/ding/dazzle': {
+        '/googly/ding/dazzle': { // 2
             targetBaseUrl: 'https://www.google.co.uk/co.uk'
         },
-        _default: {
+        _default: { // 3
             targetBaseUrl: 'https://www.google.nl/nl'
         }
     }]
@@ -90,22 +99,22 @@ var nocca = new $nocca({
 
 ##### Selecting an endpoint
 
-The keys in the configuration object are used as matcher in the `endpointSelector`. An endpoint is selected based on the incoming request path:
+The EndpointSelector plugin uses the keys in the configuration object to match against a URL. An endpoint is selected based on the initial path of an incoming request. Let's explain this by taking a look at the above configuration and how it matches incoming requests.
 
-1. First path part after `/proxy/`:
-    - `http://localhost:8989/proxy/google/something` `->` `google`
-    - Adds remaining path `/something` to `targetBaseUrl`
-2. Starts with path:
-    - `http://localhost:8989/proxy/googly/ding/dong` `->` `'/googly/ding'`
-    - Adds remaining path `/dong` to `targetBaseUrl`
-    - The longest matches endpoint key (`.length`) will be selected:
-        - `http://localhost:8989/proxy/googly/ding/dazzle/doo` `->` `'/googly/ding/dazzle'`
-        - Adds `/doo` to `targetBaseUrl`
-3. Default when no match was made:
-    - `http://localhost:8989/proxy/goggle/ding` `->` `'_default'`
-    - Adds full path `/goggle/ding` to `targetBaseUrl`
+1. Single element `google`: matches the first path part after `/proxy/`:
+    - Incoming URL `http://localhost:8989/proxy/google/something` selects endpoint `google`
+    - The remaining path `/something` is added to `targetBaseUrl` `->` `https://www.google.com/com/something`
+2. Path `/googly/ding`: matches the exact path after `/proxy/`:
+    - Incoming URL `http://localhost:8989/proxy/googly/ding/dong` selects endpoint `'/googly/ding'`
+    - The remaining path `/dong` is added to `targetBaseUrl`
+    - Endpoint matching gives priority to the most specific definition. Currently this is based on the length of the key. This impacts endpoint maching as follows:
+        - Incoming URL `http://localhost:8989/proxy/googly/ding/dazzle/doo` selects endpoint `'/googly/ding/dazzle'` (instead of `'/googly/ding'`)
+        - The remaining path `/doo` is added to `targetBaseUrl`
+3. Using a defualt: a key of `_default` will match any request that was not matched by any of the other endpoint definitions:
+    - Incoming URL `http://localhost:8989/proxy/goggle/ding` selects endpoint `'_default'`
+    - The full path `/goggle/ding` is added to `targetBaseUrl`
 
-The `targetBaseUrl` property defines the url that would serve the response. It is to forward the request to, when forwarding is enabled.
+The `targetBaseUrl` property defines the url used to forward requests to, when forwarding is enabled.
 
 View or run `./examples/docs/config-endpoints.js` for an example of this configuration.
 
