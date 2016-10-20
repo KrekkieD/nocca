@@ -17,16 +17,16 @@ var noccaConfig = {
 
     responseDelay: ['distributedDelay', {
     
-        // the target delay in milliseconds
-        expectation: 100,
+        // the targeted delay in milliseconds, before bell-curving
+        expectation: 500,
         
-        // optional, the minimal amount of delay
+        // optional, the minimal amount of delay, after bell-curving
         min: 400,
         
-        // optional, the maximum amount of delay
+        // optional, the maximum amount of delay, after bell-curving
         max: 600,
         
-        // the variance used to calculate the delay
+        // the variance used to calculate the delay, determines the shape of the bell curve
         variance: 0.1
     }],
     
@@ -34,8 +34,8 @@ var noccaConfig = {
     // you can also specify this per endpoint
     endpoints: {
         someEndpoint: {
-            delay: ['distributedDelay', {
-                expectation: 100,
+            responseDelay: ['distributedDelay', {
+                expectation: 500,
                 min: 400,
                 max: 600,
                 variance: 0.1
@@ -43,7 +43,7 @@ var noccaConfig = {
         },
         otherEndpoint: {
             // provide false as configuration to disable the delay
-            delay: ['distributedDelay', false]
+            responseDelay: ['distributedDelay', false]
         }
     }
 }
