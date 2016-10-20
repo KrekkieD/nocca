@@ -1,6 +1,6 @@
 {
   "name": "nocca",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "NodeJS Mock Server",
   "scripts": {
     "preversion": "npm run lint && npm run contributor && npm run gitversion",
@@ -76,9 +76,14 @@
     "Gregory Cowan <g.cowan@amnzero.nl>",
     "Jan-Hendrik Kuperus <jan-hendrik.kuperus@klm.com>",
     "Jan-Hendrik Kuperus <jhkuperus@yoink.nl>",
+    "x074501 <g.cowan@amnzero.nl>",
     "ericjanmalotaux <emalotau@gmail.com>",
     "r.broekema@klm.com <roland.broekema@klm.com>",
-    "reingroot <welcome@reingroot.nl>"
+    "reingroot <welcome@reingroot.nl>",
+    "Gregory Cowan <g.cowan@amnzero.nl@end@>",
+    "Jan-Hendrik Kuperus <kramor@gmail.com@end@>",
+    "Jan-Hendrik Kuperus <jan-hendrik.kuperus@klm.com@end@>",
+    "x074501 <g.cowan@amnzero.nl@end@>"
   ],
   "license": "MIT",
   "bugs": {
