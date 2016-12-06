@@ -1,6 +1,6 @@
 {
   "name": "nocca",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "dependencies": {
     "bower": {
       "version": "1.5.3",
