@@ -75,7 +75,7 @@ By default Nocca is configured to use the `endpointSelector` plugin which takes 
 }
 ```
 
-Lets work with an example:
+Lets work with some examples:
 
 ```javascript
 var $nocca = require('nocca');
@@ -90,7 +90,10 @@ var nocca = new $nocca({
         '/googly/ding/dazzle': { // 2
             targetBaseUrl: 'https://www.google.co.uk/co.uk'
         },
-        _default: { // 3
+        '/googly/:param/ding': { // 3
+            targetBaseUrl: 'https://www.google.co.uk/:param/co.uk/'
+        },
+        _default: { // 4
             targetBaseUrl: 'https://www.google.nl/nl'
         }
     }]
@@ -101,16 +104,21 @@ var nocca = new $nocca({
 
 The EndpointSelector plugin uses the keys in the configuration object to match against a URL. An endpoint is selected based on the initial path of an incoming request. Let's explain this by taking a look at the above configuration and how it matches incoming requests.
 
-1. Single element `google`: matches the first path part after `/proxy/`:
+1. Endpoint key `google`: matches the first path part after `/proxy`:
     - Incoming URL `http://localhost:8989/proxy/google/something` selects endpoint `google`
     - The remaining path `/something` is added to `targetBaseUrl` `->` `https://www.google.com/com/something`
-2. Path `/googly/ding`: matches the exact path after `/proxy/`:
+2. Endpoint key `/googly/ding`: matches the exact path after `/proxy`:
     - Incoming URL `http://localhost:8989/proxy/googly/ding/dong` selects endpoint `'/googly/ding'`
     - The remaining path `/dong` is added to `targetBaseUrl`
     - Endpoint matching gives priority to the most specific definition. Currently this is based on the length of the key. This impacts endpoint maching as follows:
         - Incoming URL `http://localhost:8989/proxy/googly/ding/dazzle/doo` selects endpoint `'/googly/ding/dazzle'` (instead of `'/googly/ding'`)
         - The remaining path `/doo` is added to `targetBaseUrl`
-3. Using a defualt: a key of `_default` will match any request that was not matched by any of the other endpoint definitions:
+3. Endpoint key `/googly/:param/ding` dynamically matches the `:param` with any path value not containing a slash:
+    - Incoming URL `http://localhost:8989/proxy/googly/some-path-value/ding/doo` selects endpoint `/googly/:param/ding`
+    - The remaining path `/doo` is added to `targetBaseUrl`
+    - The param can be used in the targetBaseUrl
+    - Multiple params may be defined, names must be unique
+4. Using a default: a key of `_default` will match any request that was not matched by any of the other endpoint definitions:
     - Incoming URL `http://localhost:8989/proxy/goggle/ding` selects endpoint `'_default'`
     - The full path `/goggle/ding` is added to `targetBaseUrl`
 
