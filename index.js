@@ -46,7 +46,7 @@ function Nocca (config) {
 
 
     // load all plugins from config so they can be used when parsing config
-    self.pluginLoader.registerPlugins();
+    self.pluginLoader.registerPlugins(self.config.plugins);
 
     self.playback = new $playback(self);
     self.errorHandler = new $errorHandler(self);
