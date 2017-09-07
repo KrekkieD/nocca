@@ -30,18 +30,9 @@ the Nocca instance as argument:
     
 ## Loading plugins
 
-To load a plugin provided by Nocca, specify the name in the Nocca configuration object:
+Plugins provided by Nocca will be loaded automatically.
 
-    {
-        ...
-        record: false,
-        ...
-        plugins: [
-            'cherryPickingKeygen'
-        ]
-    }
-
-To load a custom plugin, specify the Plugin Definition Object in the Nocca configuration object:
+To load a custom plugin, specify the path or a Plugin Definition Object in the Nocca configuration object:
 
     {
         ...
@@ -57,6 +48,9 @@ To load a custom plugin, specify the Plugin Definition Object in the Nocca confi
                 }
             },
             
+            // or alternatively
+            'path/to/my/plugin',
+
             // or alternatively (cleaner)
             require('path/to/my/plugin')
         ]
