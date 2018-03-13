@@ -16,6 +16,7 @@
   "indent": 4,
   "evil": true,
   "quotmark": "single",
+  "esversion": 6,
   "globals": {
     "_": true,
     "define": true,
